@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@angular-monorepo/feature-packages": ["feature-packages/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

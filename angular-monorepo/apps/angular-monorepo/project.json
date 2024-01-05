@@ -2,7 +2,7 @@
   "name": "angular-monorepo",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "angular-monorepo",
+  "prefix": "bombos",
   "sourceRoot": "apps/angular-monorepo/src",
   "tags": [],
   "targets": {

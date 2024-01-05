@@ -1,3 +1,4 @@
+import { FeaturePackagesComponent } from '@angular-monorepo/feature-packages';
 import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { collection, collectionData, Firestore } from '@angular/fire/firestore';
@@ -13,8 +14,9 @@ import { NxWelcomeComponent } from './nx-welcome.component';
     FirebaseModule,
     AsyncPipe,
     JsonPipe,
+    FeaturePackagesComponent,
   ],
-  selector: 'angular-monorepo-root',
+  selector: 'bombos-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
