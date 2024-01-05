@@ -1,9 +1,9 @@
-import {AsyncPipe, JsonPipe} from "@angular/common";
-import {Component, inject} from '@angular/core';
-import {collection, collectionData, Firestore} from "@angular/fire/firestore";
-import {RouterModule} from '@angular/router';
-import {FirebaseModule} from "../firebase.module";
-import {NxWelcomeComponent} from './nx-welcome.component';
+import { AsyncPipe, JsonPipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { collection, collectionData, Firestore } from '@angular/fire/firestore';
+import { RouterModule } from '@angular/router';
+import { FirebaseModule } from '../firebase.module';
+import { NxWelcomeComponent } from './nx-welcome.component';
 
 @Component({
   standalone: true,
