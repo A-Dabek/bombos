@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nx run angular-monorepo:serve",
-    "build": "nx run-many --targets=build"
+    "build": "nx run-many --targets=build",
+    "deploy": "firebase deploy"
   },
   "private": true,
   "dependencies": {
