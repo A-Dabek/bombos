@@ -16,6 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@angular-monorepo/data-access": ["data-access/src/index.ts"],
+      "@angular-monorepo/feature-deliveries": [
+        "feature-deliveries/src/index.ts"
+      ],
       "@angular-monorepo/feature-packages": ["feature-packages/src/index.ts"]
     }
   },
