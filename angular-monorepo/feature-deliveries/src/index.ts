@@ -1,1 +1,1 @@
-export * from './lib/feature-deliveries/feature-deliveries.component';
+export { DeliveriesViewComponent } from './lib/deliveries.view';

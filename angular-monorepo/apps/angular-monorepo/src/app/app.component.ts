@@ -1,28 +1,11 @@
-import { FeaturePackagesComponent } from '@angular-monorepo/feature-packages';
-import { AsyncPipe, JsonPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { collection, collectionData, Firestore } from '@angular/fire/firestore';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FirebaseModule } from '../firebase.module';
-import { NxWelcomeComponent } from './nx-welcome.component';
 
 @Component({
   standalone: true,
-  imports: [
-    NxWelcomeComponent,
-    RouterModule,
-    FirebaseModule,
-    AsyncPipe,
-    JsonPipe,
-    FeaturePackagesComponent,
-  ],
+  imports: [RouterModule],
   selector: 'bombos-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  title = 'angular-monorepo';
-  firestore: Firestore = inject(Firestore);
-  itemCollection = collection(this.firestore, 'test');
-  item$ = collectionData(this.itemCollection);
-}
+export class AppComponent {}
