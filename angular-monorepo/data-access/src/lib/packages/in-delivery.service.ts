@@ -19,7 +19,9 @@ export class InDeliveryService implements DeliveryService {
   deliveries$ = collectionData(this.collection) as Observable<Delivery[]>;
 
   add(delivery: Delivery) {
-    addDoc(this.collection, delivery);
+    addDoc(this.collection, delivery).catch((error) => {
+      console.error('Error adding document: ', error);
+    });
   }
 
   complete(id: string) {
