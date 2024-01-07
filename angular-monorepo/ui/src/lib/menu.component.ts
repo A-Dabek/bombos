@@ -1,6 +1,10 @@
 import { NgForOf, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import {
+  bounceInOnEnterAnimation,
+  zoomOutOnLeaveAnimation,
+} from 'angular-animations';
 import { IconComponent, IconType } from './icon.component';
 
 export interface MenuItem {
@@ -28,6 +32,8 @@ export interface MenuItem {
           <bombos-icon class="mb-2" [name]="item.icon" />
           <div
             *ngIf="item.notificationsCount && item.link !== activeItem"
+            [@enterNotification]
+            [@leaveNotification]
             class="absolute right-1 top-0 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full dark:border-gray-900"
           >
             {{ item.notificationsCount }}
@@ -42,6 +48,10 @@ export interface MenuItem {
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    bounceInOnEnterAnimation({ anchor: 'enterNotification' }),
+    zoomOutOnLeaveAnimation({ anchor: 'leaveNotification' }),
+  ],
   imports: [NgForOf, RouterLink, IconComponent, NgIf],
 })
 export class MenuComponent {
