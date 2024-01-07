@@ -10,7 +10,7 @@ import { IconComponent } from './icon.component';
         display: contents;
       }
     </style>
-    <div class="absolute w-full h-full" role="status">
+    <div class="absolute w-full h-full bg-gray-600 bg-opacity-50" role="status">
       <bombos-icon
         class="inline-block relative left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         name="loading"

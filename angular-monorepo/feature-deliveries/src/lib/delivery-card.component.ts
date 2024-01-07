@@ -1,4 +1,5 @@
 import { IconComponent, LoadingComponent } from '@angular-monorepo/ui';
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -34,14 +35,15 @@ import { Delivery } from '@bombos/data-access';
           </button>
         </div>
       </div>
-      <bombos-loading />
+      <bombos-loading *ngIf="loading" />
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IconComponent, LoadingComponent],
+  imports: [IconComponent, LoadingComponent, NgIf],
 })
 export class DeliveryCardComponent {
   @Input({ required: true }) delivery!: Delivery;
+  @Input() loading = false;
 
   @Output() complete = new EventEmitter();
 }

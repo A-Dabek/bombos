@@ -22,12 +22,10 @@ export class InDeliveryService implements DeliveryService {
   }) as Observable<(Delivery & Id)[]>;
 
   add(delivery: Delivery) {
-    addDoc(this.collection, delivery).catch((error) => {
-      console.error('Error adding document: ', error);
-    });
+    return addDoc(this.collection, delivery);
   }
 
   complete(id: string) {
-    deleteDoc(doc(this.collection, id));
+    return deleteDoc(doc(this.collection, id));
   }
 }

@@ -5,7 +5,7 @@ import { Delivery } from './model';
 export interface DeliveryService {
   deliveries$: Observable<(Delivery & Id)[]>;
 
-  add(delivery: Delivery): void;
+  add(delivery: Delivery): Promise<unknown>;
 
-  complete(id: string): void;
+  complete(id: string): Promise<unknown>;
 }
