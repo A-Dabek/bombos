@@ -16,9 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@bombos/data-access": ["data-access/src/index.ts"],
-      "@bombos/deliveries": [
-        "feature-deliveries/src/index.ts"
-      ],
+      "@bombos/deliveries": ["feature-deliveries/src/index.ts"],
       "@bombos/packages": ["feature-packages/src/index.ts"]
     }
   },
