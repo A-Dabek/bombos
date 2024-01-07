@@ -35,9 +35,9 @@ import { Delivery } from '@bombos/data-access';
           <bombos-confirm-button (confirm)="complete.emit()">
             <button
               type="button"
-              class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm p-1 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+              class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm p-1 me-2 mb-2"
             >
-              <bombos-icon name="check" />
+              <bombos-icon name="delivery" />
             </button>
           </bombos-confirm-button>
         </div>

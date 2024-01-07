@@ -32,7 +32,7 @@ export interface MenuItem {
         >
           <bombos-icon class="mb-2" [name]="item.icon" />
           <div
-            *ngIf="item.notificationsCount && item.link !== activeItem"
+            *ngIf="item.notificationsCount"
             [@enterNotification]
             [@leaveNotification]
             class="absolute right-1 top-0 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full dark:border-gray-900"
