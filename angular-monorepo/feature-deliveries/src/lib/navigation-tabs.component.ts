@@ -1,12 +1,6 @@
 import { IconComponent } from '@angular-monorepo/ui';
 import { NgClass, NgForOf } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IconType } from '../../../ui/src/lib/icon.component';
 
 export type TabName = 'collect' | 'send';
@@ -23,7 +17,7 @@ export interface TabItem {
       <button
         *ngFor="let tab of tabs; let i = index"
         type="button"
-        class="w-full border justify-center capitalize inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+        class="w-full border justify-center capitalize inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 border-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
         [ngClass]="{
           'bg-gray-900 text-white': tab.name === selected,
           'rounded-s-lg': i === 0,
@@ -37,7 +31,7 @@ export interface TabItem {
       </button>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgForOf, NgClass, IconComponent],
 })
 export class NavigationTabsComponent {
