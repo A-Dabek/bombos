@@ -1,4 +1,8 @@
-import { IconComponent, LoadingComponent } from '@angular-monorepo/ui';
+import {
+  ConfirmButtonComponent,
+  IconComponent,
+  LoadingComponent,
+} from '@angular-monorepo/ui';
 import { NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -28,20 +32,27 @@ import { Delivery } from '@bombos/data-access';
           {{ delivery.alias }}
         </label>
         <div>
-          <button
-            type="button"
-            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm p-0.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-            (click)="complete.emit()"
-          >
-            <bombos-icon name="check" />
-          </button>
+          <bombos-confirm-button (confirm)="complete.emit()">
+            <button
+              type="button"
+              class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm p-1 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            >
+              <bombos-icon name="check" />
+            </button>
+          </bombos-confirm-button>
         </div>
       </div>
       <bombos-loading *ngIf="loading" />
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IconComponent, LoadingComponent, NgIf, NgClass],
+  imports: [
+    IconComponent,
+    LoadingComponent,
+    NgIf,
+    NgClass,
+    ConfirmButtonComponent,
+  ],
 })
 export class DeliveryCardComponent {
   @Input({ required: true }) delivery!: Delivery;

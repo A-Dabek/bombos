@@ -30,7 +30,7 @@ import { UploadFileComponent } from './upload-file.component';
       [selected]="activeTab"
       (select)="onTabChange($event)"
     />
-    <div class="relative h-full">
+    <div class="relative h-screen">
       <bombos-add-form *ngIf="file" [file]="file" (add)="onSubmit($event)" />
       <ul>
         <li *ngFor="let delivery of deliveries$ | async">
