@@ -14,7 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   template: `
     <label
       for="uploadFile1"
-      class="bg-gray-800 hover:bg-gray-700 text-white text-sm p-2 outline-none rounded w-max cursor-pointer mx-auto block font-[sans-serif]"
+      class="bg-gray-800 hover:bg-gray-700 text-white p-3 outline-none rounded w-max cursor-pointer mx-auto block font-[sans-serif]"
     >
       <bombos-icon name="upload" />
       <input

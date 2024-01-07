@@ -1,4 +1,4 @@
-import { NgForOf, NgIf } from '@angular/common';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -27,7 +27,8 @@ export interface MenuItem {
           [routerLink]="item.link"
           (click)="activeItem = item.link"
           type="button"
-          class="relative inline-flex flex-col items-center justify-center px-5 border-gray-200 border-x hover:bg-gray-50 dark:hover:bg-gray-800 group dark:border-gray-600"
+          class="relative inline-flex flex-col items-center justify-center px-5 border-x group hover:bg-gray-900 hover:text-white"
+          [ngClass]="activeItem === item.link ? 'text-white bg-gray-900' : ''"
         >
           <bombos-icon class="mb-2" [name]="item.icon" />
           <div
@@ -38,9 +39,7 @@ export interface MenuItem {
           >
             {{ item.notificationsCount }}
           </div>
-          <span
-            class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
-          >
+          <span class="text-sm">
             {{ item.label }}
           </span>
         </button>
@@ -52,7 +51,7 @@ export interface MenuItem {
     bounceInOnEnterAnimation({ anchor: 'enterNotification' }),
     zoomOutOnLeaveAnimation({ anchor: 'leaveNotification' }),
   ],
-  imports: [NgForOf, RouterLink, IconComponent, NgIf],
+  imports: [NgForOf, RouterLink, IconComponent, NgIf, NgClass],
 })
 export class MenuComponent {
   @Input() items: MenuItem[] = [];

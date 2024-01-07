@@ -96,6 +96,7 @@ export class DeliveriesViewComponent {
   loadingDeliveryId = signal('');
 
   onTabChange(tab: TabName) {
+    this.file = null;
     this.activeTab = tab;
     this.deliveryStore =
       tab === 'collect'
