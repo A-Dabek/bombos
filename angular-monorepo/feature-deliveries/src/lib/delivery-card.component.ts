@@ -1,5 +1,5 @@
 import { IconComponent, LoadingComponent } from '@angular-monorepo/ui';
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,9 +17,11 @@ import { Delivery } from '@bombos/data-access';
       class=" relative flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
     >
       <img
-        class="object-cover w-full rounded-t-lg h-24 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
+        class="object-cover w-full rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
+        [ngClass]="fullScreenImage ? 'h-full' : 'h-24'"
         [src]="delivery.img"
         alt=""
+        (click)="fullScreenImage = !fullScreenImage"
       />
       <div class="flex w-full justify-between p-2 leading-normal">
         <label class="mb-2 tracking-tight text-gray-900 dark:text-white">
@@ -39,11 +41,13 @@ import { Delivery } from '@bombos/data-access';
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IconComponent, LoadingComponent, NgIf],
+  imports: [IconComponent, LoadingComponent, NgIf, NgClass],
 })
 export class DeliveryCardComponent {
   @Input({ required: true }) delivery!: Delivery;
   @Input() loading = false;
 
   @Output() complete = new EventEmitter();
+
+  fullScreenImage = false;
 }

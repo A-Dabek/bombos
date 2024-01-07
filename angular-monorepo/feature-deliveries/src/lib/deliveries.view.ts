@@ -1,3 +1,4 @@
+import { LoadingComponent } from '@angular-monorepo/ui';
 import { AsyncPipe, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -12,32 +13,44 @@ import {
   DeliveryService,
   InDeliveryService,
 } from '@bombos/data-access';
+import { tap } from 'rxjs';
+import { OutDeliveryService } from '../../../data-access/src/lib/deliveries/out-delivery.service';
 import { ErrorService } from '../../../ui/src/lib/error.service';
 import { AddFormComponent } from './add-form.component';
 import { DeliveryCardComponent } from './delivery-card.component';
-import { NavigationTabsComponent } from './navigation-tabs.component';
+import { NavigationTabsComponent, TabName } from './navigation-tabs.component';
 import { UploadFileComponent } from './upload-file.component';
 
 @Component({
   standalone: true,
   selector: 'bombos-deliveries-view',
   template: `
-    <bombos-navigation-tabs />
-    <bombos-upload-file (upload)="file = $event" />
-    <bombos-add-form *ngIf="file" [file]="file" (add)="onSubmit($event)" />
-    <ul>
-      <li *ngFor="let delivery of deliveryService.deliveries$ | async">
-        <bombos-delivery-card
-          class="block mb-1"
-          [loading]="loadingDeliveryId() === delivery.id"
-          [delivery]="delivery"
-          (complete)="onComplete(delivery.id)"
-        />
-      </li>
-    </ul>
+    <bombos-navigation-tabs
+      class="block mb-2"
+      [selected]="activeTab"
+      (select)="onTabChange($event)"
+    />
+    <div class="relative h-full">
+      <bombos-add-form *ngIf="file" [file]="file" (add)="onSubmit($event)" />
+      <ul>
+        <li *ngFor="let delivery of deliveries$ | async">
+          <bombos-delivery-card
+            class="block mb-1"
+            [loading]="loadingDeliveryId() === delivery.id"
+            [delivery]="delivery"
+            (complete)="onComplete(delivery.id)"
+          />
+        </li>
+      </ul>
+      <bombos-loading *ngIf="loadingTabs()" />
+    </div>
+    <bombos-upload-file
+      class="fixed bottom-3 right-3"
+      (upload)="file = $event"
+    />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [InDeliveryService],
+  providers: [InDeliveryService, OutDeliveryService],
   imports: [
     NgForOf,
     AsyncPipe,
@@ -48,13 +61,31 @@ import { UploadFileComponent } from './upload-file.component';
     DeliveryCardComponent,
     AddFormComponent,
     UploadFileComponent,
+    LoadingComponent,
   ],
 })
 export class DeliveriesViewComponent {
   private readonly errorService = inject(ErrorService);
-  readonly deliveryService: DeliveryService = inject(InDeliveryService);
+  private readonly inDeliveryService = inject(InDeliveryService);
+  private readonly outDeliveryService = inject(OutDeliveryService);
+  private deliveryService: DeliveryService = this.inDeliveryService;
+  deliveries$ = this.deliveryService.deliveries$;
+
+  activeTab: TabName = 'collect';
+
   file: File | null = null;
+  loadingTabs = signal(false);
   loadingDeliveryId = signal('');
+
+  onTabChange(tab: TabName) {
+    this.loadingTabs.set(true);
+    this.activeTab = tab;
+    this.deliveryService =
+      tab === 'collect' ? this.inDeliveryService : this.outDeliveryService;
+    this.deliveries$ = this.deliveryService.deliveries$.pipe(
+      tap(() => this.loadingTabs.set(false))
+    );
+  }
 
   onSubmit(delivery: Delivery) {
     this.file = null;

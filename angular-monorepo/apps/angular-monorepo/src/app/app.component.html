@@ -1,12 +1,7 @@
-<div class="p-0.5">
-  <bombos-error *ngIf="error$ | async as error" [message]="error"/>
-  {{error$ | async | json}}
-
-  <ul>
-    <li>
-      <a [routerLink]="'deliveries'">Deliveries</a>
-    </li>
-  </ul>
-
+<bombos-menu [items]="menuItems"/>
+<div class="p-1">
   <router-outlet></router-outlet>
+  <bombos-error *ngIf="error$ | async as error"
+                class="fixed bottom-0 left-0 z-50 w-full"
+                [message]="error"/>
 </div>

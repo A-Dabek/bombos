@@ -1,30 +1,51 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { IconComponent } from '@angular-monorepo/ui';
+import { NgClass, NgForOf } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
+import { IconType } from '../../../ui/src/lib/icon.component';
+
+export type TabName = 'collect' | 'send';
+export interface TabItem {
+  name: TabName;
+  icon: IconType;
+}
 
 @Component({
   standalone: true,
   selector: 'bombos-navigation-tabs',
   template: `
-    <nav class="border-b border-gray-200 dark:border-gray-700">
-      <ul
-        class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400"
+    <div class="inline-flex rounded-md shadow-sm w-full" role="group">
+      <button
+        *ngFor="let tab of tabs; let i = index"
+        type="button"
+        class="w-full border justify-center capitalize inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+        [ngClass]="{
+          'bg-gray-900 text-white': tab.name === selected,
+          'rounded-s-lg': i === 0,
+          'border-t border-b': i > 0 && i < tabs.length - 1,
+          'rounded-e-lg': i === tabs.length - 1
+        }"
+        (click)="select.emit(tab.name)"
       >
-        <li class="me-2">
-          <a
-            class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
-          >
-            Collect
-          </a>
-        </li>
-        <li class="me-2">
-          <a
-            class="inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group"
-          >
-            Send
-          </a>
-        </li>
-      </ul>
-    </nav>
+        <bombos-icon class="mr-2" [name]="tab.icon"></bombos-icon>
+        {{ tab.name }}
+      </button>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgForOf, NgClass, IconComponent],
 })
-export class NavigationTabsComponent {}
+export class NavigationTabsComponent {
+  @Input() selected: TabName = 'collect';
+  @Output() select = new EventEmitter<TabName>();
+
+  tabs: TabItem[] = [
+    { name: 'collect', icon: 'collect' },
+    { name: 'send', icon: 'send' },
+  ];
+}
