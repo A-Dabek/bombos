@@ -1,4 +1,4 @@
-<bombos-menu [items]="menuItems"/>
+<bombos-menu *ngIf="menuItems$ | async as menuItems" [items]="menuItems"/>
 <div class="p-1">
   <router-outlet></router-outlet>
   <bombos-error *ngIf="error$ | async as error"

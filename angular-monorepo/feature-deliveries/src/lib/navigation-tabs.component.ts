@@ -24,7 +24,7 @@ export interface TabItem {
           'border-t border-b': i > 0 && i < tabs.length - 1,
           'rounded-e-lg': i === tabs.length - 1
         }"
-        (click)="select.emit(tab.name)"
+        (click)="tab.name !== selected && select.emit(tab.name)"
       >
         <bombos-icon class="mr-2" [name]="tab.icon"></bombos-icon>
         {{ tab.name }}

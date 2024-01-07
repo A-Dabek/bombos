@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   addDoc,
   collection,
@@ -7,27 +7,37 @@ import {
   doc,
   Firestore,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 import { Id } from '../model';
 import { Delivery } from './model';
 
-export abstract class DeliveryService {
-  protected firestore = inject(Firestore);
-  protected collection;
+export interface DeliveryStore {
   deliveries$: Observable<(Delivery & Id)[]>;
+  add(delivery: Delivery): Promise<unknown>;
+  complete(id: string): Promise<unknown>;
+}
 
-  protected constructor(collectionName: string) {
-    this.collection = collection(this.firestore, collectionName);
-    this.deliveries$ = collectionData(this.collection, {
-      idField: 'id',
-    }) as Observable<(Delivery & Id)[]>;
+@Injectable()
+export class DeliveryService {
+  private firestore = inject(Firestore);
+  private collectionIn = collection(this.firestore, 'delivery_in');
+  private collectionOut = collection(this.firestore, 'delivery_out');
+
+  getDeliveriesStore(type: 'in' | 'out'): DeliveryStore {
+    const collection = type === 'in' ? this.collectionIn : this.collectionOut;
+    return {
+      deliveries$: collectionData(collection, {
+        idField: 'id',
+      }) as Observable<(Delivery & Id)[]>,
+      add: (delivery: Delivery) => addDoc(collection, delivery),
+      complete: (id: string) => deleteDoc(doc(collection, id)),
+    };
   }
 
-  add(delivery: Delivery) {
-    return addDoc(this.collection, delivery);
-  }
-
-  complete(id: string) {
-    return deleteDoc(doc(this.collection, id));
+  getTotalCount(): Observable<number> {
+    return combineLatest([
+      collectionData(this.collectionIn),
+      collectionData(this.collectionOut),
+    ]).pipe(map(([inData, outData]) => inData.length + outData.length));
   }
 }

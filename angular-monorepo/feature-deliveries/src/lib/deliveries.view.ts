@@ -1,4 +1,4 @@
-import { LoadingComponent } from '@angular-monorepo/ui';
+import { ErrorService, LoadingComponent } from '@angular-monorepo/ui';
 import { AsyncPipe, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -8,14 +8,7 @@ import {
 } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app/firebase';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  Delivery,
-  DeliveryService,
-  InDeliveryService,
-} from '@bombos/data-access';
-import { tap } from 'rxjs';
-import { OutDeliveryService } from '../../../data-access/src/lib/deliveries/out-delivery.service';
-import { ErrorService } from '../../../ui/src/lib/error.service';
+import { Delivery, DeliveryService } from '@bombos/data-access';
 import { AddFormComponent } from './add-form.component';
 import { DeliveryCardComponent } from './delivery-card.component';
 import { NavigationTabsComponent, TabName } from './navigation-tabs.component';
@@ -33,7 +26,7 @@ import { UploadFileComponent } from './upload-file.component';
     <div class="relative h-screen">
       <bombos-add-form *ngIf="file" [file]="file" (add)="onSubmit($event)" />
       <ul>
-        <li *ngFor="let delivery of deliveries$ | async">
+        <li *ngFor="let delivery of deliveryStore.deliveries$ | async">
           <bombos-delivery-card
             class="block mb-1"
             [loading]="loadingDeliveryId() === delivery.id"
@@ -50,7 +43,6 @@ import { UploadFileComponent } from './upload-file.component';
     />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [InDeliveryService, OutDeliveryService],
   imports: [
     NgForOf,
     AsyncPipe,
@@ -66,30 +58,26 @@ import { UploadFileComponent } from './upload-file.component';
 })
 export class DeliveriesViewComponent {
   private readonly errorService = inject(ErrorService);
-  private readonly inDeliveryService = inject(InDeliveryService);
-  private readonly outDeliveryService = inject(OutDeliveryService);
-  private deliveryService: DeliveryService = this.inDeliveryService;
-  deliveries$ = this.deliveryService.deliveries$;
+  private readonly deliveryService = inject(DeliveryService);
 
   activeTab: TabName = 'collect';
+  deliveryStore = this.deliveryService.getDeliveriesStore('in');
 
   file: File | null = null;
   loadingTabs = signal(false);
   loadingDeliveryId = signal('');
 
   onTabChange(tab: TabName) {
-    this.loadingTabs.set(true);
     this.activeTab = tab;
-    this.deliveryService =
-      tab === 'collect' ? this.inDeliveryService : this.outDeliveryService;
-    this.deliveries$ = this.deliveryService.deliveries$.pipe(
-      tap(() => this.loadingTabs.set(false))
-    );
+    this.deliveryStore =
+      tab === 'collect'
+        ? this.deliveryService.getDeliveriesStore('in')
+        : this.deliveryService.getDeliveriesStore('out');
   }
 
   onSubmit(delivery: Delivery) {
     this.file = null;
-    this.deliveryService
+    this.deliveryStore
       .add(delivery)
       .catch((error: FirebaseError) =>
         this.errorService.raiseError(error.toString())
@@ -98,7 +86,7 @@ export class DeliveriesViewComponent {
 
   onComplete(id: string) {
     this.loadingDeliveryId.set(id);
-    this.deliveryService
+    this.deliveryStore
       .complete(id)
       .catch((error: FirebaseError) =>
         this.errorService.raiseError(error.toString())

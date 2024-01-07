@@ -1,9 +1,14 @@
-import { ErrorComponent } from '@angular-monorepo/ui';
+import {
+  ErrorComponent,
+  ErrorService,
+  MenuComponent,
+  MenuItem,
+} from '@angular-monorepo/ui';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ErrorService } from '../../../../ui/src/lib/error.service';
-import { MenuComponent, MenuItem } from '../../../../ui/src/lib/menu.component';
+import { DeliveryService } from '@bombos/data-access';
+import { map, Observable, startWith } from 'rxjs';
 import { FirebaseModule } from '../firebase.module';
 
 @Component({
@@ -16,35 +21,45 @@ import { FirebaseModule } from '../firebase.module';
     AsyncPipe,
     MenuComponent,
   ],
-  providers: [ErrorService],
+  providers: [ErrorService, DeliveryService],
   selector: 'bombos-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  private readonly errorService: ErrorService = inject(ErrorService);
-  readonly error$ = this.errorService.error$;
+  readonly error$ = inject(ErrorService).error$;
 
-  menuItems: MenuItem[] = [
-    {
-      link: '/deliveries',
-      icon: 'delivery',
-      label: 'Post',
-    },
-    {
-      link: '/',
-      icon: 'cook',
-      label: 'Food',
-    },
-    {
-      link: '/',
-      icon: 'planning',
-      label: 'Plan',
-    },
-    {
-      link: '/',
-      icon: 'shopping',
-      label: 'Shop',
-    },
-  ];
+  menuItems$: Observable<MenuItem[]> = inject(DeliveryService)
+    .getTotalCount()
+    .pipe(
+      startWith(0),
+      map((count) => {
+        return [
+          {
+            link: '/deliveries',
+            icon: 'delivery',
+            label: 'Post',
+            notificationsCount: count,
+          },
+          {
+            link: '/',
+            icon: 'cook',
+            label: 'Food',
+            notificationsCount: 0,
+          },
+          {
+            link: '/',
+            icon: 'planning',
+            label: 'Plan',
+            notificationsCount: 0,
+          },
+          {
+            link: '/',
+            icon: 'shopping',
+            label: 'Shop',
+            notificationsCount: 0,
+          },
+        ];
+      })
+    );
 }
