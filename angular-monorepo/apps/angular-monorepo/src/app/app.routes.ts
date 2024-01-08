@@ -8,4 +8,9 @@ export const appRoutes: Route[] = [
         (module) => module.DeliveriesViewComponent
       ),
   },
+  {
+    path: 'food',
+    loadComponent: () =>
+      import('@bombos/food').then((module) => module.FoodViewComponent),
+  },
 ];

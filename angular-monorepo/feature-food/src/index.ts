@@ -1,1 +1,1 @@
-export * from './lib/feature-food/feature-food.component';
+export { FoodViewComponent } from './lib/food.view';

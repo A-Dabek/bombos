@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@bombos/feature-food": ["feature-food/src/index.ts"],
+      "@bombos/food": ["feature-food/src/index.ts"],
       "@angular-monorepo/ui": ["ui/src/index.ts"],
       "@bombos/data-access": ["data-access/src/index.ts"],
       "@bombos/deliveries": ["feature-deliveries/src/index.ts"]

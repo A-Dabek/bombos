@@ -42,7 +42,7 @@ export class AppComponent {
             notificationsCount: count,
           },
           {
-            link: '/',
+            link: '/food',
             icon: 'cook',
             label: 'Food',
             notificationsCount: 0,
