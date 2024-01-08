@@ -18,9 +18,7 @@ export interface MenuItem {
   standalone: true,
   selector: 'bombos-menu',
   template: `
-    <div
-      class="w-full h-16 bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600"
-    >
+    <div class="w-full h-16 bg-white border-t border-gray-200  ">
       <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
         <button
           *ngFor="let item of items"
@@ -35,7 +33,7 @@ export interface MenuItem {
             *ngIf="item.notificationsCount"
             [@enterNotification]
             [@leaveNotification]
-            class="absolute right-1 top-0 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full dark:border-gray-900"
+            class="absolute right-1 top-0 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full "
           >
             {{ item.notificationsCount }}
           </div>

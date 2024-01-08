@@ -50,7 +50,7 @@ import { UploadFileComponent } from './upload-file.component';
             "
           >
             <bombos-delivery-card
-              class="block mb-1"
+              class="block mb-2"
               [loading]="loadingDeliveryId() === delivery.id"
               [delivery]="delivery"
               (complete)="onComplete(delivery.id)"

@@ -10,7 +10,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'food',
-    loadComponent: () =>
-      import('@bombos/food').then((module) => module.FoodViewComponent),
+    loadChildren: () =>
+      import('@bombos/food').then((module) => module.FOOD_ROUTES),
   },
 ];

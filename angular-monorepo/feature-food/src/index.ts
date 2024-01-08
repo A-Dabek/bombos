@@ -1,1 +1,1 @@
-export { FoodViewComponent } from './lib/food.view';
+export { FOOD_ROUTES } from './lib/routes';

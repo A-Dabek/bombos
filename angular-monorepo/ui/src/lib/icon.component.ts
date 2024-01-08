@@ -14,6 +14,9 @@ export type IconType =
   | 'collect'
   | 'send'
   | 'warning'
+  | 'delete'
+  | 'edit'
+  | 'list'
   | '';
 
 @Component({
@@ -21,10 +24,40 @@ export type IconType =
   selector: 'bombos-icon',
   template: `
     <ng-container [ngSwitch]="name">
+      <ng-container *ngSwitchCase="'list'">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="16"
+          width="16"
+          viewBox="0 0 512 512"
+        >
+          <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path
+            opacity="1"
+            fill="currentColor"
+            d="M64 144a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zM64 464a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48-208a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z"
+          />
+        </svg>
+      </ng-container>
+      <ng-container *ngSwitchCase="'edit'">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="16"
+          width="16"
+          viewBox="0 0 512 512"
+        >
+          <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path
+            opacity="1"
+            fill="currentColor"
+            d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"
+          />
+        </svg>
+      </ng-container>
       <ng-container *ngSwitchCase="'plus'">
         <svg
-          width="24"
-          height="24"
+          height="16"
+          width="16"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -37,6 +70,8 @@ export type IconType =
       </ng-container>
       <ng-container *ngSwitchCase="'upload'">
         <svg
+          height="16"
+          width="16"
           xmlns="http://www.w3.org/2000/svg"
           class="w-5 fill-white inline"
           viewBox="0 0 32 32"
@@ -51,24 +86,27 @@ export type IconType =
           />
         </svg>
       </ng-container>
-      <ng-container *ngSwitchCase="'check'">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
+      <ng-container *ngSwitchCase="'check'"
+        ><svg
           xmlns="http://www.w3.org/2000/svg"
+          height="16"
+          width="16"
+          viewBox="0 0 448 512"
         >
+          <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
           <path
-            d="M10.5858 13.4142L7.75735 10.5858L6.34314 12L10.5858 16.2427L17.6568 9.1716L16.2426 7.75739L10.5858 13.4142Z"
+            opacity="1"
             fill="currentColor"
+            d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
           />
         </svg>
       </ng-container>
       <ng-container *ngSwitchCase="'loading'">
         <svg
+          height="16"
+          width="16"
           aria-hidden="true"
-          class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+          class="w-8 h-8 text-gray-200 animate-spin  fill-blue-600"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +123,9 @@ export type IconType =
       </ng-container>
       <ng-container *ngSwitchCase="'home'">
         <svg
-          class="w-5 h-5text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
+          height="16"
+          width="16"
+          class="w-5 h-5text-gray-500  group-hover:text-blue-600 "
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -99,8 +139,8 @@ export type IconType =
       <ng-container *ngSwitchCase="'delivery'">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          height="24"
-          width="24"
+          height="16"
+          width="16"
           viewBox="0 0 640 512"
         >
           <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -115,7 +155,7 @@ export type IconType =
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="16"
-          width="18"
+          width="16"
           viewBox="0 0 576 512"
         >
           <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -130,7 +170,7 @@ export type IconType =
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="16"
-          width="12"
+          width="16"
           viewBox="0 0 384 512"
         >
           <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -145,7 +185,7 @@ export type IconType =
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="16"
-          width="18"
+          width="16"
           viewBox="0 0 576 512"
         >
           <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -189,8 +229,8 @@ export type IconType =
       <ng-container *ngSwitchCase="'warning'">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          height="24"
-          width="24"
+          height="16"
+          width="16"
           viewBox="0 0 512 512"
         >
           <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -198,6 +238,21 @@ export type IconType =
             opacity="1"
             fill="currentColor"
             d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"
+          />
+        </svg>
+      </ng-container>
+      <ng-container *ngSwitchCase="'delete'">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="16"
+          width="16"
+          viewBox="0 0 448 512"
+        >
+          <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path
+            opacity="1"
+            fill="currentColor"
+            d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z"
           />
         </svg>
       </ng-container>
