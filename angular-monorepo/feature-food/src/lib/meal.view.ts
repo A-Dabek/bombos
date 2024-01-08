@@ -5,6 +5,7 @@ import {
   Component,
   inject,
   Input,
+  signal,
 } from '@angular/core';
 import { Dish, FoodManagementService, FoodService } from '@bombos/data-access';
 import {
@@ -38,6 +39,8 @@ import { MealCardComponent } from './meal-card.component';
           <bombos-dish-card
             class="block mb-2"
             [dish]="dish"
+            [loading]="loadingDishId() === dish.id"
+            (save)="onDishUpdate(dish.id, $event)"
             (delete)="onDishDelete(dish.id)"
           />
         </li>
@@ -67,11 +70,22 @@ export class MealViewComponent {
 
   dishes$: Observable<(Dish & Id)[]> = of([]);
   dishTrackBy = (_: number, dish: Dish & Id) => dish.id;
+  loadingDishId = signal('');
 
   onDishAdd(payload: Dish) {
     this._adminFoodService.addDish(this.mealId, payload).catch((error) => {
       this.errorService.raiseError(error.toString());
     });
+  }
+
+  onDishUpdate(id: string, dish: Dish) {
+    this.loadingDishId.set(id);
+    this._adminFoodService
+      .updateDish(this.mealId, id, dish)
+      .catch((error) => {
+        this.errorService.raiseError(error.toString());
+      })
+      .finally(() => this.loadingDishId.set(''));
   }
 
   onDishDelete(id: string) {
