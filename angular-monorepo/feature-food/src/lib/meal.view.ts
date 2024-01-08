@@ -1,65 +1,75 @@
-import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
-import { AsyncPipe, NgForOf } from '@angular/common';
+import { IconComponent } from '@angular-monorepo/ui';
+import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   inject,
   Input,
 } from '@angular/core';
 import { Dish, FoodService, Id } from '@bombos/data-access';
 import {
   bounceInRightOnEnterAnimation,
-  collapseOnLeaveAnimation,
-  expandOnEnterAnimation,
+  pulseAnimation,
 } from 'angular-animations';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, switchMap } from 'rxjs';
+import { DishCardComponent } from './dish-card.component';
 import { MealCardComponent } from './meal-card.component';
 
 @Component({
   standalone: true,
   selector: 'bombos-meal-view',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    AsyncPipe,
+    NgForOf,
+    MealCardComponent,
+    DishCardComponent,
+    NgIf,
+    IconComponent,
+  ],
+  providers: [FoodService],
   animations: [
     bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-    expandOnEnterAnimation({ anchor: 'enterItem' }),
-    collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
+    pulseAnimation({ anchor: 'reroll', direction: '=>', duration: 250 }),
   ],
   template: `
-    <div [@enterView]>
-      <ul cdkDropList (cdkDropListDropped)="drop($event)">
-        <li
-          cdkDrag
-          [@enterItem]
-          [@leaveItem]
-          *ngFor="let dish of dishes$ | async; trackBy: dishTrackBy"
-        >
-          <!--          <bombos-admin-dish-card-->
-          <!--            class="block mb-2"-->
-          <!--            [dish]="dish"-->
-          <!--            [loading]="loadingDishId() === dish.id"-->
-          <!--            (save)="onDishUpdate(dish.id, $event)"-->
-          <!--            (delete)="onDishDelete(dish.id)"-->
-          <!--          />-->
-        </li>
-      </ul>
-    </div>
+    <bombos-dish-card
+      *ngIf="currentDish$ | async as dish"
+      class="w-full mb-2"
+      [@reroll]="animateRollItem"
+      (@reroll.done)="animateRollItem = false"
+      [dish]="dish"
+    />
+    <button
+      class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm p-2 text-center   "
+      (click)="
+        currentIndex$.next(currentIndex$.value + 1); animateRollItem = true
+      "
+    >
+      <bombos-icon name="roll" />
+    </button>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [FoodService],
-  imports: [AsyncPipe, NgForOf, MealCardComponent, CdkDrag, CdkDropList],
 })
 export class MealViewComponent {
-  readonly foodService = inject(FoodService);
+  @HostBinding('@enterView') readonly enterView = true;
+  @HostBinding('class') readonly clazz =
+    'block flex flex-col items-center w-full';
 
-  private mealId = '';
+  private readonly foodService = inject(FoodService);
+
+  animateRollItem = false;
+  currentDish$: Observable<Dish & Id> = new Subject();
+  currentIndex$ = new BehaviorSubject(0);
+
   @Input({ required: true }) set meal(value: string) {
-    this.dishes$ = this.foodService.getDishes(value);
-    this.mealId = value;
-  }
-
-  dishes$: Observable<(Dish & Id)[]> = of([]);
-  dishTrackBy = (_: number, dish: Dish & Id) => dish.id;
-
-  drop(event: CdkDragDrop<string[]>) {
-    console.log(event);
+    this.currentDish$ = this.foodService.getDishes(value).pipe(
+      switchMap((dishes) => {
+        const randomDishes = dishes.sort(() => Math.random() - 0.5);
+        return this.currentIndex$.pipe(
+          switchMap((index) => of(randomDishes[index % dishes.length]))
+        );
+      })
+    );
   }
 }
