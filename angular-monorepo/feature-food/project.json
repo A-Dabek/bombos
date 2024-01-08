@@ -1,8 +1,8 @@
 {
-  "name": "feature-packages",
+  "name": "feature-food",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "feature-packages/src",
-  "prefix": "bombos",
+  "sourceRoot": "feature-food/src",
+  "prefix": "angular-monorepo",
   "tags": [],
   "projectType": "library",
   "targets": {
@@ -10,7 +10,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "feature-packages/jest.config.ts"
+        "jestConfig": "feature-food/jest.config.ts"
       }
     },
     "lint": {
