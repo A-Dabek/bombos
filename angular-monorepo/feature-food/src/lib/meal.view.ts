@@ -12,7 +12,7 @@ import {
   bounceInRightOnEnterAnimation,
   pulseAnimation,
 } from 'angular-animations';
-import { BehaviorSubject, Observable, of, Subject, switchMap } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject, switchMap } from 'rxjs';
 import { DishCardComponent } from './dish-card.component';
 import { MealCardComponent } from './meal-card.component';
 
@@ -34,6 +34,7 @@ import { MealCardComponent } from './meal-card.component';
     pulseAnimation({ anchor: 'reroll', direction: '=>', duration: 250 }),
   ],
   template: `
+    <!--  TODO add an easter egg  -->
     <bombos-dish-card
       *ngIf="currentDish$ | async as dish"
       class="w-full mb-2"
@@ -63,11 +64,15 @@ export class MealViewComponent {
   currentIndex$ = new BehaviorSubject(0);
 
   @Input({ required: true }) set meal(value: string) {
-    this.currentDish$ = this.foodService.getDishes(value).pipe(
+    this.currentDish$ = this.getCurrentDish(value);
+  }
+
+  private getCurrentDish(meal: string): Observable<Dish & Id> {
+    return this.foodService.getDishes(meal).pipe(
       switchMap((dishes) => {
         const randomDishes = dishes.sort(() => Math.random() - 0.5);
         return this.currentIndex$.pipe(
-          switchMap((index) => of(randomDishes[index % dishes.length]))
+          map((index) => randomDishes[index % dishes.length])
         );
       })
     );
