@@ -1,5 +1,6 @@
+import { IconComponent } from '@angular-monorepo/ui';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { FoodManagementService, FoodService } from '@bombos/data-access';
 import {
   bounceInRightOnEnterAnimation,
@@ -15,9 +16,19 @@ import {
     expandOnEnterAnimation({ anchor: 'enterItem' }),
     collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
   ],
-  template: ` <router-outlet></router-outlet> `,
+  template: `
+    <router-outlet></router-outlet>
+    <div class="fixed bottom-3 left-3">
+      <button
+        [routerLink]="'admin'"
+        class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm p-2 me-2 mb-2"
+      >
+        <bombos-icon name="admin" />
+      </button>
+    </div>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FoodService, FoodManagementService],
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, IconComponent, RouterLink],
 })
 export class FoodViewComponent {}

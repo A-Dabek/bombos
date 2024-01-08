@@ -18,12 +18,13 @@ import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Dish } from '@bombos/data-access';
-import { Id } from '../../../data-access/src/lib/model';
+import { RouterLink } from '@angular/router';
+import { Meal } from '@bombos/data-access';
+import { Id } from '../../../../data-access/src/lib/model';
 
 @Component({
   standalone: true,
-  selector: 'bombos-dish-card',
+  selector: 'bombos-admin-meal-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
@@ -58,6 +59,14 @@ import { Id } from '../../../data-access/src/lib/model';
             <bombos-icon name="check" />
           </button>
         </div>
+        <div class="mr-2">
+          <button
+            class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm p-2 text-center   "
+            [routerLink]="meal.id"
+          >
+            <bombos-icon name="list" />
+          </button>
+        </div>
         <bombos-confirm-button class="block" (confirm)="delete.emit()">
           <button
             class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm p-2 me-2 mb-2"
@@ -70,6 +79,7 @@ import { Id } from '../../../data-access/src/lib/model';
     </div>
   `,
   imports: [
+    RouterLink,
     IconComponent,
     ConfirmButtonComponent,
     FormsModule,
@@ -78,23 +88,23 @@ import { Id } from '../../../data-access/src/lib/model';
     NgIf,
   ],
 })
-export class DishCardComponent implements OnChanges {
+export class MealAdminCardComponent implements OnChanges {
   private fb = inject(NonNullableFormBuilder);
 
   formGroup = this.fb.group({
     name: '',
   });
 
-  @Input({ required: true }) dish!: Dish & Id;
+  @Input({ required: true }) meal!: Meal & Id;
   @Input() loading = false;
 
-  @Output() save = new EventEmitter<Dish>();
+  @Output() save = new EventEmitter<Meal>();
   @Output() list = new EventEmitter();
   @Output() delete = new EventEmitter();
 
   ngOnChanges() {
     this.formGroup.patchValue({
-      name: this.dish.name,
+      name: this.meal.name,
     });
   }
 

@@ -14,7 +14,7 @@ import {
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
-import { Id } from '../../../data-access/src/lib/model';
+import { Id } from '@bombos/data-access';
 import { AddFormComponent } from './add-form.component';
 import { DeliveryCardComponent } from './delivery-card.component';
 import { NavigationTabsComponent, TabName } from './navigation-tabs.component';
@@ -59,11 +59,11 @@ import { UploadFileComponent } from './upload-file.component';
         </ul>
         <bombos-loading *ngIf="loadingTabs()" />
       </div>
-      <bombos-upload-file
-        class="fixed bottom-3 right-3"
-        (upload)="file = $event"
-      />
     </div>
+    <bombos-upload-file
+      class="fixed bottom-3 right-3"
+      (upload)="file = $event"
+    />
   `,
   animations: [
     bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
