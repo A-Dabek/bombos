@@ -3,16 +3,21 @@ import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   inject,
   signal,
 } from '@angular/core';
-import { FoodManagementService, FoodService, Meal } from '@bombos/data-access';
+import {
+  FoodManagementService,
+  FoodService,
+  Id,
+  Meal,
+} from '@bombos/data-access';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
-import { Id } from '@bombos/data-access';
 import { MealAdminCardComponent } from './meal-admin-card.component';
 import { MealFormComponent } from './meal-form.component';
 
@@ -25,25 +30,23 @@ import { MealFormComponent } from './meal-form.component';
     collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
   ],
   template: `
-    <div [@enterView]>
-      <bombos-meal-form class="block mb-2" (save)="onMealAdd($event)" />
-      <ul>
-        <li
-          [@enterItem]
-          [@leaveItem]
-          *ngFor="let meal of foodService.meals$ | async; trackBy: mealTrackBy"
+    <bombos-meal-form class="block mb-2" (save)="onMealAdd($event)" />
+    <ul>
+      <li
+        [@enterItem]
+        [@leaveItem]
+        *ngFor="let meal of foodService.meals$ | async; trackBy: mealTrackBy"
+      >
+        <bombos-admin-meal-card
+          class="block mb-2"
+          [meal]="meal"
+          [loading]="loadingMealId() === meal.id"
+          (save)="onMealUpdate(meal.id, $event)"
+          (delete)="onMealDelete(meal.id)"
         >
-          <bombos-admin-meal-card
-            class="block mb-2"
-            [meal]="meal"
-            [loading]="loadingMealId() === meal.id"
-            (save)="onMealUpdate(meal.id, $event)"
-            (delete)="onMealDelete(meal.id)"
-          >
-          </bombos-admin-meal-card>
-        </li>
-      </ul>
-    </div>
+        </bombos-admin-meal-card>
+      </li>
+    </ul>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FoodService, FoodManagementService],
@@ -57,6 +60,9 @@ import { MealFormComponent } from './meal-form.component';
   ],
 })
 export class MealsAdminViewComponent {
+  @HostBinding('@enterView') enterView = true;
+  @HostBinding('class') class = 'block';
+
   readonly foodService = inject(FoodService);
   readonly _adminFoodService = inject(FoodManagementService);
   private readonly errorService = inject(ErrorService);

@@ -3,6 +3,7 @@ import { AsyncPipe, NgForOf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   inject,
   Input,
   signal,
@@ -32,24 +33,22 @@ import { MealAdminCardComponent } from './meal-admin-card.component';
     collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
   ],
   template: `
-    <div [@enterView]>
-      <bombos-dish-form class="block mb-2" (save)="onDishAdd($event)" />
-      <ul>
-        <li
-          [@enterItem]
-          [@leaveItem]
-          *ngFor="let dish of dishes$ | async; trackBy: dishTrackBy"
-        >
-          <bombos-admin-dish-card
-            class="block mb-2"
-            [dish]="dish"
-            [loading]="loadingDishId() === dish.id"
-            (save)="onDishUpdate(dish.id, $event)"
-            (delete)="onDishDelete(dish.id)"
-          />
-        </li>
-      </ul>
-    </div>
+    <bombos-dish-form class="block mb-2" (save)="onDishAdd($event)" />
+    <ul>
+      <li
+        [@enterItem]
+        [@leaveItem]
+        *ngFor="let dish of dishes$ | async; trackBy: dishTrackBy"
+      >
+        <bombos-admin-dish-card
+          class="block mb-2"
+          [dish]="dish"
+          [loading]="loadingDishId() === dish.id"
+          (save)="onDishUpdate(dish.id, $event)"
+          (delete)="onDishDelete(dish.id)"
+        />
+      </li>
+    </ul>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FoodService, FoodManagementService],
@@ -62,6 +61,9 @@ import { MealAdminCardComponent } from './meal-admin-card.component';
   ],
 })
 export class MealAdminViewComponent {
+  @HostBinding('@enterView') _ = true;
+  @HostBinding('class') class = 'block';
+
   readonly foodService = inject(FoodService);
   readonly _adminFoodService = inject(FoodManagementService);
   private readonly errorService = inject(ErrorService);

@@ -13,6 +13,7 @@ import { FirebaseModule } from '../firebase.module';
 
 @Component({
   standalone: true,
+  selector: 'bombos-root',
   imports: [
     RouterModule,
     FirebaseModule,
@@ -22,9 +23,17 @@ import { FirebaseModule } from '../firebase.module';
     MenuComponent,
   ],
   providers: [ErrorService, DeliveryService],
-  selector: 'bombos-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  template: `
+    <bombos-menu *ngIf="menuItems$ | async as menuItems" [items]="menuItems" />
+    <div class="p-1">
+      <router-outlet></router-outlet>
+      <bombos-error
+        *ngIf="error$ | async as error"
+        class="fixed bottom-0 left-0 z-50 w-full"
+        [message]="error"
+      />
+    </div>
+  `,
 })
 export class AppComponent {
   readonly error$ = inject(ErrorService).error$;

@@ -1,7 +1,0 @@
-<bombos-menu *ngIf="menuItems$ | async as menuItems" [items]="menuItems"/>
-<div class="p-1">
-  <router-outlet></router-outlet>
-  <bombos-error *ngIf="error$ | async as error"
-                class="fixed bottom-0 left-0 z-50 w-full"
-                [message]="error"/>
-</div>

@@ -3,18 +3,18 @@ import { AsyncPipe, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   inject,
   signal,
 } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app/firebase';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Delivery, DeliveryService } from '@bombos/data-access';
+import { Delivery, DeliveryService, Id } from '@bombos/data-access';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
-import { Id } from '@bombos/data-access';
 import { AddFormComponent } from './add-form.component';
 import { DeliveryCardComponent } from './delivery-card.component';
 import { NavigationTabsComponent, TabName } from './navigation-tabs.component';
@@ -24,52 +24,6 @@ import { UploadFileComponent } from './upload-file.component';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'bombos-deliveries-view',
-  template: `
-    <div [@enterView]>
-      <bombos-navigation-tabs
-        class="block mb-2"
-        [selected]="activeTab"
-        (select)="onTabChange($event)"
-      />
-      <div class="relative h-screen">
-        <bombos-add-form
-          class="block"
-          *ngIf="file"
-          [@enterItem]
-          [@leaveItem]
-          [file]="file"
-          (add)="onSubmit($event)"
-        />
-        <ul>
-          <li
-            [@enterItem]
-            [@leaveItem]
-            *ngFor="
-              let delivery of deliveryStore.deliveries$ | async;
-              trackBy: deliveryTrackBy
-            "
-          >
-            <bombos-delivery-card
-              class="block mb-2"
-              [loading]="loadingDeliveryId() === delivery.id"
-              [delivery]="delivery"
-              (complete)="onComplete(delivery.id)"
-            />
-          </li>
-        </ul>
-        <bombos-loading *ngIf="loadingTabs()" />
-      </div>
-    </div>
-    <bombos-upload-file
-      class="fixed bottom-3 right-3"
-      (upload)="file = $event"
-    />
-  `,
-  animations: [
-    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-    expandOnEnterAnimation({ anchor: 'enterItem' }),
-    collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
-  ],
   imports: [
     NgForOf,
     AsyncPipe,
@@ -82,8 +36,55 @@ import { UploadFileComponent } from './upload-file.component';
     UploadFileComponent,
     LoadingComponent,
   ],
+  animations: [
+    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+    expandOnEnterAnimation({ anchor: 'enterItem' }),
+    collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
+  ],
+  template: `
+    <bombos-navigation-tabs
+      class="block mb-2"
+      [selected]="activeTab"
+      (select)="onTabChange($event)"
+    />
+    <div class="relative h-screen">
+      <bombos-add-form
+        class="block"
+        *ngIf="file"
+        [@enterItem]
+        [@leaveItem]
+        [file]="file"
+        (add)="onSubmit($event)"
+      />
+      <ul>
+        <li
+          [@enterItem]
+          [@leaveItem]
+          *ngFor="
+            let delivery of deliveryStore.deliveries$ | async;
+            trackBy: deliveryTrackBy
+          "
+        >
+          <bombos-delivery-card
+            class="block mb-2"
+            [loading]="loadingDeliveryId() === delivery.id"
+            [delivery]="delivery"
+            (complete)="onComplete(delivery.id)"
+          />
+        </li>
+      </ul>
+      <bombos-loading *ngIf="loadingTabs()" />
+    </div>
+    <bombos-upload-file
+      class="fixed bottom-3 right-3"
+      (upload)="file = $event"
+    />
+  `,
 })
 export class DeliveriesViewComponent {
+  @HostBinding('@enterView') _ = true;
+  @HostBinding('class') __ = 'block';
+
   private readonly errorService = inject(ErrorService);
   private readonly deliveryService = inject(DeliveryService);
 
