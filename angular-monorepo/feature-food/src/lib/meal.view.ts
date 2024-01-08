@@ -1,10 +1,10 @@
+import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { AsyncPipe, NgForOf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   Input,
-  signal,
 } from '@angular/core';
 import { Dish, FoodService, Id } from '@bombos/data-access';
 import {
@@ -13,6 +13,7 @@ import {
   expandOnEnterAnimation,
 } from 'angular-animations';
 import { Observable, of } from 'rxjs';
+import { MealCardComponent } from './meal-card.component';
 
 @Component({
   standalone: true,
@@ -24,8 +25,9 @@ import { Observable, of } from 'rxjs';
   ],
   template: `
     <div [@enterView]>
-      <ul>
+      <ul cdkDropList (cdkDropListDropped)="drop($event)">
         <li
+          cdkDrag
           [@enterItem]
           [@leaveItem]
           *ngFor="let dish of dishes$ | async; trackBy: dishTrackBy"
@@ -43,7 +45,7 @@ import { Observable, of } from 'rxjs';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FoodService],
-  imports: [AsyncPipe, NgForOf],
+  imports: [AsyncPipe, NgForOf, MealCardComponent, CdkDrag, CdkDropList],
 })
 export class MealViewComponent {
   readonly foodService = inject(FoodService);
@@ -56,5 +58,8 @@ export class MealViewComponent {
 
   dishes$: Observable<(Dish & Id)[]> = of([]);
   dishTrackBy = (_: number, dish: Dish & Id) => dish.id;
-  loadingDishId = signal('');
+
+  drop(event: CdkDragDrop<string[]>) {
+    console.log(event);
+  }
 }

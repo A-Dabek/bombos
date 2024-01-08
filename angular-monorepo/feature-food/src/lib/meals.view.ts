@@ -1,4 +1,5 @@
 import { LoadingComponent } from '@angular-monorepo/ui';
+import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FoodService, Id, Meal } from '@bombos/data-access';
@@ -7,6 +8,8 @@ import {
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
+import { MealCardComponent } from './meal-card.component';
+import { OrderManager } from './order-manager';
 
 @Component({
   standalone: true,
@@ -18,30 +21,44 @@ import {
   ],
   template: `
     <div [@enterView]>
-      <ul>
+      <ul
+        *ngIf="orderedMeals$ | async as meals"
+        cdkDropList
+        [cdkDropListData]="meals"
+        (cdkDropListDropped)="drop($event)"
+      >
         <li
+          cdkDrag
+          *ngFor="let meal of meals; trackBy: mealTrackBy"
           [@enterItem]
           [@leaveItem]
-          *ngFor="let meal of foodService.meals$ | async; trackBy: mealTrackBy"
         >
-          <!--          <bombos-admin-meal-card-->
-          <!--            class="block mb-2"-->
-          <!--            [meal]="meal"-->
-          <!--            [loading]="loadingMealId() === meal.id"-->
-          <!--            (save)="onMealUpdate(meal.id, $event)"-->
-          <!--            (delete)="onMealDelete(meal.id)"-->
-          <!--          >-->
-          <!--          </bombos-admin-meal-card>-->
+          <bombos-meal-card class="block mb-2" [meal]="meal" />
         </li>
       </ul>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FoodService],
-  imports: [AsyncPipe, NgForOf, NgIf, LoadingComponent],
+  imports: [
+    AsyncPipe,
+    NgForOf,
+    NgIf,
+    LoadingComponent,
+    MealCardComponent,
+    CdkDropList,
+    CdkDrag,
+  ],
 })
 export class MealsViewComponent {
-  readonly foodService = inject(FoodService);
+  private readonly foodService = inject(FoodService);
+  private readonly orderManager = new OrderManager('overcooked_meals_order');
+
+  orderedMeals$ = this.orderManager.order$(this.foodService.meals$);
 
   mealTrackBy = (_: number, meal: Meal & Id) => meal.id;
+
+  drop(event: CdkDragDrop<(Meal & Id)[]>) {
+    this.orderManager.reorder(event.previousIndex, event.currentIndex);
+  }
 }
