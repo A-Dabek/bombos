@@ -6,6 +6,7 @@ import {
   HostBinding,
   inject,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
 import {
@@ -120,7 +121,7 @@ import { IconComponent } from '@bombos/ui';
   `,
   imports: [FormsModule, ReactiveFormsModule, NgForOf, IconComponent],
 })
-export class ListItemFormComponent {
+export class ListItemFormComponent implements OnInit {
   @HostBinding('class') readonly clazz = '';
 
   private fb = inject(NonNullableFormBuilder);
@@ -135,8 +136,15 @@ export class ListItemFormComponent {
   });
 
   @Input() groups: string[] = [];
+  @Input() value: ShoppingItem | undefined;
   @Output() save = new EventEmitter<ShoppingItem>();
   @Output() cancel = new EventEmitter<void>();
+
+  ngOnInit() {
+    if (this.value) {
+      this.formGroup.patchValue(this.value);
+    }
+  }
 
   onSubmit(event: SubmitEvent) {
     this.save.emit({

@@ -3,7 +3,10 @@ import {
   addDoc,
   collection,
   collectionData,
+  deleteDoc,
+  doc,
   Firestore,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Id } from '../model';
@@ -30,5 +33,18 @@ export class ShoppingService {
 
   addItem(listId: string, payload: ShoppingItem) {
     return addDoc(collection(this.listCollection, listId, 'items'), payload);
+  }
+
+  updateItem(listId: string, itemId: string, payload: ShoppingItem) {
+    return updateDoc(
+      doc(collection(this.listCollection, listId, 'items'), itemId),
+      { ...payload }
+    );
+  }
+
+  deleteItem(listId: string, itemId: string) {
+    return deleteDoc(
+      doc(collection(this.listCollection, listId, 'items'), itemId)
+    );
   }
 }

@@ -82,6 +82,8 @@ import { ListCardComponent } from './list-card.component';
             [items]="(itemsCache()[list.id] | async) || []"
             (click)="openListId = list.id"
             (newItem)="onItemSave(list.id, $event)"
+            (editItem)="onItemEdit(list.id, $event)"
+            (deleteItem)="onItemDelete(list.id, $event)"
           />
         </li>
       </ul>
@@ -116,7 +118,7 @@ export class PlanListViewComponent {
       });
     })
   );
-  itemsCache = signal<Record<string, Observable<ShoppingItem[]>>>({});
+  itemsCache = signal<Record<string, Observable<(ShoppingItem & Id)[]>>>({});
 
   listTrackBy = (_: number, list: ShoppingList & Id) => list.id;
 
@@ -146,6 +148,22 @@ export class PlanListViewComponent {
   onItemSave(listId: string, item: ShoppingItem) {
     this.shoppingService
       .addItem(listId, item)
+      .catch((error: FirebaseError) =>
+        this.errorService.raiseError(error.toString())
+      );
+  }
+
+  onItemEdit(listId: string, item: ShoppingItem & Id) {
+    this.shoppingService
+      .updateItem(listId, item.id, item)
+      .catch((error: FirebaseError) =>
+        this.errorService.raiseError(error.toString())
+      );
+  }
+
+  onItemDelete(listId: string, itemId: string) {
+    this.shoppingService
+      .deleteItem(listId, itemId)
       .catch((error: FirebaseError) =>
         this.errorService.raiseError(error.toString())
       );

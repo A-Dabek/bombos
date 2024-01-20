@@ -17,6 +17,7 @@ import {
 import { ListCardButtonsComponent } from './list-card-buttons.component';
 import { ListItemFormComponent } from './list-item-form.component';
 import { ListItemComponent } from './list-item.component';
+import { ListItemsComponent } from './list-items.component';
 
 @Component({
   standalone: true,
@@ -27,16 +28,6 @@ import { ListItemComponent } from './list-item.component';
     collapseOnLeaveAnimation({ anchor: 'leaveDetails' }),
   ],
   template: `
-    <style>
-      ol:after {
-        content: '';
-        position: absolute;
-        inset: -2px;
-        border: 2px solid #0000;
-        border-image: linear-gradient(90deg, #333333 5%, #0000 0 95%, #333333 0)
-          10;
-      }
-    </style>
     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
       {{ list.name }}
     </h5>
@@ -47,17 +38,17 @@ import { ListItemComponent } from './list-item.component';
         [@enterDetails]
         [@leaveDetails]
         [groups]="['Fruit', 'Vegetables', 'Meat', 'Dairy', 'Bakery', 'Other']"
+        [value]="formEditItem"
         (save)="onItemSave($event)"
         (cancel)="isFormVisible = false"
       />
       } @else { @for (keyValue of groupedItems | keyvalue; track keyValue.key) {
-      <ol class="relative px-2 mb-2">
-        <li *ngFor="let item of keyValue.value">
-          <bombos-list-item [item]="item" />
-        </li>
-      </ol>
+      <bombos-list-items
+        [items]="keyValue.value"
+        (edit)="onItemEdit($event)"
+        (delete)="deleteItem.emit($event)"
+      />
       }
-
       <bombos-list-card-buttons
         class="mt-2"
         [@enterDetails]
@@ -80,6 +71,7 @@ import { ListItemComponent } from './list-item.component';
     ListItemFormComponent,
     KeyValuePipe,
     ListItemComponent,
+    ListItemsComponent,
   ],
 })
 export class ListCardComponent {
@@ -88,23 +80,36 @@ export class ListCardComponent {
 
   @Input({ required: true }) list!: ShoppingList & Id;
   @Input() open = false;
-  @Input() set items(value: ShoppingItem[]) {
+  @Input() set items(value: (ShoppingItem & Id)[]) {
     this.groupedItems = value.reduce((acc, item) => {
       const key = item.group;
       return { ...acc, [key]: [...(acc[key] || []), item] };
-    }, {} as Record<string, ShoppingItem[]>);
+    }, {} as Record<string, (ShoppingItem & Id)[]>);
   }
   @Output() newItem = new EventEmitter<ShoppingItem>();
+  @Output() editItem = new EventEmitter<ShoppingItem & Id>();
+  @Output() deleteItem = new EventEmitter<string>();
 
   isFormVisible = false;
-  groupedItems: Record<string, ShoppingItem[]> = {};
+  groupedItems: Record<string, (ShoppingItem & Id)[]> = {};
+  formEditItem?: ShoppingItem & Id;
 
   onNewItem() {
     this.isFormVisible = true;
   }
 
   onItemSave(item: ShoppingItem) {
-    this.newItem.emit(item);
+    if (this.formEditItem) {
+      this.editItem.emit({ ...item, id: this.formEditItem.id });
+      this.formEditItem = undefined;
+    } else {
+      this.newItem.emit(item);
+    }
+  }
+
+  onItemEdit(item: ShoppingItem & Id) {
+    this.isFormVisible = true;
+    this.formEditItem = item;
   }
 
   onGoShopping() {}
