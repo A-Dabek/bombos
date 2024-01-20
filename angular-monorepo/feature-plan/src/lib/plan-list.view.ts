@@ -60,7 +60,7 @@ import { ListCardComponent } from './list-card.component';
         *ngIf="isFormVisible"
         [@enterItem]
         [@leaveItem]
-        class="block mb-2"
+        class="block mb-1"
         (add)="onSubmit($event)"
       />
       <ul
@@ -76,11 +76,12 @@ import { ListCardComponent } from './list-card.component';
           [@leaveItem]
         >
           <bombos-list-card
-            class="block mb-2"
+            class="block mb-1"
             [list]="list"
             [open]="list.id === openListId"
             [items]="(itemsCache()[list.id] | async) || []"
             (click)="openListId = list.id"
+            (newItem)="onItemSave(list.id, $event)"
           />
         </li>
       </ul>
@@ -137,6 +138,14 @@ export class PlanListViewComponent {
     this.isFormVisible = false;
     this.shoppingService
       .addList(list)
+      .catch((error: FirebaseError) =>
+        this.errorService.raiseError(error.toString())
+      );
+  }
+
+  onItemSave(listId: string, item: ShoppingItem) {
+    this.shoppingService
+      .addItem(listId, item)
       .catch((error: FirebaseError) =>
         this.errorService.raiseError(error.toString())
       );

@@ -27,4 +27,8 @@ export class ShoppingService {
   addList(payload: ShoppingList) {
     return addDoc(this.listCollection, payload);
   }
+
+  addItem(listId: string, payload: ShoppingItem) {
+    return addDoc(collection(this.listCollection, listId, 'items'), payload);
+  }
 }
