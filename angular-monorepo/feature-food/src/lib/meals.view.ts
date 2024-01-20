@@ -1,4 +1,3 @@
-import { LoadingComponent } from '@angular-monorepo/ui';
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import {
@@ -9,6 +8,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FoodService, Id, Meal } from '@bombos/data-access';
+import { LoadingComponent } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,

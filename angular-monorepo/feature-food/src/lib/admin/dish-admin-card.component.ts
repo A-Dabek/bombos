@@ -1,8 +1,3 @@
-import {
-  ConfirmButtonComponent,
-  IconComponent,
-  LoadingComponent,
-} from '@angular-monorepo/ui';
 import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -19,8 +14,12 @@ import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Dish } from '@bombos/data-access';
-import { Id } from '@bombos/data-access';
+import { Dish, Id } from '@bombos/data-access';
+import {
+  ConfirmButtonComponent,
+  IconComponent,
+  LoadingComponent,
+} from '@bombos/ui';
 
 @Component({
   standalone: true,

@@ -1,7 +1,7 @@
-import { IconComponent } from '@angular-monorepo/ui';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { FoodManagementService, FoodService } from '@bombos/data-access';
+import { IconComponent } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,

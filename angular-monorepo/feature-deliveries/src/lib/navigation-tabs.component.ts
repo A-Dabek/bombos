@@ -1,4 +1,3 @@
-import { IconComponent } from '@angular-monorepo/ui';
 import { NgClass, NgForOf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -8,6 +7,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { IconComponent } from '@bombos/ui';
 import { IconType } from '../../../ui/src/lib/icon.component';
 
 export type TabName = 'collect' | 'send';

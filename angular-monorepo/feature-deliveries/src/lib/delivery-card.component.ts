@@ -1,8 +1,3 @@
-import {
-  ConfirmButtonComponent,
-  IconComponent,
-  LoadingComponent,
-} from '@angular-monorepo/ui';
 import { NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -13,6 +8,11 @@ import {
   Output,
 } from '@angular/core';
 import { Delivery } from '@bombos/data-access';
+import {
+  ConfirmButtonComponent,
+  IconComponent,
+  LoadingComponent,
+} from '@bombos/ui';
 
 @Component({
   standalone: true,

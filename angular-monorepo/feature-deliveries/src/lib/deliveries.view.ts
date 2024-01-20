@@ -1,4 +1,3 @@
-import { ErrorService, LoadingComponent } from '@angular-monorepo/ui';
 import { AsyncPipe, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -10,6 +9,7 @@ import {
 import { FirebaseError } from '@angular/fire/app/firebase';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Delivery, DeliveryService, Id } from '@bombos/data-access';
+import { ErrorService, LoadingComponent } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,

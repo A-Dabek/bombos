@@ -1,4 +1,3 @@
-import { IconComponent } from '@angular-monorepo/ui';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,6 +11,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Dish } from '@bombos/data-access';
+import { IconComponent } from '@bombos/ui';
 
 @Component({
   standalone: true,

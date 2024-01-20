@@ -1,13 +1,13 @@
+import { AsyncPipe, NgIf } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { DeliveryService } from '@bombos/data-access';
 import {
   ErrorComponent,
   ErrorService,
   MenuComponent,
   MenuItem,
-} from '@angular-monorepo/ui';
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { DeliveryService } from '@bombos/data-access';
+} from '@bombos/ui';
 import { map, Observable, startWith } from 'rxjs';
 import { FirebaseModule } from '../firebase.module';
 
@@ -57,7 +57,7 @@ export class AppComponent {
             notificationsCount: 0,
           },
           {
-            link: '/',
+            link: '/plan',
             icon: 'planning',
             label: 'Plan',
             notificationsCount: 0,

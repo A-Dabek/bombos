@@ -1,4 +1,3 @@
-import { ErrorService, LoadingComponent } from '@angular-monorepo/ui';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -13,6 +12,7 @@ import {
   Id,
   Meal,
 } from '@bombos/data-access';
+import { ErrorService, LoadingComponent } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,

@@ -1,4 +1,3 @@
-import { ErrorService } from '@angular-monorepo/ui';
 import { AsyncPipe, NgForOf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -14,6 +13,7 @@ import {
   FoodService,
   Id,
 } from '@bombos/data-access';
+import { ErrorService } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,

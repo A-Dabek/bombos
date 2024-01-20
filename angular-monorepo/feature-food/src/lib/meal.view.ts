@@ -1,4 +1,3 @@
-import { IconComponent } from '@angular-monorepo/ui';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -8,6 +7,7 @@ import {
   Input,
 } from '@angular/core';
 import { Dish, FoodService, Id } from '@bombos/data-access';
+import { IconComponent } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   pulseAnimation,
