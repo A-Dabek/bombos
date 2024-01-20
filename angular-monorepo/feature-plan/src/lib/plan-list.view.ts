@@ -5,16 +5,24 @@ import {
   Component,
   HostBinding,
   inject,
+  signal,
 } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app/firebase';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Id, Meal, ShoppingList, ShoppingService } from '@bombos/data-access';
+import {
+  Id,
+  Meal,
+  ShoppingItem,
+  ShoppingList,
+  ShoppingService,
+} from '@bombos/data-access';
 import { ErrorService, IconComponent, LoadingComponent } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
+import { Observable, tap } from 'rxjs';
 import { UploadFileComponent } from '../../../feature-deliveries/src/lib/upload-file.component';
 import { OrderManager } from '../../../feature-food/src/lib/order-manager';
 import { AddFormComponent } from './add-form.component';
@@ -38,6 +46,7 @@ import { MealCardComponent } from './list-card.component';
     AddFormComponent,
     IconComponent,
     UploadFileComponent,
+    AddFormComponent,
   ],
   providers: [ShoppingService],
   animations: [
@@ -47,7 +56,13 @@ import { MealCardComponent } from './list-card.component';
   ],
   template: `
     <div class="relative h-screen">
-      <bombos-add-list-form *ngIf="isFormVisible" (add)="onSubmit($event)" />
+      <bombos-add-list-form
+        *ngIf="isFormVisible"
+        [@enterItem]
+        [@leaveItem]
+        class="block mb-2"
+        (add)="onSubmit($event)"
+      />
       <ul
         *ngIf="orderedLists$ | async as lists"
         cdkDropList
@@ -60,13 +75,19 @@ import { MealCardComponent } from './list-card.component';
           [@enterItem]
           [@leaveItem]
         >
-          <bombos-list-card class="block mb-2" [list]="list" />
+          <bombos-list-card
+            class="block mb-2"
+            [list]="list"
+            [open]="list.id === openListId"
+            [items]="(itemsCache()[list.id] | async) || []"
+            (click)="openListId = list.id"
+          />
         </li>
       </ul>
     </div>
     <div class="fixed bottom-3 right-3">
       <button
-        (click)="isFormVisible = true"
+        (click)="onAddClick()"
         class="bg-gray-800 hover:bg-gray-700 text-white p-3 outline-none rounded w-max cursor-pointer mx-auto block font-[sans-serif]"
       >
         <bombos-icon name="plus" />
@@ -82,17 +103,38 @@ export class PlanListViewComponent {
   private readonly shoppingService = inject(ShoppingService);
   private readonly orderManager = new OrderManager('overcooked_meals_order');
 
-  orderedLists$ = this.orderManager.order$(this.shoppingService.lists$);
+  orderedLists$ = this.orderManager.order$(this.shoppingService.lists$).pipe(
+    tap((lists) => {
+      lists.forEach((list) => {
+        if (!this.itemsCache()[list.id]) {
+          this.itemsCache.set({
+            ...this.itemsCache(),
+            [list.id]: this.shoppingService.listItems$(list.id),
+          });
+        }
+      });
+    })
+  );
+  itemsCache = signal<Record<string, Observable<ShoppingItem[]>>>({});
 
-  listTrackBy = (index: number, list: ShoppingList & Id) => list.id;
+  listTrackBy = (_: number, list: ShoppingList & Id) => list.id;
 
   isFormVisible = false;
+  openListId = '';
 
   drop(event: CdkDragDrop<(Meal & Id)[]>) {
+    this.isFormVisible = false;
+    this.openListId = '';
     this.orderManager.reorder(event.previousIndex, event.currentIndex);
   }
 
+  onAddClick() {
+    this.isFormVisible = true;
+    this.openListId = '';
+  }
+
   onSubmit(list: ShoppingList) {
+    this.isFormVisible = false;
     this.shoppingService
       .addList(list)
       .catch((error: FirebaseError) =>

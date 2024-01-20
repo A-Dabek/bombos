@@ -7,7 +7,7 @@ import {
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Id } from '../model';
-import { ShoppingList } from './model';
+import { ShoppingItem, ShoppingList } from './model';
 
 @Injectable()
 export class ShoppingService {
@@ -17,6 +17,12 @@ export class ShoppingService {
   lists$ = collectionData(this.listCollection, { idField: 'id' }) as Observable<
     (ShoppingList & Id)[]
   >;
+
+  listItems$(listId: string) {
+    return collectionData(collection(this.listCollection, listId, 'items'), {
+      idField: 'id',
+    }) as Observable<(ShoppingItem & Id)[]>;
+  }
 
   addList(payload: ShoppingList) {
     return addDoc(this.listCollection, payload);

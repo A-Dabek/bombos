@@ -12,9 +12,9 @@ import { IconComponent } from './icon.component';
   standalone: true,
   selector: 'bombos-confirm-button',
   template: `
-    <span *ngIf="!isConfirmationVisible()" (click)="intercept($event)">
+    <ng-container *ngIf="!isConfirmationVisible()" (click)="intercept($event)">
       <ng-content></ng-content>
-    </span>
+    </ng-container>
     <button
       *ngIf="isConfirmationVisible()"
       type="button"
