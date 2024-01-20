@@ -26,7 +26,7 @@ import { Observable, tap } from 'rxjs';
 import { UploadFileComponent } from '../../../feature-deliveries/src/lib/upload-file.component';
 import { OrderManager } from '../../../feature-food/src/lib/order-manager';
 import { AddFormComponent } from './add-form.component';
-import { MealCardComponent } from './list-card.component';
+import { ListCardComponent } from './list-card.component';
 
 @Component({
   standalone: true,
@@ -41,7 +41,7 @@ import { MealCardComponent } from './list-card.component';
     LoadingComponent,
     CdkDrag,
     CdkDropList,
-    MealCardComponent,
+    ListCardComponent,
     AddFormComponent,
     AddFormComponent,
     IconComponent,
