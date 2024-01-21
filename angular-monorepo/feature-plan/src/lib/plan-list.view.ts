@@ -1,4 +1,9 @@
-import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDragHandle,
+  CdkDropList,
+} from '@angular/cdk/drag-drop';
 import { AsyncPipe, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -47,6 +52,7 @@ import { ListCardComponent } from './list-card.component';
     IconComponent,
     UploadFileComponent,
     AddFormComponent,
+    CdkDragHandle,
   ],
   providers: [ShoppingService],
   animations: [
@@ -70,12 +76,12 @@ import { ListCardComponent } from './list-card.component';
         (cdkDropListDropped)="drop($event)"
       >
         <li
-          cdkDrag
           *ngFor="let list of lists; trackBy: listTrackBy"
           [@enterItem]
           [@leaveItem]
         >
           <bombos-list-card
+            cdkDrag
             class="block mb-1"
             [list]="list"
             [open]="list.id === openListId"
@@ -84,7 +90,9 @@ import { ListCardComponent } from './list-card.component';
             (newItem)="onItemSave(list.id, $event)"
             (editItem)="onItemEdit(list.id, $event)"
             (deleteItem)="onItemDelete(list.id, $event)"
-          />
+          >
+            <bombos-icon name="drag" class="block p-2" cdkDragHandle />
+          </bombos-list-card>
         </li>
       </ul>
     </div>

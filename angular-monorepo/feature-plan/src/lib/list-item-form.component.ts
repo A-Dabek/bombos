@@ -1,13 +1,15 @@
-import { NgForOf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   HostBinding,
   inject,
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -28,11 +30,16 @@ import { IconComponent } from '@bombos/ui';
       (ngSubmit)="onSubmit($event)"
     >
       <input
+        #name
         formControlName="name"
         class="px-2 py-1 rounded-md bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full"
         placeholder="Name"
         required
       />
+      <span class="text-xs italic" *ngIf="lastSavedItem">
+        Last saved: {{ lastSavedItem?.name }} ({{ lastSavedItem.amount
+        }}{{ lastSavedItem.unit }})
+      </span>
       <div class="flex justify-between mt-1 items-center">
         <input
           formControlName="amount"
@@ -119,45 +126,54 @@ import { IconComponent } from '@bombos/ui';
       </div>
     </form>
   `,
-  imports: [FormsModule, ReactiveFormsModule, NgForOf, IconComponent],
+  imports: [FormsModule, ReactiveFormsModule, NgForOf, IconComponent, NgIf],
 })
 export class ListItemFormComponent implements OnInit {
   @HostBinding('class') readonly clazz = '';
 
   private fb = inject(NonNullableFormBuilder);
 
+  @ViewChild('name', { static: true, read: ElementRef })
+  name!: ElementRef<HTMLInputElement>;
+
   formGroup = this.fb.group({
     name: '',
-    amount: 0,
+    amount: 1,
     unit: 'x',
     description: '',
     urgent: false,
     group: '',
   });
+  lastSavedItem: ShoppingItem | undefined;
 
   @Input() groups: string[] = [];
-  @Input() value: ShoppingItem | undefined;
+  @Input() value: Partial<ShoppingItem> | undefined;
   @Output() save = new EventEmitter<ShoppingItem>();
   @Output() cancel = new EventEmitter<void>();
 
   ngOnInit() {
+    this.name.nativeElement.focus();
     if (this.value) {
       this.formGroup.patchValue(this.value);
     }
   }
 
   onSubmit(event: SubmitEvent) {
-    this.save.emit({
+    const item = {
       name: this.formGroup.value.name || '',
       amount: this.formGroup.value.amount || 1,
       unit: this.formGroup.value.unit || 'x',
       description: this.formGroup.value.description || '',
       urgent: this.formGroup.value.urgent || false,
       group: this.formGroup.value.group || '',
-    });
-    this.formGroup.reset();
+    };
+    this.save.emit(item);
     if (event.submitter?.id === 'submit') {
       this.onCancel();
+    } else {
+      this.formGroup.reset();
+      this.name.nativeElement.focus();
+      this.lastSavedItem = item;
     }
   }
 

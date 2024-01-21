@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { Id, ShoppingItem } from '@bombos/data-access';
+import { IconComponent } from '@bombos/ui';
 import { ListItemComponent } from './list-item.component';
 
 @Component({
@@ -15,7 +16,7 @@ import { ListItemComponent } from './list-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <style>
-      ol:before {
+      div.relative:before {
         content: '';
         pointer-events: none;
         position: absolute;
@@ -25,25 +26,36 @@ import { ListItemComponent } from './list-item.component';
           10;
       }
     </style>
-    <ol class="relative px-2 mb-2">
-      <li *ngFor="let item of items">
-        <bombos-list-item
-          class="block"
-          [item]="item"
-          [open]="openItemId === item.id"
-          (click)="openItemId = item.id"
-          (edit)="edit.emit(item)"
-          (delete)="delete.emit(item.id)"
-        />
-      </li>
-    </ol>
+    <div class="flex relative">
+      <ol class="flex-grow px-2">
+        <li *ngFor="let item of items">
+          <bombos-list-item
+            class="block"
+            [item]="item"
+            [open]="openItemId === item.id"
+            (click)="openEvent.emit(item.id)"
+            (edit)="edit.emit(item)"
+            (delete)="delete.emit(item.id)"
+          />
+        </li>
+      </ol>
+      <button
+        class="font-medium hover:underline px-3"
+        (click)="groupAdd.emit()"
+      >
+        <bombos-icon name="plus" />
+      </button>
+    </div>
   `,
-  imports: [ListItemComponent, NgForOf],
+  imports: [ListItemComponent, NgForOf, IconComponent],
 })
 export class ListItemsComponent {
   @Input() items: (ShoppingItem & Id)[] = [];
-  openItemId = '';
 
   @Output() edit = new EventEmitter<ShoppingItem & Id>();
   @Output() delete = new EventEmitter<string>();
+
+  @Input() openItemId = '';
+  @Output() openEvent = new EventEmitter<string>();
+  @Output() groupAdd = new EventEmitter();
 }

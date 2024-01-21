@@ -1,3 +1,4 @@
+import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { KeyValuePipe, NgForOf, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -28,8 +29,11 @@ import { ListItemsComponent } from './list-items.component';
     collapseOnLeaveAnimation({ anchor: 'leaveDetails' }),
   ],
   template: `
-    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+    <h5
+      class="flex justify-between align-baseline mb-2 text-2xl font-bold tracking-tight text-gray-900"
+    >
       {{ list.name }}
+      <ng-content></ng-content>
     </h5>
     <div *ngIf="open" [@enterDetails] [@leaveDetails]>
       @if (isFormVisible) {
@@ -44,7 +48,11 @@ import { ListItemsComponent } from './list-items.component';
       />
       } @else { @for (keyValue of groupedItems | keyvalue; track keyValue.key) {
       <bombos-list-items
+        class="block mb-2"
+        [openItemId]="openItemId"
         [items]="keyValue.value"
+        (groupAdd)="onNewItem(keyValue.key)"
+        (openEvent)="onItemOpen($event)"
         (edit)="onItemEdit($event)"
         (delete)="deleteItem.emit($event)"
       />
@@ -72,6 +80,8 @@ import { ListItemsComponent } from './list-items.component';
     KeyValuePipe,
     ListItemComponent,
     ListItemsComponent,
+    CdkDrag,
+    CdkDragHandle,
   ],
 })
 export class ListCardComponent {
@@ -92,14 +102,17 @@ export class ListCardComponent {
 
   isFormVisible = false;
   groupedItems: Record<string, (ShoppingItem & Id)[]> = {};
-  formEditItem?: ShoppingItem & Id;
+  formEditItem?: Partial<ShoppingItem & Id>;
+  openItemId = '';
 
-  onNewItem() {
+  onNewItem(group?: string) {
     this.isFormVisible = true;
+    this.formEditItem = { group };
   }
 
   onItemSave(item: ShoppingItem) {
-    if (this.formEditItem) {
+    this.openItemId = '';
+    if (this.formEditItem?.id) {
       this.editItem.emit({ ...item, id: this.formEditItem.id });
       this.formEditItem = undefined;
     } else {
@@ -110,6 +123,10 @@ export class ListCardComponent {
   onItemEdit(item: ShoppingItem & Id) {
     this.isFormVisible = true;
     this.formEditItem = item;
+  }
+
+  onItemOpen(id: string) {
+    this.openItemId = id === this.openItemId ? '' : id;
   }
 
   onGoShopping() {}
