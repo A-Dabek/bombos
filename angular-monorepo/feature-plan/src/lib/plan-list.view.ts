@@ -1,10 +1,4 @@
-import {
-  CdkDrag,
-  CdkDragDrop,
-  CdkDragHandle,
-  CdkDropList,
-} from '@angular/cdk/drag-drop';
-import { AsyncPipe, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,15 +7,13 @@ import {
   signal,
 } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app/firebase';
-import { ReactiveFormsModule } from '@angular/forms';
 import {
   Id,
-  Meal,
   ShoppingItem,
   ShoppingList,
   ShoppingService,
 } from '@bombos/data-access';
-import { ErrorService, IconComponent, LoadingComponent } from '@bombos/ui';
+import { ErrorService, IconComponent } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,
@@ -29,27 +21,13 @@ import {
 } from 'angular-animations';
 import { Observable, tap } from 'rxjs';
 import { OrderManager } from '../../../feature-food/src/lib/order-manager';
-import { AddFormComponent } from './add-form.component';
 import { ListCardComponent } from './list-card.component';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'bombos-plan-list-view',
-  imports: [
-    NgForOf,
-    AsyncPipe,
-    NgIf,
-    NgOptimizedImage,
-    ReactiveFormsModule,
-    LoadingComponent,
-    CdkDrag,
-    CdkDropList,
-    ListCardComponent,
-    IconComponent,
-    AddFormComponent,
-    CdkDragHandle,
-  ],
+  imports: [NgForOf, AsyncPipe, NgIf, ListCardComponent, IconComponent],
   providers: [ShoppingService],
   animations: [
     bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
@@ -58,26 +36,13 @@ import { ListCardComponent } from './list-card.component';
   ],
   template: `
     <div class="relative h-screen">
-      <bombos-add-list-form
-        *ngIf="isFormVisible"
-        [@enterItem]
-        [@leaveItem]
-        class="block mb-1"
-        (add)="onSubmit($event)"
-      />
-      <ul
-        *ngIf="orderedLists$ | async as lists"
-        cdkDropList
-        [cdkDropListData]="lists"
-        (cdkDropListDropped)="drop($event)"
-      >
+      <ul *ngIf="orderedLists$ | async as lists">
         <li
           *ngFor="let list of lists; trackBy: listTrackBy"
           [@enterItem]
           [@leaveItem]
         >
           <bombos-list-card
-            cdkDrag
             class="block mb-1"
             [list]="list"
             [open]="list.id === openListId"
@@ -87,18 +52,9 @@ import { ListCardComponent } from './list-card.component';
             (editItem)="onItemEdit(list.id, $event)"
             (deleteItem)="onItemDelete(list.id, $event)"
           >
-            <bombos-icon name="drag" class="block p-2" cdkDragHandle />
           </bombos-list-card>
         </li>
       </ul>
-    </div>
-    <div class="fixed bottom-3 right-3">
-      <button
-        (click)="onAddClick()"
-        class="bg-gray-800 hover:bg-gray-700 text-white p-3 outline-none rounded w-max cursor-pointer mx-auto block font-[sans-serif]"
-      >
-        <bombos-icon name="plus" />
-      </button>
     </div>
   `,
 })
@@ -126,31 +82,10 @@ export class PlanListViewComponent {
 
   listTrackBy = (_: number, list: ShoppingList & Id) => list.id;
 
-  isFormVisible = false;
   openListId = '';
-
-  drop(event: CdkDragDrop<(Meal & Id)[]>) {
-    this.isFormVisible = false;
-    this.openListId = '';
-    this.orderManager.reorder(event.previousIndex, event.currentIndex);
-  }
-
-  onAddClick() {
-    this.isFormVisible = true;
-    this.openListId = '';
-  }
 
   onOpenList(listId: string) {
     this.openListId = this.openListId === listId ? '' : listId;
-  }
-
-  onSubmit(list: ShoppingList) {
-    this.isFormVisible = false;
-    this.shoppingService
-      .addList(list)
-      .catch((error: FirebaseError) =>
-        this.errorService.raiseError(error.toString())
-      );
   }
 
   onItemSave(listId: string, item: ShoppingItem) {

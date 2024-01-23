@@ -31,6 +31,14 @@ export class ShoppingService {
     return addDoc(this.listCollection, payload);
   }
 
+  updateList(listId: string, payload: ShoppingList) {
+    return updateDoc(doc(this.listCollection, listId), { ...payload });
+  }
+
+  deleteList(listId: string) {
+    return deleteDoc(doc(this.listCollection, listId));
+  }
+
   addItem(listId: string, payload: ShoppingItem) {
     return addDoc(collection(this.listCollection, listId, 'items'), payload);
   }

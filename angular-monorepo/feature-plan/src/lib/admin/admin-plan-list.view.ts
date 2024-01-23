@@ -4,7 +4,7 @@ import {
   CdkDragHandle,
   CdkDropList,
 } from '@angular/cdk/drag-drop';
-import { AsyncPipe, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,24 +13,16 @@ import {
   signal,
 } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app/firebase';
-import { ReactiveFormsModule } from '@angular/forms';
-import {
-  Id,
-  Meal,
-  ShoppingItem,
-  ShoppingList,
-  ShoppingService,
-} from '@bombos/data-access';
-import { ErrorService, IconComponent, LoadingComponent } from '@bombos/ui';
+import { Id, Meal, ShoppingList, ShoppingService } from '@bombos/data-access';
+import { ErrorService, IconComponent } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
-import { Observable, tap } from 'rxjs';
 import { OrderManager } from '../../../../feature-food/src/lib/order-manager';
 import { AddFormComponent } from '../add-form.component';
-import { ListCardComponent } from '../list-card.component';
+import { AdminListCardComponent } from './admin-list-card.component';
 
 @Component({
   standalone: true,
@@ -40,15 +32,12 @@ import { ListCardComponent } from '../list-card.component';
     NgForOf,
     AsyncPipe,
     NgIf,
-    NgOptimizedImage,
-    ReactiveFormsModule,
-    LoadingComponent,
     CdkDrag,
     CdkDropList,
     IconComponent,
     CdkDragHandle,
     AddFormComponent,
-    ListCardComponent,
+    AdminListCardComponent,
   ],
   providers: [ShoppingService],
   animations: [
@@ -76,19 +65,16 @@ import { ListCardComponent } from '../list-card.component';
           [@enterItem]
           [@leaveItem]
         >
-          <bombos-list-card
+          <bombos-admin-list-card
             cdkDrag
             class="block mb-1"
             [list]="list"
-            [open]="list.id === openListId"
-            [items]="(itemsCache()[list.id] | async) || []"
-            (click)="onOpenList(list.id)"
-            (newItem)="onItemSave(list.id, $event)"
-            (editItem)="onItemEdit(list.id, $event)"
-            (deleteItem)="onItemDelete(list.id, $event)"
+            [loading]="loadingCardId() === list.id"
+            (save)="onListSave(list.id, $event)"
+            (delete)="onListDelete(list.id)"
           >
             <bombos-icon name="drag" class="block p-2" cdkDragHandle />
-          </bombos-list-card>
+          </bombos-admin-list-card>
         </li>
       </ul>
     </div>
@@ -110,33 +96,18 @@ export class AdminPlanListViewComponent {
   private readonly shoppingService = inject(ShoppingService);
   private readonly orderManager = new OrderManager('overcooked_meals_order');
 
-  orderedLists$ = this.orderManager.order$(this.shoppingService.lists$).pipe(
-    tap((lists) => {
-      lists.forEach((list) => {
-        if (!this.itemsCache()[list.id]) {
-          this.itemsCache.set({
-            ...this.itemsCache(),
-            [list.id]: this.shoppingService.listItems$(list.id),
-          });
-        }
-      });
-    })
-  );
-  itemsCache = signal<Record<string, Observable<(ShoppingItem & Id)[]>>>({});
+  orderedLists$ = this.orderManager.order$(this.shoppingService.lists$);
 
   listTrackBy = (_: number, list: ShoppingList & Id) => list.id;
 
   isFormVisible = false;
   openListId = '';
+  loadingCardId = signal('');
 
   drop(event: CdkDragDrop<(Meal & Id)[]>) {
     this.isFormVisible = false;
     this.openListId = '';
     this.orderManager.reorder(event.previousIndex, event.currentIndex);
-  }
-
-  onOpenList(listId: string) {
-    this.openListId = this.openListId === listId ? '' : listId;
   }
 
   onAddClick() {
@@ -153,27 +124,23 @@ export class AdminPlanListViewComponent {
       );
   }
 
-  onItemSave(listId: string, item: ShoppingItem) {
+  onListSave(listId: string, list: ShoppingList) {
+    this.loadingCardId.set(listId);
     this.shoppingService
-      .addItem(listId, item)
+      .updateList(listId, list)
       .catch((error: FirebaseError) =>
         this.errorService.raiseError(error.toString())
-      );
+      )
+      .finally(() => this.loadingCardId.set(''));
   }
 
-  onItemEdit(listId: string, item: ShoppingItem & Id) {
+  onListDelete(listId: string) {
+    this.loadingCardId.set(listId);
     this.shoppingService
-      .updateItem(listId, item.id, item)
+      .deleteList(listId)
       .catch((error: FirebaseError) =>
         this.errorService.raiseError(error.toString())
-      );
-  }
-
-  onItemDelete(listId: string, itemId: string) {
-    this.shoppingService
-      .deleteItem(listId, itemId)
-      .catch((error: FirebaseError) =>
-        this.errorService.raiseError(error.toString())
-      );
+      )
+      .finally(() => this.loadingCardId.set(''));
   }
 }
