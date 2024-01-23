@@ -28,14 +28,14 @@ import {
   expandOnEnterAnimation,
 } from 'angular-animations';
 import { Observable, tap } from 'rxjs';
-import { OrderManager } from '../../../feature-food/src/lib/order-manager';
-import { AddFormComponent } from './add-form.component';
-import { ListCardComponent } from './list-card.component';
+import { OrderManager } from '../../../../feature-food/src/lib/order-manager';
+import { AddFormComponent } from '../add-form.component';
+import { ListCardComponent } from '../list-card.component';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'bombos-plan-list-view',
+  selector: 'bombos-admin-plan-list-view',
   imports: [
     NgForOf,
     AsyncPipe,
@@ -45,10 +45,10 @@ import { ListCardComponent } from './list-card.component';
     LoadingComponent,
     CdkDrag,
     CdkDropList,
-    ListCardComponent,
     IconComponent,
-    AddFormComponent,
     CdkDragHandle,
+    AddFormComponent,
+    ListCardComponent,
   ],
   providers: [ShoppingService],
   animations: [
@@ -102,7 +102,7 @@ import { ListCardComponent } from './list-card.component';
     </div>
   `,
 })
-export class PlanListViewComponent {
+export class AdminPlanListViewComponent {
   @HostBinding('@enterView') _ = true;
   @HostBinding('class') __ = 'block';
 
@@ -135,13 +135,13 @@ export class PlanListViewComponent {
     this.orderManager.reorder(event.previousIndex, event.currentIndex);
   }
 
+  onOpenList(listId: string) {
+    this.openListId = this.openListId === listId ? '' : listId;
+  }
+
   onAddClick() {
     this.isFormVisible = true;
     this.openListId = '';
-  }
-
-  onOpenList(listId: string) {
-    this.openListId = this.openListId === listId ? '' : listId;
   }
 
   onSubmit(list: ShoppingList) {
