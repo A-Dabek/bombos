@@ -37,7 +37,7 @@ import { IconComponent } from '@bombos/ui';
         required
       />
       <span class="text-xs italic" *ngIf="lastSavedItem">
-        Last saved: {{ lastSavedItem?.name }} ({{ lastSavedItem.amount
+        Last saved: {{ lastSavedItem.name }} ({{ lastSavedItem.amount
         }}{{ lastSavedItem.unit }})
       </span>
       <div class="flex justify-between mt-1 items-center">
