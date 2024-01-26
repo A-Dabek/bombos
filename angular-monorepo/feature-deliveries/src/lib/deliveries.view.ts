@@ -69,6 +69,11 @@ import { UploadFileComponent } from './upload-file.component';
             class="block mb-2"
             [loading]="loadingDeliveryId() === delivery.id"
             [delivery]="delivery"
+            [link]="[
+              'delivery',
+              activeTab === 'collect' ? 'in' : 'out',
+              delivery.id
+            ]"
             (complete)="onComplete(delivery.id)"
           />
         </li>
@@ -95,6 +100,7 @@ export class DeliveriesViewComponent {
   file: File | null = null;
   loadingTabs = signal(false);
   loadingDeliveryId = signal('');
+  pickedDeliveryId = signal('');
 
   onTabChange(tab: TabName) {
     this.file = null;
@@ -121,6 +127,9 @@ export class DeliveriesViewComponent {
       .catch((error: FirebaseError) =>
         this.errorService.raiseError(error.toString())
       )
-      .finally(() => this.loadingDeliveryId.set(''));
+      .finally(() => {
+        this.loadingDeliveryId.set('');
+        this.pickedDeliveryId.set('');
+      });
   }
 }

@@ -1,1 +1,1 @@
-export { DeliveriesViewComponent } from './lib/deliveries.view';
+export { ROUTES } from './lib/routes';
