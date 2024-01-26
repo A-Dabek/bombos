@@ -97,10 +97,12 @@ export class ListCardComponent {
   @Input({ required: true }) list!: ShoppingList & Id;
   @Input() open = false;
   @Input() set items(value: (ShoppingItem & Id)[]) {
-    this.groupedItems = value.reduce((acc, item) => {
-      const key = item.group;
-      return { ...acc, [key]: [...(acc[key] || []), item] };
-    }, {} as Record<string, (ShoppingItem & Id)[]>);
+    this.groupedItems = value
+      .sort((prev, curr) => prev.name.localeCompare(curr.name))
+      .reduce((acc, item) => {
+        const key = item.group;
+        return { ...acc, [key]: [...(acc[key] || []), item] };
+      }, {} as Record<string, (ShoppingItem & Id)[]>);
   }
   @Output() newItem = new EventEmitter<ShoppingItem>();
   @Output() editItem = new EventEmitter<ShoppingItem & Id>();
