@@ -8,4 +8,5 @@ export interface ShoppingItem {
   description: string;
   urgent: boolean;
   group: string;
+  bought?: boolean;
 }

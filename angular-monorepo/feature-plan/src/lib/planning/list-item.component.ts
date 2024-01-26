@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,7 +15,13 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
   selector: 'bombos-list-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <span class="block">
+    <span
+      class="block"
+      [ngClass]="{
+        'text-red-800 font-medium underline': item.urgent,
+        'line-through': item.bought,
+      }"
+    >
       {{ item.name }}
       <span class="text-sm" *ngIf="item.amount !== 1 || item.unit !== 'x'">
         ({{ item.amount }}{{ item.unit }})
@@ -55,7 +61,7 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
     </div>
     }
   `,
-  imports: [ConfirmButtonComponent, IconComponent, NgIf],
+  imports: [ConfirmButtonComponent, IconComponent, NgIf, NgClass],
 })
 export class ListItemComponent {
   @HostBinding('class') readonly clazz = 'flex justify-between items-center';

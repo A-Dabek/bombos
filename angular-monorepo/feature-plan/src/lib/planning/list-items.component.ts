@@ -15,18 +15,10 @@ import { ListItemComponent } from './list-item.component';
   selector: 'bombos-list-items',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <style>
-      div.relative:before {
-        content: '';
-        pointer-events: none;
-        position: absolute;
-        inset: -2px;
-        border: 2px solid #0000;
-        border-image: linear-gradient(90deg, #333333 5%, #0000 0 95%, #333333 0)
-          10;
-      }
-    </style>
-    <div class="flex relative">
+    <div class="shopping-group flex">
+      <div class="absolute -top-3 left-3 font-bold text-xs">
+        {{ groupName }}
+      </div>
       <ol class="flex-grow px-2">
         <li *ngFor="let item of items">
           <bombos-list-item
@@ -53,6 +45,7 @@ import { ListItemComponent } from './list-item.component';
 })
 export class ListItemsComponent {
   @Input() items: (ShoppingItem & Id)[] = [];
+  @Input() groupName = '';
 
   @Output() edit = new EventEmitter<ShoppingItem & Id>();
   @Output() delete = new EventEmitter<string>();

@@ -43,7 +43,7 @@ export class ShoppingService {
     return addDoc(collection(this.listCollection, listId, 'items'), payload);
   }
 
-  updateItem(listId: string, itemId: string, payload: ShoppingItem) {
+  updateItem(listId: string, itemId: string, payload: Partial<ShoppingItem>) {
     return updateDoc(
       doc(collection(this.listCollection, listId, 'items'), itemId),
       { ...payload }

@@ -54,6 +54,7 @@ import { ListItemsComponent } from './list-items.component';
       } @else { @for (keyValue of groupedItems | keyvalue; track keyValue.key) {
       <bombos-list-items
         class="block mb-2"
+        [groupName]="keyValue.key"
         [openItemId]="openItemId"
         [items]="keyValue.value"
         (groupAdd)="onNewItem(keyValue.key)"
