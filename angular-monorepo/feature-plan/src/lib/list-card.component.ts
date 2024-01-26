@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { KeyValuePipe, NgForOf, NgIf } from '@angular/common';
+import { KeyValuePipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -35,7 +35,12 @@ import { ListItemsComponent } from './list-items.component';
       {{ list.name }}
       <ng-content></ng-content>
     </h5>
-    <div *ngIf="open" [@enterDetails] [@leaveDetails]>
+    <div
+      *ngIf="open"
+      [@enterDetails]
+      [@leaveDetails]
+      (click)="$event.stopPropagation()"
+    >
       @if (isFormVisible) {
       <bombos-list-item-form
         class="block"
@@ -75,7 +80,6 @@ import { ListItemsComponent } from './list-items.component';
     ConfirmButtonComponent,
     IconComponent,
     ListCardButtonsComponent,
-    NgForOf,
     ListItemFormComponent,
     KeyValuePipe,
     ListItemComponent,
