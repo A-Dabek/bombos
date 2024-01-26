@@ -62,12 +62,6 @@ export class AppComponent {
             label: 'Plan',
             notificationsCount: 0,
           },
-          {
-            link: '/',
-            icon: 'shopping',
-            label: 'Shop',
-            notificationsCount: 0,
-          },
         ];
       })
     );

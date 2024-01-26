@@ -8,14 +8,17 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FoodService, Id, Meal } from '@bombos/data-access';
-import { LoadingComponent } from '@bombos/ui';
+import {
+  FloatingButtonComponent,
+  LoadingComponent,
+  OrderManager,
+} from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
 import { MealCardComponent } from './meal-card.component';
-import { OrderManager } from './order-manager';
 
 @Component({
   standalone: true,
@@ -25,27 +28,6 @@ import { OrderManager } from './order-manager';
     expandOnEnterAnimation({ anchor: 'enterItem' }),
     collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
   ],
-  template: `
-    <ul
-      *ngIf="orderedMeals$ | async as meals"
-      cdkDropList
-      [cdkDropListData]="meals"
-      (cdkDropListDropped)="drop($event)"
-    >
-      <li
-        cdkDrag
-        *ngFor="let meal of meals; trackBy: mealTrackBy"
-        [@enterItem]
-        [@leaveItem]
-      >
-        <bombos-meal-card
-          class="block mb-2"
-          [meal]="meal"
-          [routerLink]="meal.id"
-        />
-      </li>
-    </ul>
-  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FoodService],
   imports: [
@@ -57,10 +39,34 @@ import { OrderManager } from './order-manager';
     CdkDropList,
     CdkDrag,
     RouterLink,
+    FloatingButtonComponent,
   ],
+  template: `
+    <div [@enterView]>
+      <ul
+        *ngIf="orderedMeals$ | async as meals"
+        cdkDropList
+        [cdkDropListData]="meals"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <li
+          cdkDrag
+          *ngFor="let meal of meals; trackBy: mealTrackBy"
+          [@enterItem]
+          [@leaveItem]
+        >
+          <bombos-meal-card
+            class="block mb-2"
+            [meal]="meal"
+            [routerLink]="meal.id"
+          />
+        </li>
+      </ul>
+    </div>
+    <bombos-floating-button [link]="['admin']" />
+  `,
 })
 export class MealsViewComponent {
-  @HostBinding('@enterView') readonly enterView = true;
   @HostBinding('class') readonly clazz = 'block';
 
   private readonly foodService = inject(FoodService);

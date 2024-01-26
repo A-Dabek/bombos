@@ -13,21 +13,32 @@ import {
   ShoppingList,
   ShoppingService,
 } from '@bombos/data-access';
-import { ErrorService, IconComponent } from '@bombos/ui';
+import {
+  ErrorService,
+  FloatingButtonComponent,
+  IconComponent,
+  OrderManager,
+} from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
 import { Observable, tap } from 'rxjs';
-import { OrderManager } from '../../../feature-food/src/lib/order-manager';
 import { ListCardComponent } from './list-card.component';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'bombos-plan-list-view',
-  imports: [NgForOf, AsyncPipe, NgIf, ListCardComponent, IconComponent],
+  imports: [
+    NgForOf,
+    AsyncPipe,
+    NgIf,
+    ListCardComponent,
+    IconComponent,
+    FloatingButtonComponent,
+  ],
   providers: [ShoppingService],
   animations: [
     bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
@@ -51,11 +62,11 @@ import { ListCardComponent } from './list-card.component';
             (newItem)="onItemSave(list.id, $event)"
             (editItem)="onItemEdit(list.id, $event)"
             (deleteItem)="onItemDelete(list.id, $event)"
-          >
-          </bombos-list-card>
+          />
         </li>
       </ul>
     </div>
+    <bombos-floating-button [link]="['admin']" />
   `,
 })
 export class PlanListViewComponent {

@@ -24,7 +24,7 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
       </button>
       <div class="flex w-full justify-between">
         <button
-          (click)="goShopping.emit()"
+          [routerLink]="shoppingLink"
           class="flex-grow text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm p-2"
         >
           <bombos-icon name="shopping" />
@@ -52,8 +52,8 @@ export class ListCardButtonsComponent {
   @HostBinding('class') readonly clazz = 'block "flex flex-col justify-between';
 
   @Input() boughtItemsPresent = false;
+  @Input() shoppingLink = [] as unknown[];
 
   @Output() newItem = new EventEmitter();
-  @Output() goShopping = new EventEmitter();
   @Output() clearItems = new EventEmitter();
 }

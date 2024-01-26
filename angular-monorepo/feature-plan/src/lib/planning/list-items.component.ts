@@ -35,6 +35,8 @@ import { ListItemComponent } from './list-item.component';
             [open]="openItemId === item.id"
             (click)="openEvent.emit(item.id)"
             (edit)="edit.emit(item)"
+            (increase)="onIncrease(item)"
+            (decrease)="onDecrease(item)"
             (delete)="delete.emit(item.id)"
           />
         </li>
@@ -58,4 +60,13 @@ export class ListItemsComponent {
   @Input() openItemId = '';
   @Output() openEvent = new EventEmitter<string>();
   @Output() groupAdd = new EventEmitter();
+  @Output() amountChange = new EventEmitter<ShoppingItem & Id>();
+
+  onIncrease(item: ShoppingItem & Id) {
+    this.amountChange.emit({ ...item, amount: item.amount + 1 });
+  }
+
+  onDecrease(item: ShoppingItem & Id) {
+    this.amountChange.emit({ ...item, amount: item.amount - 1 });
+  }
 }

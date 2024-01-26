@@ -13,8 +13,8 @@ import {
   pulseAnimation,
 } from 'angular-animations';
 import { BehaviorSubject, map, Observable, Subject, switchMap } from 'rxjs';
+import { MealCardComponent } from '../meals/meal-card.component';
 import { DishCardComponent } from './dish-card.component';
-import { MealCardComponent } from './meal-card.component';
 
 @Component({
   standalone: true,

@@ -14,14 +14,18 @@ import {
 } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app/firebase';
 import { Id, Meal, ShoppingList, ShoppingService } from '@bombos/data-access';
-import { ErrorService, IconComponent } from '@bombos/ui';
+import {
+  ErrorService,
+  FloatingButtonComponent,
+  IconComponent,
+  OrderManager,
+} from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
-import { OrderManager } from '../../../../feature-food/src/lib/order-manager';
-import { AddFormComponent } from '../add-form.component';
+import { AddFormComponent } from '../planning/add-form.component';
 import { AdminListCardComponent } from './admin-list-card.component';
 
 @Component({
@@ -38,6 +42,7 @@ import { AdminListCardComponent } from './admin-list-card.component';
     CdkDragHandle,
     AddFormComponent,
     AdminListCardComponent,
+    FloatingButtonComponent,
   ],
   providers: [ShoppingService],
   animations: [
@@ -86,6 +91,7 @@ import { AdminListCardComponent } from './admin-list-card.component';
         <bombos-icon name="plus" />
       </button>
     </div>
+    <bombos-floating-button [link]="['/plan']" />
   `,
 })
 export class AdminPlanListViewComponent {

@@ -12,7 +12,11 @@ import {
   Id,
   Meal,
 } from '@bombos/data-access';
-import { ErrorService, LoadingComponent } from '@bombos/ui';
+import {
+  ErrorService,
+  FloatingButtonComponent,
+  LoadingComponent,
+} from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,
@@ -30,23 +34,26 @@ import { MealFormComponent } from './meal-form.component';
     collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
   ],
   template: `
-    <bombos-meal-form class="block mb-2" (save)="onMealAdd($event)" />
-    <ul>
-      <li
-        [@enterItem]
-        [@leaveItem]
-        *ngFor="let meal of foodService.meals$ | async; trackBy: mealTrackBy"
-      >
-        <bombos-admin-meal-card
-          class="block mb-2"
-          [meal]="meal"
-          [loading]="loadingMealId() === meal.id"
-          (save)="onMealUpdate(meal.id, $event)"
-          (delete)="onMealDelete(meal.id)"
+    <div [@enterView]>
+      <bombos-meal-form class="block mb-2" (save)="onMealAdd($event)" />
+      <ul>
+        <li
+          [@enterItem]
+          [@leaveItem]
+          *ngFor="let meal of foodService.meals$ | async; trackBy: mealTrackBy"
         >
-        </bombos-admin-meal-card>
-      </li>
-    </ul>
+          <bombos-admin-meal-card
+            class="block mb-2"
+            [meal]="meal"
+            [loading]="loadingMealId() === meal.id"
+            (save)="onMealUpdate(meal.id, $event)"
+            (delete)="onMealDelete(meal.id)"
+          >
+          </bombos-admin-meal-card>
+        </li>
+      </ul>
+    </div>
+    <bombos-floating-button [link]="['/food']" />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FoodService, FoodManagementService],
@@ -57,10 +64,10 @@ import { MealFormComponent } from './meal-form.component';
     NgForOf,
     NgIf,
     LoadingComponent,
+    FloatingButtonComponent,
   ],
 })
 export class MealsAdminViewComponent {
-  @HostBinding('@enterView') enterView = true;
   @HostBinding('class') class = 'block';
 
   readonly foodService = inject(FoodService);

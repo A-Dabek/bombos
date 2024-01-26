@@ -59,6 +59,7 @@ import { ListItemsComponent } from './list-items.component';
         (groupAdd)="onNewItem(keyValue.key)"
         (openEvent)="onItemOpen($event)"
         (edit)="onItemEdit($event)"
+        (amountChange)="onItemAmountChange($event)"
         (delete)="deleteItem.emit($event)"
       />
       }
@@ -67,8 +68,8 @@ import { ListItemsComponent } from './list-items.component';
         [@enterDetails]
         [@leaveDetails]
         [boughtItemsPresent]="false"
+        [shoppingLink]="['shopping', list.id]"
         (newItem)="onNewItem()"
-        (goShopping)="onGoShopping()"
         (clearItems)="onClearItems()"
       />
       }
@@ -129,11 +130,12 @@ export class ListCardComponent {
     this.formEditItem = item;
   }
 
+  onItemAmountChange(item: ShoppingItem & Id) {
+    this.editItem.emit(item);
+  }
+
   onItemOpen(id: string) {
     this.openItemId = id === this.openItemId ? '' : id;
   }
-
-  onGoShopping() {}
-
   onClearItems() {}
 }

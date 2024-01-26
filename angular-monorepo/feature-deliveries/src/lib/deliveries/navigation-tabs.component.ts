@@ -7,8 +7,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { IconComponent } from '@bombos/ui';
-import { IconType } from '../../../ui/src/lib/icon.component';
+import { IconComponent, IconType } from '@bombos/ui';
 
 export type TabName = 'collect' | 'send';
 export interface TabItem {

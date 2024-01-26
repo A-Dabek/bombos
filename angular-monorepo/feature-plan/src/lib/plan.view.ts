@@ -15,17 +15,7 @@ import {
     expandOnEnterAnimation({ anchor: 'enterItem' }),
     collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
   ],
-  template: `
-    <router-outlet></router-outlet>
-    <div class="fixed bottom-3 left-3">
-      <button
-        [routerLink]="'admin'"
-        class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm p-2 me-2 mb-2"
-      >
-        <bombos-icon name="admin" />
-      </button>
-    </div>
-  `,
+  template: ` <router-outlet></router-outlet> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [],
   imports: [RouterOutlet, IconComponent, RouterLink],

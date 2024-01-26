@@ -15,8 +15,8 @@ import {
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
+import { DeliveryCardComponent } from '../ui/delivery-card.component';
 import { AddFormComponent } from './add-form.component';
-import { DeliveryCardComponent } from './delivery-card.component';
 import { NavigationTabsComponent, TabName } from './navigation-tabs.component';
 import { UploadFileComponent } from './upload-file.component';
 
