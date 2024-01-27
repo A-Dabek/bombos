@@ -25,7 +25,8 @@ import { ListItemsComponent } from '../planning/list-items.component';
           <bombos-list-item
             class="block"
             [item]="item"
-            (click)="itemClick.emit(item)"
+            [highlight]="recentlyInteracted.indexOf(item.id) + 1"
+            (click)="onItemClick(item)"
           />
         </li>
       </ol>
@@ -54,6 +55,12 @@ export class ShoppingListComponent {
       }, {} as Record<string, (ShoppingItem & Id)[]>);
   }
   groupedItems: Record<string, (ShoppingItem & Id)[]> = {};
+  recentlyInteracted = [] as string[];
 
   @Output() itemClick = new EventEmitter<ShoppingItem & Id>();
+
+  onItemClick(item: ShoppingItem & Id) {
+    this.itemClick.emit(item);
+    this.recentlyInteracted = [item.id, ...this.recentlyInteracted].slice(0, 3);
+  }
 }

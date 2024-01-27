@@ -16,10 +16,13 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <span
-      class="block"
+      class="block mb-1"
       [ngClass]="{
-        'text-red-800 font-medium underline': item.urgent,
-        'line-through': item.bought,
+        'text-red-800 font-medium underline': item.urgent && !item.bought,
+        'line-through text-sm': item.bought,
+        'font-semibold': highlight === 3,
+        'font-bold': highlight === 2,
+        'font-extrabold': highlight === 1
       }"
     >
       {{ item.name }}
@@ -68,6 +71,7 @@ export class ListItemComponent {
 
   @Input({ required: true }) item!: ShoppingItem;
   @Input() open = false;
+  @Input() highlight = 0;
 
   @Output() edit = new EventEmitter();
   @Output() delete = new EventEmitter();
