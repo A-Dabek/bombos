@@ -30,9 +30,15 @@ import { ListItemsComponent } from './list-items.component';
   ],
   template: `
     <h5
-      class="flex justify-between align-baseline mb-2 text-2xl font-bold tracking-tight text-gray-900"
+      class="flex justify-between align-baseline mb-2 text-2xl font-bold tracking-tight text-gray-900 relative"
     >
       {{ list.name }}
+      <div
+        *ngIf="urgentCount"
+        class="absolute right-1 top-1 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full"
+      >
+        {{ urgentCount }}
+      </div>
       <ng-content></ng-content>
     </h5>
     <div
@@ -68,7 +74,7 @@ import { ListItemsComponent } from './list-items.component';
         class="mt-2"
         [@enterDetails]
         [@leaveDetails]
-        [boughtItemsPresent]="false"
+        [boughtItemsPresent]="boughtItemsPresent"
         [shoppingLink]="['shopping', list.id]"
         (newItem)="onNewItem()"
         (clearItems)="onClearItems()"
@@ -97,6 +103,8 @@ export class ListCardComponent {
   @Input({ required: true }) list!: ShoppingList & Id;
   @Input() open = false;
   @Input() set items(value: (ShoppingItem & Id)[]) {
+    this.boughtItemsPresent = value.some((item) => item.bought);
+    this.urgentCount = value.filter((item) => item.urgent).length;
     this.groupedItems = value
       .sort((prev, curr) => prev.name.localeCompare(curr.name))
       .reduce((acc, item) => {
@@ -107,7 +115,10 @@ export class ListCardComponent {
   @Output() newItem = new EventEmitter<ShoppingItem>();
   @Output() editItem = new EventEmitter<ShoppingItem & Id>();
   @Output() deleteItem = new EventEmitter<string>();
+  @Output() clearItems = new EventEmitter();
 
+  boughtItemsPresent = false;
+  urgentCount = 0;
   isFormVisible = false;
   groupedItems: Record<string, (ShoppingItem & Id)[]> = {};
   formEditItem?: Partial<ShoppingItem & Id>;
@@ -140,5 +151,7 @@ export class ListCardComponent {
   onItemOpen(id: string) {
     this.openItemId = id === this.openItemId ? '' : id;
   }
-  onClearItems() {}
+  onClearItems() {
+    this.clearItems.emit();
+  }
 }

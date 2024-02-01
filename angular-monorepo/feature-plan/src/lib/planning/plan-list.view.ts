@@ -39,7 +39,6 @@ import { ListCardComponent } from './list-card.component';
     IconComponent,
     FloatingButtonComponent,
   ],
-  providers: [ShoppingService],
   animations: [
     bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
     expandOnEnterAnimation({ anchor: 'enterItem' }),
@@ -54,14 +53,16 @@ import { ListCardComponent } from './list-card.component';
           [@leaveItem]
         >
           <bombos-list-card
+            *ngIf="itemsCache()[list.id] | async as items"
             class="block mb-1"
             [list]="list"
             [open]="list.id === openListId"
-            [items]="(itemsCache()[list.id] | async) || []"
+            [items]="items"
             (click)="onOpenList(list.id)"
             (newItem)="onItemSave(list.id, $event)"
             (editItem)="onItemEdit(list.id, $event)"
             (deleteItem)="onItemDelete(list.id, $event)"
+            (clearItems)="onClearItems(list.id, items)"
           />
         </li>
       </ul>
@@ -121,5 +122,17 @@ export class PlanListViewComponent {
       .catch((error: FirebaseError) =>
         this.errorService.raiseError(error.toString())
       );
+  }
+
+  onClearItems(listId: string, items: (ShoppingItem & Id)[]) {
+    const boughtItems = items.filter((item) => item.bought);
+    const itemsToDelete = boughtItems.length ? boughtItems : items;
+    itemsToDelete.forEach((item) =>
+      this.shoppingService
+        .deleteItem(listId, item.id)
+        .catch((error: FirebaseError) =>
+          this.errorService.raiseError(error.toString())
+        )
+    );
   }
 }

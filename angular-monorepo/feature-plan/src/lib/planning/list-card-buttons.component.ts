@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -34,7 +34,13 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
           (confirm)="clearItems.emit()"
         >
           <button
-            class="w-full flex-grow focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm p-2"
+            class="w-full flex-grow focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm p-2"
+            [ngClass]="{
+              'bg-red-700 hover:bg-red-800 focus:ring-red-300':
+                !boughtItemsPresent,
+              'bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-800':
+                boughtItemsPresent
+            }"
           >
             @if (boughtItemsPresent) {
             <bombos-icon name="planning-check" />
@@ -46,7 +52,7 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
       </div>
     </div>
   `,
-  imports: [RouterLink, NgIf, ConfirmButtonComponent, IconComponent],
+  imports: [RouterLink, NgIf, ConfirmButtonComponent, IconComponent, NgClass],
 })
 export class ListCardButtonsComponent {
   @HostBinding('class') readonly clazz = 'block "flex flex-col justify-between';

@@ -16,7 +16,7 @@ import { ListItemsComponent } from '../planning/list-items.component';
   selector: 'bombos-shopping-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` @for (keyValue of groupedItems | keyvalue; track keyValue.key) {
-    <div class="shopping-group">
+    <div class="shopping-group mb-2">
       <div class="absolute -top-3 left-3 font-bold text-xs">
         {{ keyValue.key }}
       </div>

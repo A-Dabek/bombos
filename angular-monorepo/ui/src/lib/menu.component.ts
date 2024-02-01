@@ -25,7 +25,7 @@ export interface MenuItem {
   template: `
     <div class="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
       <button
-        *ngFor="let item of items"
+        *ngFor="let item of items; trackBy: itemTrackBy"
         [routerLink]="item.link"
         (click)="activeItem = item.link"
         type="button"
@@ -37,7 +37,7 @@ export interface MenuItem {
           *ngIf="item.notificationsCount"
           [@enterNotification]
           [@leaveNotification]
-          class="absolute right-1 top-0 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full "
+          class="absolute right-1 top-0 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full"
         >
           {{ item.notificationsCount }}
         </div>
@@ -61,4 +61,5 @@ export class MenuComponent {
   @Input() items: MenuItem[] = [];
 
   activeItem = '';
+  itemTrackBy = (index: number, item: MenuItem) => item.link;
 }

@@ -1,14 +1,14 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { DeliveryService } from '@bombos/data-access';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { DeliveryService, ShoppingService } from '@bombos/data-access';
 import {
   ErrorComponent,
   ErrorService,
   MenuComponent,
   MenuItem,
 } from '@bombos/ui';
-import { map, Observable, startWith } from 'rxjs';
+import { combineLatest, filter, map, Observable, switchMap } from 'rxjs';
 import { FirebaseModule } from '../firebase.module';
 
 @Component({
@@ -22,7 +22,7 @@ import { FirebaseModule } from '../firebase.module';
     AsyncPipe,
     MenuComponent,
   ],
-  providers: [ErrorService, DeliveryService],
+  providers: [ErrorService, DeliveryService, ShoppingService],
   template: `
     <bombos-menu *ngIf="menuItems$ | async as menuItems" [items]="menuItems" />
     <div class="p-1">
@@ -37,32 +37,39 @@ import { FirebaseModule } from '../firebase.module';
 })
 export class AppComponent {
   readonly error$ = inject(ErrorService).error$;
+  private readonly deliveryService = inject(DeliveryService);
+  private readonly shoppingService = inject(ShoppingService);
 
-  menuItems$: Observable<MenuItem[]> = inject(DeliveryService)
-    .getTotalCount()
-    .pipe(
-      startWith(0),
-      map((count) => {
-        return [
-          {
-            link: '/deliveries',
-            icon: 'delivery',
-            label: 'Post',
-            notificationsCount: count,
-          },
-          {
-            link: '/food',
-            icon: 'cook',
-            label: 'Food',
-            notificationsCount: 0,
-          },
-          {
-            link: '/plan',
-            icon: 'planning',
-            label: 'Plan',
-            notificationsCount: 0,
-          },
-        ];
-      })
-    );
+  menuItems$: Observable<MenuItem[]> = inject(Router).events.pipe(
+    filter((event) => event instanceof NavigationEnd),
+    switchMap(() => {
+      return combineLatest([
+        this.deliveryService.getTotalCount(),
+        this.shoppingService.getUrgentCount(),
+      ]).pipe(
+        map(([deliveryCount, shoppingCount]) => {
+          return [
+            {
+              link: '/deliveries',
+              icon: 'delivery',
+              label: 'Post',
+              notificationsCount: deliveryCount,
+            },
+            {
+              link: '/food',
+              icon: 'cook',
+              label: 'Food',
+              notificationsCount: 0,
+            },
+            {
+              link: '/plan',
+              icon: 'planning',
+              label: 'Plan',
+              notificationsCount: shoppingCount,
+            },
+          ] as MenuItem[];
+        })
+      );
+    })
+  );
 }

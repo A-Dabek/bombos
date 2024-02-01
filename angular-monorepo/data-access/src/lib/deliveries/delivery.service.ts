@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import {
   addDoc,
   collection,
+  collectionCount,
   collectionData,
   deleteDoc,
   doc,
@@ -42,8 +43,8 @@ export class DeliveryService {
 
   getTotalCount(): Observable<number> {
     return combineLatest([
-      collectionData(this.collectionIn),
-      collectionData(this.collectionOut),
-    ]).pipe(map(([inData, outData]) => inData.length + outData.length));
+      collectionCount(this.collectionIn),
+      collectionCount(this.collectionOut),
+    ]).pipe(map(([inData, outData]) => inData + outData));
   }
 }
