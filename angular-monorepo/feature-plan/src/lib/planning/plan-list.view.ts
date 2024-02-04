@@ -76,7 +76,7 @@ export class PlanListViewComponent {
 
   private readonly errorService = inject(ErrorService);
   private readonly shoppingService = inject(ShoppingService);
-  private readonly orderManager = new OrderManager('overcooked_meals_order');
+  private readonly orderManager = new OrderManager('shopaholic_list_order');
 
   orderedLists$ = this.orderManager.order$(this.shoppingService.lists$).pipe(
     tap((lists) => {
