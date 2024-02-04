@@ -8,12 +8,19 @@ import {
 } from '@angular/core';
 import { Id, ShoppingItem } from '@bombos/data-access';
 import { IconComponent } from '@bombos/ui';
+import { shakeAnimation } from 'angular-animations';
 import { ListItemComponent } from '../planning/list-item.component';
 import { ListItemsComponent } from '../planning/list-items.component';
 
 @Component({
   standalone: true,
   selector: 'bombos-shopping-list',
+  animations: [
+    shakeAnimation({
+      anchor: 'enterItem',
+      duration: 500,
+    }),
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` @for (keyValue of groupedItems | keyvalue; track keyValue.key) {
     <div class="shopping-group mb-2">
@@ -21,7 +28,10 @@ import { ListItemsComponent } from '../planning/list-items.component';
         {{ keyValue.key }}
       </div>
       <ol class="px-2">
-        <li *ngFor="let item of keyValue.value">
+        <li
+          *ngFor="let item of keyValue.value; trackBy: listItemTrackBy"
+          [@enterItem]="!item.bought"
+        >
           <bombos-list-item
             class="block"
             [item]="item"
@@ -56,6 +66,7 @@ export class ShoppingListComponent {
   }
   groupedItems: Record<string, (ShoppingItem & Id)[]> = {};
   recentlyInteracted = [] as string[];
+  listItemTrackBy = (_: number, item: ShoppingItem & Id) => item.id;
 
   @Output() itemClick = new EventEmitter<ShoppingItem & Id>();
 
