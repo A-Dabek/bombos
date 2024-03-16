@@ -56,6 +56,8 @@ import { ListItemsComponent } from './list-items.component';
         [value]="formEditItem"
         (save)="onItemSave($event)"
         (cancel)="isFormVisible = false"
+        [suggestedGroup]="suggestedGroup"
+        (nameChange)="nameChange.emit($event)"
       />
       } @else { @for (keyValue of groupedItems | keyvalue; track keyValue.key) {
       <bombos-list-items
@@ -116,6 +118,9 @@ export class ListCardComponent {
   @Output() editItem = new EventEmitter<ShoppingItem & Id>();
   @Output() deleteItem = new EventEmitter<string>();
   @Output() clearItems = new EventEmitter();
+
+  @Input() suggestedGroup: string = '';
+  @Output() nameChange = new EventEmitter<string>();
 
   boughtItemsPresent = false;
   urgentCount = 0;

@@ -24,7 +24,7 @@ import {
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
-import { Observable, tap } from 'rxjs';
+import { Observable, firstValueFrom, tap } from 'rxjs';
 import { ListCardComponent } from './list-card.component';
 
 @Component({
@@ -63,6 +63,8 @@ import { ListCardComponent } from './list-card.component';
             (editItem)="onItemEdit(list.id, $event)"
             (deleteItem)="onItemDelete(list.id, $event)"
             (clearItems)="onClearItems(list.id, items)"
+            [suggestedGroup]="suggestedGroup()"
+            (nameChange)="onNameChange($event)"
           />
         </li>
       </ul>
@@ -95,6 +97,7 @@ export class PlanListViewComponent {
   listTrackBy = (_: number, list: ShoppingList & Id) => list.id;
 
   openListId = '';
+  suggestedGroup = signal('');
 
   onOpenList(listId: string) {
     this.openListId = this.openListId === listId ? '' : listId;
@@ -134,5 +137,16 @@ export class PlanListViewComponent {
           this.errorService.raiseError(error.toString())
         )
     );
+  }
+
+  async onNameChange(inputName: string) {
+    console.log('call');
+    if (!inputName) return;
+    const group = await firstValueFrom(
+      this.shoppingService.getSuggestedGroup(inputName)
+    );
+    if (!group) return;
+    const keys = Object.keys(group);
+    this.suggestedGroup.set(keys[0] || '');
   }
 }

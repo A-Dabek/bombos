@@ -5,12 +5,13 @@ import {
   ElementRef,
   EventEmitter,
   HostBinding,
-  inject,
   Input,
   OnInit,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormsModule,
   NonNullableFormBuilder,
@@ -18,6 +19,7 @@ import {
 } from '@angular/forms';
 import { ShoppingItem } from '@bombos/data-access';
 import { IconComponent } from '@bombos/ui';
+import { debounceTime, distinctUntilChanged, filter, skip, tap } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -146,10 +148,26 @@ export class ListItemFormComponent implements OnInit {
   });
   lastSavedItem: ShoppingItem | undefined;
 
+  private sub = this.formGroup.controls.name.valueChanges
+    .pipe(
+      takeUntilDestroyed(),
+      skip(1),
+      filter((value: string): value is string => value?.length > 2),
+      distinctUntilChanged(),
+      debounceTime(500),
+      tap((value) => this.nameChange.emit(value))
+    )
+    .subscribe();
+
   @Input() groups: string[] = [];
   @Input() value: Partial<ShoppingItem> | undefined;
   @Output() save = new EventEmitter<ShoppingItem>();
   @Output() cancel = new EventEmitter<void>();
+
+  @Input() set suggestedGroup(value: string) {
+    this.formGroup.controls.group.patchValue(value);
+  }
+  @Output() nameChange = new EventEmitter<string>();
 
   ngOnInit() {
     this.name.nativeElement.focus();

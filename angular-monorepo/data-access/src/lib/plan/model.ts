@@ -10,3 +10,4 @@ export interface ShoppingItem {
   group: string;
   bought?: boolean;
 }
+export type ShoppingItemGroupIndex = Record<string, number>;

@@ -16,4 +16,9 @@ export const appRoutes: Route[] = [
     loadChildren: () =>
       import('@bombos/plan').then((module) => module.PLAN_ROUTES),
   },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'plan',
+  },
 ];
