@@ -8,7 +8,7 @@ import {
   MenuComponent,
   MenuItem,
 } from '@bombos/ui';
-import { combineLatest, filter, map, Observable, switchMap } from 'rxjs';
+import { Observable, combineLatest, filter, map, switchMap } from 'rxjs';
 import { FirebaseModule } from '../firebase.module';
 
 @Component({
@@ -52,19 +52,19 @@ export class AppComponent {
             {
               link: '/deliveries',
               icon: 'delivery',
-              label: 'Post',
+              label: 'Paczki',
               notificationsCount: deliveryCount,
             },
             {
               link: '/food',
               icon: 'cook',
-              label: 'Food',
+              label: 'Jedzenie',
               notificationsCount: 0,
             },
             {
               link: '/plan',
               icon: 'planning',
-              label: 'Plan',
+              label: 'Zakupy',
               notificationsCount: shoppingCount,
             },
           ] as MenuItem[];

@@ -13,6 +13,7 @@ export type TabName = 'collect' | 'send';
 export interface TabItem {
   name: TabName;
   icon: IconType;
+  display: string;
 }
 
 @Component({
@@ -32,7 +33,7 @@ export interface TabItem {
       (click)="tab.name !== selected && select.emit(tab.name)"
     >
       <bombos-icon class="mr-2" [name]="tab.icon"></bombos-icon>
-      {{ tab.name }}
+      {{ tab.display }}
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,7 +46,7 @@ export class NavigationTabsComponent {
   @Output() select = new EventEmitter<TabName>();
 
   tabs: TabItem[] = [
-    { name: 'collect', icon: 'collect' },
-    { name: 'send', icon: 'send' },
+    { name: 'collect', icon: 'collect', display: 'odbierz' },
+    { name: 'send', icon: 'send', display: 'nadaj' },
   ];
 }
