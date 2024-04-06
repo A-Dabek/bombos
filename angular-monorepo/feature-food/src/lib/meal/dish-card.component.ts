@@ -5,7 +5,7 @@ import {
   Input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Dish, Id } from '@bombos/data-access';
+import { Dish } from '@bombos/data-access';
 
 @Component({
   standalone: true,
@@ -22,5 +22,5 @@ export class DishCardComponent {
   @HostBinding('class') readonly clazz =
     'block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100';
 
-  @Input({ required: true }) dish!: Dish & Id;
+  @Input({ required: true }) dish!: Dish;
 }

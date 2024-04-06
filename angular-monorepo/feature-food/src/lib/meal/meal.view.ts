@@ -3,17 +3,18 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
-  inject,
   Input,
+  inject,
 } from '@angular/core';
-import { Dish, FoodService, Id } from '@bombos/data-access';
+import { Dish, FoodService } from '@bombos/data-access';
 import { IconComponent } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   pulseAnimation,
 } from 'angular-animations';
-import { BehaviorSubject, map, Observable, Subject, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, switchMap } from 'rxjs';
 import { MealCardComponent } from '../meals/meal-card.component';
+import { ABSURD_DISHES } from './absurd-dishes';
 import { DishCardComponent } from './dish-card.component';
 
 @Component({
@@ -60,19 +61,26 @@ export class MealViewComponent {
   private readonly foodService = inject(FoodService);
 
   animateRollItem = false;
-  currentDish$: Observable<Dish & Id> = new Subject();
+  currentDish$: Observable<Dish> = new Subject();
   currentIndex$ = new BehaviorSubject(0);
 
   @Input({ required: true }) set meal(value: string) {
     this.currentDish$ = this.getCurrentDish(value);
   }
 
-  private getCurrentDish(meal: string): Observable<Dish & Id> {
+  private getCurrentDish(meal: string): Observable<Dish> {
     return this.foodService.getDishes(meal).pipe(
       switchMap((dishes) => {
         const randomDishes = dishes.sort(() => Math.random() - 0.5);
+        const randomAbsurdDishes = [...ABSURD_DISHES].sort(
+          () => Math.random() - 0.5
+        );
         return this.currentIndex$.pipe(
-          map((index) => randomDishes[index % dishes.length])
+          map((index) =>
+            Math.random() > 0.05
+              ? randomDishes[index % dishes.length]
+              : { name: randomAbsurdDishes[index % randomAbsurdDishes.length] }
+          )
         );
       })
     );
