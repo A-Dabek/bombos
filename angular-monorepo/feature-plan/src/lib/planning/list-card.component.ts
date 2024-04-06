@@ -52,7 +52,16 @@ import { ListItemsComponent } from './list-items.component';
         class="block"
         [@enterDetails]
         [@leaveDetails]
-        [groups]="['Fruit', 'Vegetables', 'Meat', 'Dairy', 'Bakery', 'Other']"
+        [groups]="[
+          'Fruit',
+          'Vegetables',
+          'Meat',
+          'Dairy',
+          'Bakery',
+          'Frozen',
+          'Cosmetics',
+          'Other'
+        ]"
         [value]="formEditItem"
         (save)="onItemSave($event)"
         (cancel)="isFormVisible = false"
@@ -156,6 +165,7 @@ export class ListCardComponent {
   onItemOpen(id: string) {
     this.openItemId = id === this.openItemId ? '' : id;
   }
+
   onClearItems() {
     this.clearItems.emit();
   }

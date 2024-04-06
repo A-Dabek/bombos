@@ -24,7 +24,7 @@ import {
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
-import { Observable, firstValueFrom, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { ListCardComponent } from './list-card.component';
 
 @Component({
@@ -142,11 +142,9 @@ export class PlanListViewComponent {
   async onNameChange(inputName: string) {
     console.log('call');
     if (!inputName) return;
-    const group = await firstValueFrom(
-      this.shoppingService.getSuggestedGroup(inputName)
-    );
-    if (!group) return;
-    const keys = Object.keys(group);
-    this.suggestedGroup.set(keys[0] || '');
+    const group = await this.shoppingService.getSuggestedGroup(inputName);
+    if (group) {
+      this.suggestedGroup.set(group);
+    }
   }
 }

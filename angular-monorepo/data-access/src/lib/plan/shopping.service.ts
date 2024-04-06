@@ -14,7 +14,7 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { setDoc } from 'firebase/firestore';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { Id } from '../model';
 import { ShoppingItem, ShoppingItemGroupIndex, ShoppingList } from './model';
 
@@ -50,13 +50,20 @@ export class ShoppingService {
     return deleteDoc(doc(this.listCollection, listId));
   }
 
-  getSuggestedGroup(itemName: string) {
+  async getSuggestedGroup(itemName: string) {
     const escapedName = encodeURIComponent(itemName);
-    return docData(doc(this.groupIndexCollection, itemName));
+    const _docData = docData(doc(this.groupIndexCollection, escapedName));
+    const groupData = await firstValueFrom(_docData);
+    return groupData ? Object.keys(groupData)?.[0] : '';
   }
 
-  addItem(listId: string, payload: ShoppingItem) {
-    if (payload.group) this.rememberGroup(payload.name, payload.group);
+  async addItem(listId: string, payload: ShoppingItem) {
+    if (payload.group) {
+      this.rememberGroup(payload.name, payload.group);
+    } else {
+      const group = await this.getSuggestedGroup(payload.name);
+      payload.group = group || '';
+    }
     return addDoc(collection(this.listCollection, listId, 'items'), payload);
   }
 

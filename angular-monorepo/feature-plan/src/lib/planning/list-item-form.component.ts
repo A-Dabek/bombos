@@ -155,7 +155,7 @@ export class ListItemFormComponent implements OnInit {
       filter((value: string): value is string => value?.length > 2),
       distinctUntilChanged(),
       debounceTime(500),
-      tap((value) => this.nameChange.emit(value))
+      tap((value) => this.nameChange.emit(value.trim()))
     )
     .subscribe();
 
@@ -178,7 +178,7 @@ export class ListItemFormComponent implements OnInit {
 
   onSubmit(event: SubmitEvent) {
     const item = {
-      name: this.formGroup.value.name || '',
+      name: this.formGroup.value.name?.trim() || '',
       amount: this.formGroup.value.amount || 1,
       unit: this.formGroup.value.unit || 'x',
       description: this.formGroup.value.description || '',
