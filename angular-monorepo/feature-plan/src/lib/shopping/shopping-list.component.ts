@@ -1,4 +1,4 @@
-import { KeyValuePipe, NgForOf } from '@angular/common';
+import { KeyValue, KeyValuePipe, NgForOf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,6 +9,7 @@ import {
 import { Id, ShoppingItem } from '@bombos/data-access';
 import { IconComponent } from '@bombos/ui';
 import { shakeAnimation } from 'angular-animations';
+import { shoppingGroups } from 'data-access/src/lib/plan/model';
 import { ListItemComponent } from '../planning/list-item.component';
 import { ListItemsComponent } from '../planning/list-items.component';
 
@@ -22,7 +23,8 @@ import { ListItemsComponent } from '../planning/list-items.component';
     }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: ` @for (keyValue of groupedItems | keyvalue; track keyValue.key) {
+  template: ` @for (keyValue of groupedItems | keyvalue: keyValueOrder; track
+    keyValue.key) {
     <div class="shopping-group mb-2">
       <div class="absolute -top-3 left-3 font-bold text-xs">
         {{ keyValue.key }}
@@ -60,13 +62,24 @@ export class ShoppingListComponent {
         return prev.bought ? 1 : -1;
       })
       .reduce((acc, item) => {
-        const key = item.group;
+        const key = `${item.bought ? '+' : ''}${item.group}`;
         return { ...acc, [key]: [...(acc[key] || []), item] };
       }, {} as Record<string, (ShoppingItem & Id)[]>);
   }
   groupedItems: Record<string, (ShoppingItem & Id)[]> = {};
   recentlyInteracted = [] as string[];
   listItemTrackBy = (_: number, item: ShoppingItem & Id) => item.id;
+
+  keyValueOrder = (
+    prev: KeyValue<string, ShoppingItem[]>,
+    curr: KeyValue<string, ShoppingItem[]>
+  ): number => {
+    if (curr.key.startsWith('+')) return -1;
+    if (prev.key.startsWith('+')) return 1;
+    const prevOrder = shoppingGroups.indexOf(prev.key);
+    const currOrder = shoppingGroups.indexOf(curr.key);
+    return prevOrder === currOrder ? 0 : prevOrder < currOrder ? -1 : 1;
+  };
 
   @Output() itemClick = new EventEmitter<ShoppingItem & Id>();
 

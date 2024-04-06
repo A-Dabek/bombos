@@ -11,3 +11,14 @@ export interface ShoppingItem {
   bought?: boolean;
 }
 export type ShoppingItemGroupIndex = Record<string, number>;
+
+export const shoppingGroups = [
+  'Fruit',
+  'Vegetables',
+  'Meat',
+  'Dairy',
+  'Bakery',
+  'Frozen',
+  'Cosmetics',
+  'Other',
+];

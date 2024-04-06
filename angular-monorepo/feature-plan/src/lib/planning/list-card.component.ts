@@ -19,6 +19,7 @@ import { ListCardButtonsComponent } from './list-card-buttons.component';
 import { ListItemFormComponent } from './list-item-form.component';
 import { ListItemComponent } from './list-item.component';
 import { ListItemsComponent } from './list-items.component';
+import { shoppingGroups } from 'data-access/src/lib/plan/model';
 
 @Component({
   standalone: true,
@@ -52,16 +53,7 @@ import { ListItemsComponent } from './list-items.component';
         class="block"
         [@enterDetails]
         [@leaveDetails]
-        [groups]="[
-          'Fruit',
-          'Vegetables',
-          'Meat',
-          'Dairy',
-          'Bakery',
-          'Frozen',
-          'Cosmetics',
-          'Other'
-        ]"
+        [groups]="allShoppingGroups"
         [value]="formEditItem"
         (save)="onItemSave($event)"
         (cancel)="isFormVisible = false"
@@ -131,6 +123,7 @@ export class ListCardComponent {
   @Input() suggestedGroup: string = '';
   @Output() nameChange = new EventEmitter<string>();
 
+  allShoppingGroups = shoppingGroups;
   boughtItemsPresent = false;
   urgentCount = 0;
   isFormVisible = false;
