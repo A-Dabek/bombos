@@ -13,12 +13,12 @@ export interface ShoppingItem {
 export type ShoppingItemGroupIndex = Record<string, number>;
 
 export const shoppingGroups = [
-  'Fruit',
-  'Vegetables',
-  'Meat',
-  'Dairy',
-  'Bakery',
-  'Frozen',
-  'Cosmetics',
-  'Other',
+  'Owoce',
+  'Warzywa',
+  'Mięso',
+  'Nabiał',
+  'Pieczywo',
+  'Mrożonki',
+  'Kosmetyczne',
+  'Inne',
 ];

@@ -20,9 +20,6 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
       [ngClass]="{
         'text-red-800 font-medium underline': item.urgent && !item.bought,
         'line-through text-sm': item.bought,
-        'font-semibold': highlight === 3,
-        'font-bold': highlight === 2,
-        'font-extrabold': highlight === 1
       }"
     >
       {{ item.name }}
