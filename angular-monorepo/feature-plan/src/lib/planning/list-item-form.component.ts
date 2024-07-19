@@ -189,9 +189,7 @@ export class ListItemFormComponent implements OnInit {
     if (event.submitter?.id === 'submit') {
       this.onCancel();
     } else {
-      const group = this.formGroup.value.group;
       this.formGroup.reset();
-      this.formGroup.patchValue({ group });
       this.name.nativeElement.focus();
       this.lastSavedItem = item;
     }

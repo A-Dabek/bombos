@@ -14,11 +14,13 @@ export type ShoppingItemGroupIndex = Record<string, number>;
 
 export const shoppingGroups = [
   'Owoce',
+  'Lodówki',
   'Warzywa',
   'Mięso',
   'Nabiał',
   'Pieczywo',
   'Mrożonki',
+  'Śniadaniowe',
   'Kosmetyczne',
   'Inne',
 ];
