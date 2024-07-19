@@ -21,6 +21,7 @@ export const shoppingGroups = [
   'Pieczywo',
   'Mrożonki',
   'Śniadaniowe',
+  'Alkohol',
   'Kosmetyczne',
   'Inne',
 ];
