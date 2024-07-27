@@ -2,13 +2,21 @@ import { NgClass, NgIf, NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   EventEmitter,
   HostBinding,
+  inject,
   Input,
   Output,
   ViewChild,
 } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Delivery, Id } from '@bombos/data-access';
 import {
@@ -16,6 +24,7 @@ import {
   IconComponent,
   LoadingComponent,
 } from '@bombos/ui';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -31,9 +40,26 @@ import {
       [routerLink]="link"
     />
     <div class="flex w-full justify-between p-2 leading-normal">
-      <label class="mb-2 tracking-tight text-gray-900 ">
-        {{ delivery.alias }}
-      </label>
+      <div class="w-full flex justify-between p-4 leading-normal">
+        <form
+          class="relative z-0 w-full mb-5 group mr-2"
+          [formGroup]="formGroup"
+        >
+          <input
+            type="text"
+            name="alias"
+            id="alias"
+            formControlName="alias"
+            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=""
+          />
+          <label
+            for="alias"
+            class="peer-focus:font-medium absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus: peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >What's inside?</label
+          >
+        </form>
+      </div>
       <div [ngClass]="fullHeight ? 'fixed bottom-3 right-3' : ''">
         <bombos-confirm-button (confirm)="complete.emit()">
           <button
@@ -55,6 +81,7 @@ import {
     ConfirmButtonComponent,
     NgStyle,
     RouterLink,
+    ReactiveFormsModule,
   ],
 })
 export class DeliveryCardComponent {
@@ -69,4 +96,23 @@ export class DeliveryCardComponent {
   @HostBinding('class.flex-col-reverse') @Input() fullHeight = false;
 
   @Output() complete = new EventEmitter();
+  @Output() update = new EventEmitter<string>();
+
+  private fb = inject(NonNullableFormBuilder);
+  private destroyRef = inject(DestroyRef);
+
+  formGroup!: FormGroup<{
+    alias: FormControl<string>;
+  }>;
+
+  ngOnInit() {
+    this.formGroup = this.fb.group({
+      alias: this.fb.control(this.delivery.alias),
+    });
+    this.formGroup.controls.alias.valueChanges
+      .pipe(distinctUntilChanged(), debounceTime(500))
+      .subscribe((value) => {
+        this.update.emit(value);
+      });
+  }
 }

@@ -80,12 +80,17 @@ export class AddFormComponent implements OnInit {
     reader.readAsDataURL(file);
     reader.onload = () => {
       this.fileBase64 = reader.result as string;
-      this.cdr.markForCheck();
+      this.initSave.emit({
+        alias: this.formGroup.controls.alias.value,
+        img: this.fileBase64,
+      });
+      // this.cdr.markForCheck();
     };
     this.formGroup?.controls.file.setValue(file);
   }
 
   @Output() add = new EventEmitter<Delivery>();
+  @Output() initSave = new EventEmitter<Delivery>();
 
   ngOnInit() {
     this.formGroup = this.fb.group({

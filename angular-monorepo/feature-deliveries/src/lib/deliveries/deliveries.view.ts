@@ -48,14 +48,6 @@ import { UploadFileComponent } from './upload-file.component';
       (select)="onTabChange($event)"
     />
     <div class="relative h-screen">
-      <bombos-add-form
-        class="block"
-        *ngIf="file"
-        [@enterItem]
-        [@leaveItem]
-        [file]="file"
-        (add)="onSubmit($event)"
-      />
       <ul>
         <li
           [@enterItem]
@@ -74,6 +66,7 @@ import { UploadFileComponent } from './upload-file.component';
               activeTab === 'collect' ? 'in' : 'out',
               delivery.id
             ]"
+            (update)="onAliasUpdate(delivery.id, $event)"
             (complete)="onComplete(delivery.id)"
           />
         </li>
@@ -82,7 +75,7 @@ import { UploadFileComponent } from './upload-file.component';
     </div>
     <bombos-upload-file
       class="fixed bottom-3 right-3"
-      (upload)="file = $event"
+      (upload)="onFileAdd($event)"
     />
   `,
 })
@@ -95,7 +88,7 @@ export class DeliveriesViewComponent {
 
   activeTab: TabName = 'collect';
   deliveryStore = this.deliveryService.getDeliveriesStore('in');
-  deliveryTrackBy = (index: number, delivery: Delivery & Id) => delivery.id;
+  deliveryTrackBy = (_: number, delivery: Delivery & Id) => delivery.id;
 
   file: File | null = null;
   loadingTabs = signal(false);
@@ -111,10 +104,22 @@ export class DeliveriesViewComponent {
         : this.deliveryService.getDeliveriesStore('out');
   }
 
-  onSubmit(delivery: Delivery) {
-    this.file = null;
+  onFileAdd(file: File) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const fileBase64 = reader.result as string;
+      this.deliveryStore
+        .add({ alias: '', img: fileBase64 })
+        .catch((error: FirebaseError) =>
+          this.errorService.raiseError(error.toString())
+        );
+    };
+  }
+
+  onAliasUpdate(id: string, alias: string) {
     this.deliveryStore
-      .add(delivery)
+      .updateAlias(id, alias)
       .catch((error: FirebaseError) =>
         this.errorService.raiseError(error.toString())
       );

@@ -9,6 +9,7 @@ import {
   docData,
   Firestore,
 } from '@angular/fire/firestore';
+import { updateDoc } from 'firebase/firestore';
 import { combineLatest, map, Observable } from 'rxjs';
 import { Id } from '../model';
 import { Delivery } from './model';
@@ -16,6 +17,7 @@ import { Delivery } from './model';
 export interface DeliveryStore {
   deliveries$: Observable<(Delivery & Id)[]>;
   add(delivery: Delivery): Promise<unknown>;
+  updateAlias(id: string, alias: string): Promise<unknown>;
   complete(id: string): Promise<unknown>;
   getDelivery(id: string): Observable<Delivery & Id>;
 }
@@ -34,6 +36,8 @@ export class DeliveryService {
       }) as Observable<(Delivery & Id)[]>,
       add: (delivery: Delivery) => addDoc(collection, delivery),
       complete: (id: string) => deleteDoc(doc(collection, id)),
+      updateAlias: (id: string, alias: string) =>
+        updateDoc(doc(collection, id), { alias }),
       getDelivery: (id: string) =>
         docData(doc(collection, id), {
           idField: 'id',
