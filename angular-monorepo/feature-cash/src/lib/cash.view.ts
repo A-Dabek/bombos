@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { JsonPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { NavigationTabsComponent, TabItem } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
@@ -25,18 +26,21 @@ import {
     <router-outlet></router-outlet>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [],
-  imports: [RouterOutlet, NavigationTabsComponent],
+  imports: [RouterOutlet, NavigationTabsComponent, JsonPipe],
 })
 export class CashViewComponent {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+
   readonly tabs = [
     { name: 'plan', icon: 'cash-plan', display: 'Plan' },
-    { name: 'balance', icon: 'balance', display: 'Rachunki' },
-    { name: 'bills', icon: 'bills', display: 'Wydatki' },
+    { name: 'bills', icon: 'bills', display: 'Rachunki' },
+    { name: 'balance', icon: 'balance', display: 'Wydatki' },
   ] as TabItem[];
   activeTab: string = 'plan';
 
   onTabChange(tab: string) {
     this.activeTab = tab;
+    this.router.navigate([tab], { relativeTo: this.route });
   }
 }
