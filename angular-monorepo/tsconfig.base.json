@@ -15,11 +15,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@bombos/plan": ["feature-plan/src/index.ts"],
-      "@bombos/ui": ["ui/src/index.ts"],
+      "@bombos/cash": ["feature-cash/src/index.ts"],
       "@bombos/data-access": ["data-access/src/index.ts"],
       "@bombos/deliveries": ["feature-deliveries/src/index.ts"],
-      "@bombos/food": ["feature-food/src/index.ts"]
+      "@bombos/food": ["feature-food/src/index.ts"],
+      "@bombos/plan": ["feature-plan/src/index.ts"],
+      "@bombos/ui": ["ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

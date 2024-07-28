@@ -23,7 +23,7 @@ export interface MenuItem {
   standalone: true,
   selector: 'bombos-menu',
   template: `
-    <div class="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
+    <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
       <button
         *ngFor="let item of items; trackBy: itemTrackBy"
         [routerLink]="item.link"

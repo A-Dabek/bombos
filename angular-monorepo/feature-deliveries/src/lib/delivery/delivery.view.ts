@@ -20,8 +20,8 @@ import {
 import { ErrorService, LoadingComponent } from '@bombos/ui';
 import { bounceInRightOnEnterAnimation } from 'angular-animations';
 import { Observable } from 'rxjs';
+import { NavigationTabsComponent } from '../../../../ui/src/lib/navigation-tabs.component';
 import { AddFormComponent } from '../deliveries/add-form.component';
-import { NavigationTabsComponent } from '../deliveries/navigation-tabs.component';
 import { UploadFileComponent } from '../deliveries/upload-file.component';
 import { DeliveryCardComponent } from '../ui/delivery-card.component';
 

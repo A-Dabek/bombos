@@ -9,7 +9,12 @@ import {
 import { FirebaseError } from '@angular/fire/app/firebase';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Delivery, DeliveryService, Id } from '@bombos/data-access';
-import { ErrorService, LoadingComponent } from '@bombos/ui';
+import {
+  ErrorService,
+  LoadingComponent,
+  NavigationTabsComponent,
+  TabItem,
+} from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,
@@ -17,8 +22,9 @@ import {
 } from 'angular-animations';
 import { DeliveryCardComponent } from '../ui/delivery-card.component';
 import { AddFormComponent } from './add-form.component';
-import { NavigationTabsComponent, TabName } from './navigation-tabs.component';
 import { UploadFileComponent } from './upload-file.component';
+
+type TabName = 'collect' | 'send';
 
 @Component({
   standalone: true,
@@ -44,6 +50,7 @@ import { UploadFileComponent } from './upload-file.component';
   template: `
     <bombos-navigation-tabs
       class="block mb-2"
+      [tabs]="tabs"
       [selected]="activeTab"
       (select)="onTabChange($event)"
     />
@@ -86,6 +93,10 @@ export class DeliveriesViewComponent {
   private readonly errorService = inject(ErrorService);
   private readonly deliveryService = inject(DeliveryService);
 
+  readonly tabs = [
+    { name: 'collect', icon: 'collect', display: 'odbierz' },
+    { name: 'send', icon: 'send', display: 'nadaj' },
+  ] as TabItem[];
   activeTab: TabName = 'collect';
   deliveryStore = this.deliveryService.getDeliveriesStore('in');
   deliveryTrackBy = (_: number, delivery: Delivery & Id) => delivery.id;
@@ -95,9 +106,9 @@ export class DeliveriesViewComponent {
   loadingDeliveryId = signal('');
   pickedDeliveryId = signal('');
 
-  onTabChange(tab: TabName) {
+  onTabChange(tab: string) {
     this.file = null;
-    this.activeTab = tab;
+    this.activeTab = tab as TabName;
     this.deliveryStore =
       tab === 'collect'
         ? this.deliveryService.getDeliveriesStore('in')

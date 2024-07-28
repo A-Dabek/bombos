@@ -62,6 +62,12 @@ export class AppComponent {
               notificationsCount: 0,
             },
             {
+              link: '/cash',
+              icon: 'cash',
+              label: 'Finanse',
+              notificationsCount: 0,
+            },
+            {
               link: '/plan',
               icon: 'planning',
               label: 'Zakupy',

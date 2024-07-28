@@ -1,0 +1,37 @@
+{
+  "name": "feature-cash",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "feature-cash/src",
+  "prefix": "angular-monorepo",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:ng-packagr-lite",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "feature-cash/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-cash/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "feature-cash/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "feature-cash/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}

@@ -12,6 +12,11 @@ export const appRoutes: Route[] = [
       import('@bombos/food').then((module) => module.FOOD_ROUTES),
   },
   {
+    path: 'cash',
+    loadChildren: () =>
+      import('@bombos/cash').then((module) => module.CASH_ROUTES),
+  },
+  {
     path: 'plan',
     loadChildren: () =>
       import('@bombos/plan').then((module) => module.PLAN_ROUTES),

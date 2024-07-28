@@ -7,11 +7,10 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { IconComponent, IconType } from '@bombos/ui';
+import { IconComponent, IconType } from './icon.component';
 
-export type TabName = 'collect' | 'send';
 export interface TabItem {
-  name: TabName;
+  name: string;
   icon: IconType;
   display: string;
 }
@@ -42,11 +41,7 @@ export interface TabItem {
 export class NavigationTabsComponent {
   @HostBinding('class') _ = 'inline-flex rounded-md shadow-sm w-full';
 
-  @Input() selected: TabName = 'collect';
-  @Output() select = new EventEmitter<TabName>();
-
-  tabs: TabItem[] = [
-    { name: 'collect', icon: 'collect', display: 'odbierz' },
-    { name: 'send', icon: 'send', display: 'nadaj' },
-  ];
+  @Input() tabs: TabItem[] = [];
+  @Input() selected: string = 'collect';
+  @Output() select = new EventEmitter<string>();
 }
