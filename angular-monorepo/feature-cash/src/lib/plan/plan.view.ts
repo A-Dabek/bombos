@@ -35,6 +35,7 @@ import { MoneyChangeListComponent } from '../money-change-list.component';
       >
         <bombos-money-change-list
           [items]="(items$ | async) || []"
+          [sum]="(sum$ | async) || 0"
           (delete)="onItemDelete($event)"
         />
       </div>
