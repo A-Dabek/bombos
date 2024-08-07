@@ -54,7 +54,7 @@ import { TimestampPipe } from '../timestamp.pipe';
         <bombos-money-change-list
           [editable]="isAdmin"
           [items]="(periodItems$ | async) || []"
-          [sum]="period.balance"
+          [autoSum]="true"
           (delete)="onItemDelete($event)"
         />
         <bombos-amount-form
@@ -67,9 +67,11 @@ import { TimestampPipe } from '../timestamp.pipe';
           class="block mt-2 pb-3"
           (save)="onBalanceChange($event.amount)"
         />
-        } @else {
-        <bombos-money-change-list [sum]="period.balance" />
         }
+        <bombos-money-change-list
+          sumLabel="Zostało na koncie"
+          [sum]="period.balance"
+        />
       </div>
       }
     </div>

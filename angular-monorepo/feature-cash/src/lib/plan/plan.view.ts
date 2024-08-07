@@ -41,7 +41,7 @@ import { MoneyChangeListComponent } from '../money-change-list.component';
         <bombos-money-change-list
           [editable]="isAdmin"
           [items]="(items$ | async) || []"
-          [sum]="(sum$ | async) || 0"
+          [autoSum]="true"
           (delete)="onItemDelete($event)"
         />
       </div>
@@ -61,9 +61,6 @@ export class PlanViewComponent {
   private readonly planService = inject(CashPlanService);
 
   readonly items$ = this.planService.planItems$;
-  readonly sum$ = this.items$.pipe(
-    map((items) => items.reduce((acc, curr) => curr.amount + acc, 0))
-  );
 
   isAdmin = false;
 

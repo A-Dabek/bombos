@@ -39,14 +39,16 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
     </div>
     }
     <hr *ngIf="items.length > 0" class="my-3" />
-    <div
-      class="text-right font-semibold"
-      [ngClass]="{
-        'text-green-600 font-semibold': sum > 0,
-        'text-red-700 font-semibold': sum < 0
-      }"
-    >
-      <span class="mr-2">=</span>{{ sum }}
+    <div class="flex justify-between font-semibold">
+      <label>{{ sumLabel }}</label>
+      <div
+        [ngClass]="{
+          'text-green-600 font-semibold': calculatedSum > 0,
+          'text-red-700 font-semibold': calculatedSum < 0
+        }"
+      >
+        <span class="mr-2">=</span>{{ calculatedSum }}
+      </div>
     </div>
   `,
 })
@@ -54,6 +56,14 @@ export class MoneyChangeListComponent {
   @Input() items: (MoneyChangeItem & Id)[] = [];
   @Input() sum = 0;
   @Input() editable = false;
+  @Input() autoSum = false;
+  @Input() sumLabel = '';
 
   @Output() delete = new EventEmitter();
+
+  get calculatedSum() {
+    return this.autoSum
+      ? this.items.reduce((acc, curr) => curr.amount + acc, 0)
+      : this.sum;
+  }
 }

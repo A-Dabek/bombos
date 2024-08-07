@@ -19,7 +19,7 @@ export class CashPlanService {
   private planCollection = collection(this.firestore, 'cash_plan');
 
   readonly planItems$ = collectionData(
-    query(this.planCollection, orderBy('amount', 'desc')),
+    query(this.planCollection, orderBy('name', 'asc')),
     {
       idField: 'id',
     }
