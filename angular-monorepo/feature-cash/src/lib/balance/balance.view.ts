@@ -12,8 +12,9 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { BalanceService, MoneyChangeItem } from '@bombos/data-access';
 import { FloatingButtonComponent, IconComponent } from '@bombos/ui';
 import { bounceInRightOnEnterAnimation } from 'angular-animations';
-import { filter, of, switchMap, take, tap } from 'rxjs';
+import { filter, map, of, switchMap, take } from 'rxjs';
 import { AmountComponent } from '../amount-form.component';
+import { BalanceFormComponent } from '../balance-form.component';
 import { MoneyChangeListComponent } from '../money-change-list.component';
 import { TimestampPipe } from '../timestamp.pipe';
 
@@ -31,6 +32,7 @@ import { TimestampPipe } from '../timestamp.pipe';
     AmountComponent,
     NgIf,
     FloatingButtonComponent,
+    BalanceFormComponent,
   ],
   providers: [BalanceService],
   animations: [
@@ -38,9 +40,9 @@ import { TimestampPipe } from '../timestamp.pipe';
   ],
   template: `
     <div class="relative h-screen">
-      @for (period of periods$ | async; track period.id) {
+      @for (period of periods$ | async; track period.id; let last = $last) {
       <div
-        (click)="period.id !== openPeriodId() && openPeriod(period.id)"
+        (click)="openPeriod(period.id)"
         class="block max-w-sm p-6 py-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-2"
       >
         <div class="flex justify-between mb-2">
@@ -57,7 +59,13 @@ import { TimestampPipe } from '../timestamp.pipe';
         />
         <bombos-amount-form
           class="block mt-2 pb-3"
-          (save)="onItemAdd($event)"
+          label="Wydatek"
+          (save)="onExpenseAdd($event)"
+        />
+        <bombos-balance-form
+          *ngIf="!last && (isBalancePresent$ | async) === false"
+          class="block mt-2 pb-3"
+          (save)="onBalanceChange($event.amount)"
         />
         } @else {
         <bombos-money-change-list [sum]="period.balance" />
@@ -79,14 +87,11 @@ export class BalanceViewComponent implements OnInit {
   readonly periodItems$ = toObservable(this.openPeriodId).pipe(
     switchMap((id) => {
       if (!id) return of([]);
-      else
-        return this.balanceService.balanceItems$(id).pipe(
-          tap((items) => {
-            const sum = items.reduce((acc, next) => acc + next.amount, 0);
-            this.balanceService.updateBalancePeriodBalance(id, sum);
-          })
-        );
+      else return this.balanceService.balanceItems$(id);
     })
+  );
+  readonly isBalancePresent$ = this.periodItems$.pipe(
+    map((items) => !!items.find((item) => item.amount > 0))
   );
 
   isAdmin = false;
@@ -112,11 +117,16 @@ export class BalanceViewComponent implements OnInit {
   }
 
   openPeriod(id: string) {
-    this.openPeriodId.set(id);
+    id !== this.openPeriodId() && this.openPeriodId.set(id);
   }
 
-  onItemAdd(item: MoneyChangeItem) {
+  onExpenseAdd(item: MoneyChangeItem) {
+    if (item.amount > 0) item.amount = -item.amount;
     this.balanceService.addBalanceItem(this.openPeriodId(), item);
+  }
+
+  onBalanceChange(amount: number) {
+    this.balanceService.updateBalancePeriodBalance(this.openPeriodId(), amount);
   }
 
   onItemDelete(id: string) {
