@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { BillsService, MoneyChangeItem } from '@bombos/data-access';
+import { FloatingButtonComponent } from '@bombos/ui';
 import { bounceInRightOnEnterAnimation } from 'angular-animations';
 import { filter, of, switchMap, take, tap } from 'rxjs';
 import { IconComponent } from '../../../../ui/src/lib/icon.component';
@@ -29,6 +30,7 @@ import { TimestampPipe } from '../timestamp.pipe';
     MoneyChangeListComponent,
     AmountComponent,
     NgIf,
+    FloatingButtonComponent,
   ],
   providers: [BillsService],
   animations: [
@@ -38,22 +40,17 @@ import { TimestampPipe } from '../timestamp.pipe';
     <div class="relative h-screen">
       @for (period of periods$ | async; track period.id) {
       <div
+        (click)="period.id !== openPeriodId() && openPeriod(period.id)"
         class="block max-w-sm p-6 py-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-2"
       >
         <div class="flex justify-between mb-2">
           <label class="capitalize font-semibold text-sm">
             20 {{ period.timestamp | timestamp | date : 'MMMM y' : '' : 'pl' }}
           </label>
-          <button
-            *ngIf="period.id !== openPeriodId()"
-            class="px-2"
-            (click)="openPeriod(period.id)"
-          >
-            <bombos-icon [name]="'eye'" />
-          </button>
         </div>
         @if (period.id === openPeriodId()) {
         <bombos-money-change-list
+          [editable]="isAdmin"
           [items]="(periodItems$ | async) || []"
           [sum]="period.balance"
           (delete)="onItemDelete($event)"
@@ -68,6 +65,7 @@ import { TimestampPipe } from '../timestamp.pipe';
       </div>
       }
     </div>
+    <bombos-floating-button (clickEvent)="toggleAdmin()" />
   `,
 })
 export class BillsViewComponent implements OnInit {
@@ -91,9 +89,14 @@ export class BillsViewComponent implements OnInit {
     })
   );
 
+  isAdmin = false;
+
   ngOnInit(): void {
     const today = new Date();
-    const currentTimestamp = today.getFullYear() * 10 + today.getMonth();
+    const currentTimestamp =
+      today.getFullYear() * 10 +
+      today.getMonth() +
+      (today.getDate() < 20 ? -1 : 0);
     this.billsService
       .currentBillPeriod(currentTimestamp)
       .pipe(
@@ -118,5 +121,9 @@ export class BillsViewComponent implements OnInit {
 
   onItemDelete(id: string) {
     this.billsService.removeBillItem(this.openPeriodId(), id);
+  }
+
+  toggleAdmin() {
+    this.isAdmin = !this.isAdmin;
   }
 }

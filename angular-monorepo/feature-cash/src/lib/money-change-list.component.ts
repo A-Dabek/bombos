@@ -18,6 +18,7 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
     @for (item of items; track item.id) {
     <div class="flex justify-between items-baseline mb-2">
       <bombos-confirm-button
+        *ngIf="editable"
         class="block me-2"
         (confirm)="delete.emit(item.id)"
       >
@@ -52,6 +53,7 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
 export class MoneyChangeListComponent {
   @Input() items: (MoneyChangeItem & Id)[] = [];
   @Input() sum = 0;
+  @Input() editable = false;
 
   @Output() delete = new EventEmitter();
 }

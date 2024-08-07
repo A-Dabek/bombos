@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { BalanceService, MoneyChangeItem } from '@bombos/data-access';
-import { IconComponent } from '@bombos/ui';
+import { FloatingButtonComponent, IconComponent } from '@bombos/ui';
 import { bounceInRightOnEnterAnimation } from 'angular-animations';
 import { filter, of, switchMap, take, tap } from 'rxjs';
 import { AmountComponent } from '../amount-form.component';
@@ -30,6 +30,7 @@ import { TimestampPipe } from '../timestamp.pipe';
     NgClass,
     AmountComponent,
     NgIf,
+    FloatingButtonComponent,
   ],
   providers: [BalanceService],
   animations: [
@@ -39,43 +40,32 @@ import { TimestampPipe } from '../timestamp.pipe';
     <div class="relative h-screen">
       @for (period of periods$ | async; track period.id) {
       <div
-        class="block max-w-sm p-6 pt-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-2"
+        (click)="period.id !== openPeriodId() && openPeriod(period.id)"
+        class="block max-w-sm p-6 py-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-2"
       >
         <div class="flex justify-between mb-2">
           <label class="capitalize font-semibold text-sm">
-            {{ period.timestamp | timestamp | date : 'LLLL y' : '' : 'pl' }}
+            20 {{ period.timestamp | timestamp | date : 'MMMM y' : '' : 'pl' }}
           </label>
-          <button
-            *ngIf="period.id !== openPeriodId()"
-            class="px-2"
-            (click)="openPeriod(period.id)"
-          >
-            <bombos-icon [name]="'eye'" />
-          </button>
         </div>
         @if (period.id === openPeriodId()) {
         <bombos-money-change-list
+          [editable]="isAdmin"
           [items]="(periodItems$ | async) || []"
+          [sum]="period.balance"
           (delete)="onItemDelete($event)"
         />
-        }
-        <hr class="my-2" />
-        <div
-          class="text-right font-semibold"
-          [ngClass]="{
-            'text-green-600 font-semibold': period.balance > 0,
-            'text-red-700 font-semibold': period.balance < 0
-          }"
-        >
-          ={{ period.balance }}
-        </div>
-        @if (period.id === openPeriodId()) {
-        <hr class="my-3" />
-        <bombos-amount-form (save)="onItemAdd($event)" />
+        <bombos-amount-form
+          class="block mt-2 pb-3"
+          (save)="onItemAdd($event)"
+        />
+        } @else {
+        <bombos-money-change-list [sum]="period.balance" />
         }
       </div>
       }
     </div>
+    <bombos-floating-button (clickEvent)="toggleAdmin()" />
   `,
 })
 export class BalanceViewComponent implements OnInit {
@@ -99,9 +89,14 @@ export class BalanceViewComponent implements OnInit {
     })
   );
 
+  isAdmin = false;
+
   ngOnInit(): void {
     const today = new Date();
-    const currentTimestamp = today.getFullYear() * 10 + today.getMonth();
+    const currentTimestamp =
+      today.getFullYear() * 10 +
+      today.getMonth() +
+      (today.getDate() < 20 ? -1 : 0);
     this.balanceService
       .currentBalancePeriod(currentTimestamp)
       .pipe(
@@ -126,5 +121,9 @@ export class BalanceViewComponent implements OnInit {
 
   onItemDelete(id: string) {
     this.balanceService.removeBalanceItem(this.openPeriodId(), id);
+  }
+
+  toggleAdmin() {
+    this.isAdmin = !this.isAdmin;
   }
 }

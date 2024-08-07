@@ -6,7 +6,11 @@ import {
   inject,
 } from '@angular/core';
 import { CashPlanService, MoneyChangeItem } from '@bombos/data-access';
-import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
+import {
+  ConfirmButtonComponent,
+  FloatingButtonComponent,
+  IconComponent,
+} from '@bombos/ui';
 import { bounceInRightOnEnterAnimation } from 'angular-animations';
 import { map } from 'rxjs';
 import { AmountComponent } from '../amount-form.component';
@@ -23,6 +27,7 @@ import { MoneyChangeListComponent } from '../money-change-list.component';
     ConfirmButtonComponent,
     IconComponent,
     MoneyChangeListComponent,
+    FloatingButtonComponent,
   ],
   providers: [CashPlanService],
   animations: [
@@ -34,6 +39,7 @@ import { MoneyChangeListComponent } from '../money-change-list.component';
         class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-2"
       >
         <bombos-money-change-list
+          [editable]="isAdmin"
           [items]="(items$ | async) || []"
           [sum]="(sum$ | async) || 0"
           (delete)="onItemDelete($event)"
@@ -45,6 +51,7 @@ import { MoneyChangeListComponent } from '../money-change-list.component';
         <bombos-amount-form (save)="onItemSave($event)" />
       </div>
     </div>
+    <bombos-floating-button (clickEvent)="toggleAdmin()" />
   `,
 })
 export class PlanViewComponent {
@@ -58,11 +65,17 @@ export class PlanViewComponent {
     map((items) => items.reduce((acc, curr) => curr.amount + acc, 0))
   );
 
+  isAdmin = false;
+
   onItemSave(item: MoneyChangeItem) {
     this.planService.addPlanItem(item);
   }
 
   onItemDelete(id: string) {
     this.planService.removePlanItem(id);
+  }
+
+  toggleAdmin() {
+    this.isAdmin = !this.isAdmin;
   }
 }
