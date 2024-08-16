@@ -1,5 +1,12 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  Auth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  user,
+} from '@angular/fire/auth';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { DeliveryService, ShoppingService } from '@bombos/data-access';
 import {
@@ -8,21 +15,18 @@ import {
   MenuComponent,
   MenuItem,
 } from '@bombos/ui';
-import { Observable, combineLatest, filter, map, switchMap } from 'rxjs';
-import { FirebaseModule } from '../firebase.module';
+import { combineLatest, filter, map, Observable, switchMap } from 'rxjs';
 
 @Component({
   standalone: true,
   selector: 'bombos-root',
-  imports: [
-    RouterModule,
-    FirebaseModule,
-    ErrorComponent,
-    NgIf,
-    AsyncPipe,
-    MenuComponent,
+  imports: [RouterModule, ErrorComponent, NgIf, AsyncPipe, MenuComponent],
+  providers: [
+    ErrorService,
+    DeliveryService,
+    ShoppingService,
+    GoogleAuthProvider,
   ],
-  providers: [ErrorService, DeliveryService, ShoppingService],
   template: `
     <bombos-menu *ngIf="menuItems$ | async as menuItems" [items]="menuItems" />
     <div class="p-1">
@@ -35,10 +39,24 @@ import { FirebaseModule } from '../firebase.module';
     </div>
   `,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  private readonly auth = inject(Auth);
+  private readonly router = inject(Router);
+  private readonly currentUser = user(this.auth).pipe(takeUntilDestroyed());
+  private readonly googleAuthProvider = inject(GoogleAuthProvider);
   readonly error$ = inject(ErrorService).error$;
   private readonly deliveryService = inject(DeliveryService);
   private readonly shoppingService = inject(ShoppingService);
+
+  ngOnInit() {
+    this.currentUser.subscribe(async (user) => {
+      if (user) {
+        return;
+      }
+      await signInWithPopup(this.auth, this.googleAuthProvider);
+      this.router.navigate(['/']);
+    });
+  }
 
   menuItems$: Observable<MenuItem[]> = inject(Router).events.pipe(
     filter((event) => event instanceof NavigationEnd),
