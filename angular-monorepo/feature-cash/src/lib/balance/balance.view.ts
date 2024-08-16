@@ -16,6 +16,7 @@ import { filter, map, of, switchMap, take } from 'rxjs';
 import { AmountComponent } from '../amount-form.component';
 import { BalanceFormComponent } from '../balance-form.component';
 import { MoneyChangeListComponent } from '../money-change-list.component';
+import { MonthHeaderComponent } from '../month-header.component';
 import { TimestampPipe } from '../timestamp.pipe';
 
 @Component({
@@ -33,6 +34,7 @@ import { TimestampPipe } from '../timestamp.pipe';
     NgIf,
     FloatingButtonComponent,
     BalanceFormComponent,
+    MonthHeaderComponent,
   ],
   providers: [BalanceService],
   animations: [
@@ -45,11 +47,10 @@ import { TimestampPipe } from '../timestamp.pipe';
         (click)="openPeriod(period.id)"
         class="block max-w-sm p-6 py-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-2"
       >
-        <div class="flex justify-between mb-2">
-          <label class="capitalize font-semibold text-sm">
-            20 {{ period.timestamp | timestamp | date : 'MMMM y' : '' : 'pl' }}
-          </label>
-        </div>
+        <bombos-month-header
+          class="block mb-2"
+          [periodTimestamp]="period.timestamp"
+        />
         @if (period.id === openPeriodId()) {
         <bombos-money-change-list
           [editable]="isAdmin"

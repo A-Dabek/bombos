@@ -27,8 +27,11 @@ export class BillsService {
     }
   ) as Observable<(BillsPeriodItem & Id)[]>;
 
-  addBillPeriod(payload: BillsPeriodItem) {
-    return addDoc(this.billPeriodsCollection, payload);
+  async addBillPeriod(payload: BillsPeriodItem, income: number = 0) {
+    if (income) payload.balance = income;
+    const docRef = await addDoc(this.billPeriodsCollection, payload);
+    if (!income) return;
+    this.addBillItem(docRef.id, { name: 'Wpływy', amount: income });
   }
 
   updateBillPeriodBalance(id: string, balance: number) {
