@@ -2,7 +2,7 @@
   "name": "feature-cash",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "feature-cash/src",
-  "prefix": "angular-monorepo",
+  "prefix": "bombos",
   "tags": [],
   "projectType": "library",
   "targets": {

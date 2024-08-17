@@ -1,5 +1,5 @@
 {
-  "name": "@angular-monorepo/feature-cash",
+  "name": "@bombos/feature-cash",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^17.0.0",

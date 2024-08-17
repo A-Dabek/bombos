@@ -1,9 +1,9 @@
 {
-  "name": "@angular-monorepo/source",
+  "name": "bombos",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx run angular-monorepo:serve",
+    "start": "nx run bombos:serve",
     "build": "nx run-many --targets=build",
     "deploy": "firebase deploy"
   },

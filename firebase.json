@@ -4,7 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "dist/apps/angular-monorepo/browser",
+    "public": "dist/apps/bombos/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

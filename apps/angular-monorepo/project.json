@@ -1,26 +1,26 @@
 {
-  "name": "angular-monorepo",
+  "name": "bombos",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "bombos",
-  "sourceRoot": "apps/angular-monorepo/src",
+  "sourceRoot": "apps/bombos/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/angular-monorepo",
-        "index": "apps/angular-monorepo/src/index.html",
-        "browser": "apps/angular-monorepo/src/main.ts",
+        "outputPath": "dist/apps/bombos",
+        "index": "apps/bombos/src/index.html",
+        "browser": "apps/bombos/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/angular-monorepo/tsconfig.app.json",
+        "tsConfig": "apps/bombos/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/angular-monorepo/src/favicon.ico",
-          "apps/angular-monorepo/src/assets"
+          "apps/bombos/src/favicon.ico",
+          "apps/bombos/src/assets"
         ],
-        "styles": ["apps/angular-monorepo/src/styles.scss"],
+        "styles": ["apps/bombos/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -51,10 +51,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "angular-monorepo:build:production"
+          "buildTarget": "bombos:build:production"
         },
         "development": {
-          "buildTarget": "angular-monorepo:build:development"
+          "buildTarget": "bombos:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -62,7 +62,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "angular-monorepo:build"
+        "buildTarget": "bombos:build"
       }
     },
     "lint": {
@@ -73,7 +73,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/angular-monorepo/jest.config.ts"
+        "jestConfig": "apps/bombos/jest.config.ts"
       }
     }
   }

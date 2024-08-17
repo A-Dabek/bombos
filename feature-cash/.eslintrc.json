@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "angular-monorepo",
+            "prefix": "bombos",
             "style": "kebab-case"
           }
         ]
@@ -31,6 +31,13 @@
       "files": ["*.html"],
       "extends": ["plugin:@nx/angular-template"],
       "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "parser": "jsonc-eslint-parser",
+      "rules": {
+        "@nx/dependency-checks": "error"
+      }
     }
   ]
 }
