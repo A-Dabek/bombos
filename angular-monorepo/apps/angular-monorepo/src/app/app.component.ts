@@ -1,10 +1,10 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   Auth,
+  getRedirectResult,
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithRedirect,
   user,
 } from '@angular/fire/auth';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
@@ -15,7 +15,7 @@ import {
   MenuComponent,
   MenuItem,
 } from '@bombos/ui';
-import { combineLatest, filter, map, Observable, switchMap } from 'rxjs';
+import { combineLatest, filter, map, Observable, switchMap, take } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -41,21 +41,24 @@ import { combineLatest, filter, map, Observable, switchMap } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   private readonly auth = inject(Auth);
-  private readonly router = inject(Router);
-  private readonly currentUser = user(this.auth).pipe(takeUntilDestroyed());
   private readonly googleAuthProvider = inject(GoogleAuthProvider);
   readonly error$ = inject(ErrorService).error$;
   private readonly deliveryService = inject(DeliveryService);
   private readonly shoppingService = inject(ShoppingService);
 
   ngOnInit() {
-    this.currentUser.subscribe(async (user) => {
-      if (user) {
-        return;
-      }
-      await signInWithPopup(this.auth, this.googleAuthProvider);
-      this.router.navigate(['/']);
-    });
+    this.authenticate();
+  }
+
+  authenticate() {
+    user(this.auth)
+      .pipe(take(1))
+      .subscribe(async (user) => {
+        if (user) return;
+        const result = await getRedirectResult(this.auth);
+        if (result) return;
+        await signInWithRedirect(this.auth, this.googleAuthProvider);
+      });
   }
 
   menuItems$: Observable<MenuItem[]> = inject(Router).events.pipe(
