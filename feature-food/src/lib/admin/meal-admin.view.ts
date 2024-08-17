@@ -1,4 +1,4 @@
-import { AsyncPipe, NgForOf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -35,11 +35,8 @@ import { MealAdminCardComponent } from './meal-admin-card.component';
   template: `
     <bombos-dish-form class="block mb-2" (save)="onDishAdd($event)" />
     <ul>
-      <li
-        [@enterItem]
-        [@leaveItem]
-        *ngFor="let dish of dishes$ | async; trackBy: dishTrackBy"
-      >
+      @for (dish of dishes$ | async; track dishTrackBy($index, dish)) {
+      <li [@enterItem] [@leaveItem]>
         <bombos-admin-dish-card
           class="block mb-2"
           [dish]="dish"
@@ -48,6 +45,7 @@ import { MealAdminCardComponent } from './meal-admin-card.component';
           (delete)="onDishDelete(dish.id)"
         />
       </li>
+      }
     </ul>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,7 +53,6 @@ import { MealAdminCardComponent } from './meal-admin-card.component';
   imports: [
     MealAdminCardComponent,
     AsyncPipe,
-    NgForOf,
     DishFormComponent,
     DishAdminCardComponent,
   ],

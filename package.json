@@ -22,6 +22,7 @@
     "@nx/angular": "~19.6.0",
     "angular-animations": "~0.11.0",
     "firebase": "^10.7.1",
+    "ngxtension": "^4.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.8"

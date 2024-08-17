@@ -1,16 +1,9 @@
-import {
-  JsonPipe,
-  KeyValuePipe,
-  NgClass,
-  NgForOf,
-  NgIf,
-} from '@angular/common';
+import { JsonPipe, KeyValuePipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { Id, ShoppingItem } from '@bombos/data-access';
@@ -55,13 +48,8 @@ import { ShoppingGroupButton } from './shopping-group-button.component';
         {{ selectedGroup() || 'Brak' }}
       </div>
       <ol class="px-2">
-        <li
-          *ngFor="
-            let item of groupedItems[selectedGroup()];
-            trackBy: listItemTrackBy
-          "
-          [@enterItem]="!item.bought"
-        >
+        @for ( item of groupedItems[selectedGroup()]; track item.id) {
+        <li [@enterItem]="!item.bought">
           <bombos-list-item
             class="block"
             [item]="item"
@@ -69,12 +57,13 @@ import { ShoppingGroupButton } from './shopping-group-button.component';
             (click)="onItemClick(item)"
           />
         </li>
+        }
       </ol>
     </div>
     <hr />
     <div>Ostatnie</div>
     <ol class="ml-2">
-      @for(recentItemName of namesOfRecentlyInteracted; track recentItemName) {
+      @for(recentItemName of namesOfRecentlyInteracted; track $index) {
       <li class="text-sm">{{ recentItemName || '&zwnj;' }}</li>
       }
     </ol>
@@ -84,10 +73,8 @@ import { ShoppingGroupButton } from './shopping-group-button.component';
     ListItemsComponent,
     IconComponent,
     ListItemComponent,
-    NgForOf,
     NgClass,
     JsonPipe,
-    NgIf,
     ShoppingGroupButton,
   ],
 })
@@ -125,9 +112,8 @@ export class ShoppingListComponent {
   groupedNormalItems: Record<string, (ShoppingItem & Id)[]> = {};
   recentlyInteracted = [] as string[];
   namesOfRecentlyInteracted = new Array(3).fill('') as string[];
-  listItemTrackBy = (_: number, item: ShoppingItem & Id) => item.id;
 
-  @Output() itemClick = new EventEmitter<ShoppingItem & Id>();
+  itemClick = output<ShoppingItem & Id>();
 
   numberOfUrgentItems(group: string) {
     return this.groupedItems[group].filter(

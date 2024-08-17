@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,8 +32,6 @@ import { MealCardComponent } from './meal-card.component';
   providers: [FoodService],
   imports: [
     AsyncPipe,
-    NgForOf,
-    NgIf,
     LoadingComponent,
     MealCardComponent,
     CdkDropList,
@@ -43,25 +41,23 @@ import { MealCardComponent } from './meal-card.component';
   ],
   template: `
     <div [@enterView]>
+      @if (orderedMeals$ | async; as meals) {
       <ul
-        *ngIf="orderedMeals$ | async as meals"
         cdkDropList
         [cdkDropListData]="meals"
         (cdkDropListDropped)="drop($event)"
       >
-        <li
-          cdkDrag
-          *ngFor="let meal of meals; trackBy: mealTrackBy"
-          [@enterItem]
-          [@leaveItem]
-        >
+        @for (meal of meals; track mealTrackBy($index, meal)) {
+        <li cdkDrag [@enterItem] [@leaveItem]>
           <bombos-meal-card
             class="block mb-2"
             [meal]="meal"
             [routerLink]="meal.id"
           />
         </li>
+        }
       </ul>
+      }
     </div>
     <bombos-floating-button [link]="['admin']" />
   `,

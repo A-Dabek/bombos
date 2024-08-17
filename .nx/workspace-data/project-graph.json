@@ -5705,6 +5705,42 @@
         "hash": "sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA=="
       }
     },
+    "npm:@ts-morph/common": {
+      "type": "npm",
+      "name": "npm:@ts-morph/common",
+      "data": {
+        "version": "0.23.0",
+        "packageName": "@ts-morph/common",
+        "hash": "sha512-m7Lllj9n/S6sOkCkRftpM7L24uvmfXQFedlW/4hENcuJH1HHm9u5EgxZb9uVjQSCGrbBWBkOGgcTxNg36r6ywA=="
+      }
+    },
+    "npm:mkdirp@3.0.1": {
+      "type": "npm",
+      "name": "npm:mkdirp@3.0.1",
+      "data": {
+        "version": "3.0.1",
+        "packageName": "mkdirp",
+        "hash": "sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg=="
+      }
+    },
+    "npm:mkdirp": {
+      "type": "npm",
+      "name": "npm:mkdirp",
+      "data": {
+        "version": "0.5.6",
+        "packageName": "mkdirp",
+        "hash": "sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw=="
+      }
+    },
+    "npm:mkdirp@1.0.4": {
+      "type": "npm",
+      "name": "npm:mkdirp@1.0.4",
+      "data": {
+        "version": "1.0.4",
+        "packageName": "mkdirp",
+        "hash": "sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw=="
+      }
+    },
     "npm:@tsconfig/node10": {
       "type": "npm",
       "name": "npm:@tsconfig/node10",
@@ -7037,6 +7073,15 @@
         "hash": "sha512-SEP5kJpfGYqYKpBrj5XU3ahw5p5GOHJ0U5ssOSQ/WBVdwkD2Dzlce95exQTs3jOVWPPKLBN2rlEWkCK7dSmLvg=="
       }
     },
+    "npm:babel-plugin-macros@3.1.0": {
+      "type": "npm",
+      "name": "npm:babel-plugin-macros@3.1.0",
+      "data": {
+        "version": "3.1.0",
+        "packageName": "babel-plugin-macros",
+        "hash": "sha512-Cg7TFGpIr01vOQNODXOOaGz2NpCU5gl8x1qJFbb6hbZxR7XrcE2vtbAsTAbJ7/xwJtUuJEw8K8Zr/AE0LHlesg=="
+      }
+    },
     "npm:babel-plugin-polyfill-corejs2": {
       "type": "npm",
       "name": "npm:babel-plugin-polyfill-corejs2",
@@ -7593,6 +7638,15 @@
         "version": "4.6.0",
         "packageName": "co",
         "hash": "sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ=="
+      }
+    },
+    "npm:code-block-writer": {
+      "type": "npm",
+      "name": "npm:code-block-writer",
+      "data": {
+        "version": "13.0.2",
+        "packageName": "code-block-writer",
+        "hash": "sha512-XfXzAGiStXSmCIwrkdfvc7FS5Dtj8yelCtyOf2p2skCAfvLd6zu0rGzuS9NSCO3bq1JKpFZ7tbKdKlcd5occQA=="
       }
     },
     "npm:collect-v8-coverage": {
@@ -11384,24 +11438,6 @@
         "hash": "sha512-bAxsR8BVfj60DWXHE3u30oHzfl4G7khkSuPW+qvpd7jFRHm7dLxOjUk1EHACJ/hxLY8phGJ0YhYHZo7jil7Qdg=="
       }
     },
-    "npm:mkdirp": {
-      "type": "npm",
-      "name": "npm:mkdirp",
-      "data": {
-        "version": "0.5.6",
-        "packageName": "mkdirp",
-        "hash": "sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw=="
-      }
-    },
-    "npm:mkdirp@1.0.4": {
-      "type": "npm",
-      "name": "npm:mkdirp@1.0.4",
-      "data": {
-        "version": "1.0.4",
-        "packageName": "mkdirp",
-        "hash": "sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw=="
-      }
-    },
     "npm:mrmime": {
       "type": "npm",
       "name": "npm:mrmime",
@@ -11499,6 +11535,15 @@
         "version": "18.2.0",
         "packageName": "ng-packagr",
         "hash": "sha512-oT7XTrU7z92iz2/3C9NmmWrXsJ+z0RAN1SZ8/L0bQ8/Jkl9JlfHHkX0D5iA45aJldG7fyHu6+6SPFroJBh8Isw=="
+      }
+    },
+    "npm:ngxtension": {
+      "type": "npm",
+      "name": "npm:ngxtension",
+      "data": {
+        "version": "4.0.0",
+        "packageName": "ngxtension",
+        "hash": "sha512-67hzWhQHqUWui9bOwmXast08zDGMlWR38TUhP7FAooFPETGHUCm/134dIo8BdKFTgHpy9Eux8EOkZH31NX6qnw=="
       }
     },
     "npm:nice-napi": {
@@ -12039,6 +12084,15 @@
         "version": "1.3.3",
         "packageName": "parseurl",
         "hash": "sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ=="
+      }
+    },
+    "npm:path-browserify": {
+      "type": "npm",
+      "name": "npm:path-browserify",
+      "data": {
+        "version": "1.0.1",
+        "packageName": "path-browserify",
+        "hash": "sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g=="
       }
     },
     "npm:path-is-absolute": {
@@ -13949,6 +14003,15 @@
         "hash": "sha512-rNH3sK9kGZcH9dYzC7CewQm4NtxJTjSEVRJ2DyBZR7f8/wcta+iV44UPCXc5+nzDzivKtlzV6c9P4e+oFhDLYg=="
       }
     },
+    "npm:ts-morph": {
+      "type": "npm",
+      "name": "npm:ts-morph",
+      "data": {
+        "version": "22.0.0",
+        "packageName": "ts-morph",
+        "hash": "sha512-M9MqFGZREyeb5fTl6gNHKZLqBQA0TjA1lea+CR48R8EBTDuWrNqW6ccC5QvjNR4s6wDumD3LTCjOFSp9iwlzaw=="
+      }
+    },
     "npm:ts-node": {
       "type": "npm",
       "name": "npm:ts-node",
@@ -14557,6 +14620,16 @@
     "feature-deliveries": [
       {
         "source": "feature-deliveries",
+        "target": "npm:@angular/core",
+        "type": "static"
+      },
+      {
+        "source": "feature-deliveries",
+        "target": "npm:@angular/forms",
+        "type": "static"
+      },
+      {
+        "source": "feature-deliveries",
         "target": "data-access",
         "type": "static"
       },
@@ -14567,7 +14640,27 @@
       },
       {
         "source": "feature-deliveries",
+        "target": "npm:@angular/common",
+        "type": "static"
+      },
+      {
+        "source": "feature-deliveries",
+        "target": "npm:@angular/fire",
+        "type": "static"
+      },
+      {
+        "source": "feature-deliveries",
+        "target": "npm:angular-animations",
+        "type": "static"
+      },
+      {
+        "source": "feature-deliveries",
         "target": "npm:@angular/router",
+        "type": "static"
+      },
+      {
+        "source": "feature-deliveries",
+        "target": "npm:rxjs",
         "type": "static"
       },
       {
@@ -14577,6 +14670,16 @@
       }
     ],
     "feature-cash": [
+      {
+        "source": "feature-cash",
+        "target": "npm:@angular/core",
+        "type": "static"
+      },
+      {
+        "source": "feature-cash",
+        "target": "npm:@angular/forms",
+        "type": "static"
+      },
       {
         "source": "feature-cash",
         "target": "data-access",
@@ -14594,7 +14697,12 @@
       },
       {
         "source": "feature-cash",
-        "target": "npm:@angular/core",
+        "target": "npm:angular-animations",
+        "type": "static"
+      },
+      {
+        "source": "feature-cash",
+        "target": "npm:rxjs",
         "type": "static"
       },
       {
@@ -14611,6 +14719,16 @@
     "feature-food": [
       {
         "source": "feature-food",
+        "target": "npm:@angular/core",
+        "type": "static"
+      },
+      {
+        "source": "feature-food",
+        "target": "npm:@angular/forms",
+        "type": "static"
+      },
+      {
+        "source": "feature-food",
         "target": "data-access",
         "type": "static"
       },
@@ -14621,12 +14739,27 @@
       },
       {
         "source": "feature-food",
-        "target": "npm:@angular/core",
+        "target": "npm:@angular/router",
         "type": "static"
       },
       {
         "source": "feature-food",
-        "target": "npm:@angular/router",
+        "target": "npm:@angular/common",
+        "type": "static"
+      },
+      {
+        "source": "feature-food",
+        "target": "npm:angular-animations",
+        "type": "static"
+      },
+      {
+        "source": "feature-food",
+        "target": "npm:rxjs",
+        "type": "static"
+      },
+      {
+        "source": "feature-food",
+        "target": "npm:@angular/cdk",
         "type": "static"
       },
       {
@@ -14638,17 +14771,7 @@
     "feature-plan": [
       {
         "source": "feature-plan",
-        "target": "data-access",
-        "type": "static"
-      },
-      {
-        "source": "feature-plan",
-        "target": "ui",
-        "type": "static"
-      },
-      {
-        "source": "feature-plan",
-        "target": "npm:@angular/router",
+        "target": "npm:@angular/cdk",
         "type": "static"
       },
       {
@@ -14663,7 +14786,37 @@
       },
       {
         "source": "feature-plan",
+        "target": "npm:@angular/forms",
+        "type": "static"
+      },
+      {
+        "source": "feature-plan",
+        "target": "npm:@angular/router",
+        "type": "static"
+      },
+      {
+        "source": "feature-plan",
+        "target": "data-access",
+        "type": "static"
+      },
+      {
+        "source": "feature-plan",
+        "target": "ui",
+        "type": "static"
+      },
+      {
+        "source": "feature-plan",
         "target": "npm:angular-animations",
+        "type": "static"
+      },
+      {
+        "source": "feature-plan",
+        "target": "npm:@angular/fire",
+        "type": "static"
+      },
+      {
+        "source": "feature-plan",
+        "target": "npm:rxjs",
         "type": "static"
       },
       {
@@ -14675,12 +14828,7 @@
     "bombos": [
       {
         "source": "bombos",
-        "target": "data-access",
-        "type": "static"
-      },
-      {
-        "source": "bombos",
-        "target": "ui",
+        "target": "npm:@angular/common",
         "type": "static"
       },
       {
@@ -14695,12 +14843,27 @@
       },
       {
         "source": "bombos",
-        "target": "npm:@angular/platform-browser",
+        "target": "npm:@angular/router",
         "type": "static"
       },
       {
         "source": "bombos",
-        "target": "npm:@angular/router",
+        "target": "data-access",
+        "type": "static"
+      },
+      {
+        "source": "bombos",
+        "target": "ui",
+        "type": "static"
+      },
+      {
+        "source": "bombos",
+        "target": "npm:rxjs",
+        "type": "static"
+      },
+      {
+        "source": "bombos",
+        "target": "npm:@angular/platform-browser",
         "type": "static"
       },
       {
@@ -14764,11 +14927,6 @@
     "ui": [
       {
         "source": "ui",
-        "target": "npm:@angular/common",
-        "type": "static"
-      },
-      {
-        "source": "ui",
         "target": "npm:@angular/core",
         "type": "static"
       },
@@ -14780,6 +14938,11 @@
       {
         "source": "ui",
         "target": "npm:@angular/router",
+        "type": "static"
+      },
+      {
+        "source": "ui",
+        "target": "npm:@angular/common",
         "type": "static"
       },
       {
@@ -23031,6 +23194,28 @@
         "type": "static"
       }
     ],
+    "npm:@ts-morph/common": [
+      {
+        "source": "npm:@ts-morph/common",
+        "target": "npm:fast-glob",
+        "type": "static"
+      },
+      {
+        "source": "npm:@ts-morph/common",
+        "target": "npm:minimatch",
+        "type": "static"
+      },
+      {
+        "source": "npm:@ts-morph/common",
+        "target": "npm:mkdirp@3.0.1",
+        "type": "static"
+      },
+      {
+        "source": "npm:@ts-morph/common",
+        "target": "npm:path-browserify",
+        "type": "static"
+      }
+    ],
     "npm:@tufjs/models": [
       {
         "source": "npm:@tufjs/models",
@@ -27965,6 +28150,30 @@
         "type": "static"
       }
     ],
+    "npm:babel-plugin-macros@3.1.0": [
+      {
+        "source": "npm:babel-plugin-macros@3.1.0",
+        "target": "npm:@babel/runtime",
+        "type": "static"
+      },
+      {
+        "source": "npm:babel-plugin-macros@3.1.0",
+        "target": "npm:cosmiconfig@7.1.0",
+        "type": "static"
+      },
+      {
+        "source": "npm:babel-plugin-macros@3.1.0",
+        "target": "npm:resolve",
+        "type": "static"
+      }
+    ],
+    "npm:dedent@1.5.3": [
+      {
+        "source": "npm:dedent@1.5.3",
+        "target": "npm:babel-plugin-macros@3.1.0",
+        "type": "static"
+      }
+    ],
     "npm:jest-cli": [
       {
         "source": "npm:jest-cli",
@@ -30182,6 +30391,48 @@
       {
         "source": "npm:ng-packagr",
         "target": "npm:rollup",
+        "type": "static"
+      }
+    ],
+    "npm:ngxtension": [
+      {
+        "source": "npm:ngxtension",
+        "target": "npm:@angular/common",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngxtension",
+        "target": "npm:@angular/core",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngxtension",
+        "target": "npm:rxjs",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngxtension",
+        "target": "npm:@angular-eslint/bundled-angular-compiler",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngxtension",
+        "target": "npm:@nx/devkit",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngxtension",
+        "target": "npm:nx",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngxtension",
+        "target": "npm:ts-morph",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngxtension",
+        "target": "npm:tslib",
         "type": "static"
       }
     ],
@@ -33910,6 +34161,18 @@
       {
         "source": "npm:ts-loader",
         "target": "npm:source-map",
+        "type": "static"
+      }
+    ],
+    "npm:ts-morph": [
+      {
+        "source": "npm:ts-morph",
+        "target": "npm:@ts-morph/common",
+        "type": "static"
+      },
+      {
+        "source": "npm:ts-morph",
+        "target": "npm:code-block-writer",
         "type": "static"
       }
     ],

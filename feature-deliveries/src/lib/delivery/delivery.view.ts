@@ -1,10 +1,10 @@
-import { AsyncPipe, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   inject,
-  Input,
+  input,
   OnInit,
   signal,
 } from '@angular/core';
@@ -17,10 +17,13 @@ import {
   DeliveryStore,
   Id,
 } from '@bombos/data-access';
-import { ErrorService, LoadingComponent } from '@bombos/ui';
+import {
+  ErrorService,
+  LoadingComponent,
+  NavigationTabsComponent,
+} from '@bombos/ui';
 import { bounceInRightOnEnterAnimation } from 'angular-animations';
 import { Observable } from 'rxjs';
-import { NavigationTabsComponent } from '../../../../ui/src/lib/navigation-tabs.component';
 import { AddFormComponent } from '../deliveries/add-form.component';
 import { UploadFileComponent } from '../deliveries/upload-file.component';
 import { DeliveryCardComponent } from '../ui/delivery-card.component';
@@ -30,9 +33,7 @@ import { DeliveryCardComponent } from '../ui/delivery-card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'bombos-deliveries-view',
   imports: [
-    NgForOf,
     AsyncPipe,
-    NgIf,
     NgOptimizedImage,
     ReactiveFormsModule,
     NavigationTabsComponent,
@@ -46,14 +47,15 @@ import { DeliveryCardComponent } from '../ui/delivery-card.component';
   ],
   template: `
     <div class="relative h-screen">
+      @if (delivery$ | async; as delivery) {
       <bombos-delivery-card
-        *ngIf="delivery$ | async as delivery"
         class="block mb-2"
         [loading]="loading()"
         [fullHeight]="true"
         [delivery]="delivery"
         (complete)="onComplete(delivery.id)"
       />
+      }
     </div>
   `,
 })
@@ -61,8 +63,8 @@ export class DeliveryViewComponent implements OnInit {
   @HostBinding('@enterView') _ = true;
   @HostBinding('class') __ = 'block';
 
-  @Input() id = '';
-  @Input() type: 'in' | 'out' = 'in';
+  id = input('');
+  type = input<'in' | 'out'>('in');
 
   delivery$!: Observable<Delivery & Id>;
 
@@ -75,8 +77,8 @@ export class DeliveryViewComponent implements OnInit {
   loading = signal(false);
 
   ngOnInit() {
-    this.deliveryStore = this.deliveryService.getDeliveriesStore(this.type);
-    this.delivery$ = this.deliveryStore.getDelivery(this.id);
+    this.deliveryStore = this.deliveryService.getDeliveriesStore(this.type());
+    this.delivery$ = this.deliveryStore.getDelivery(this.id());
   }
 
   onComplete(id: string) {

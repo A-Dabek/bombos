@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import '@angular/common/locales/global/pl';
 import {
   ChangeDetectionStrategy,
@@ -35,10 +35,8 @@ import { DefaultIncomeComponent } from './default-income.component';
     IconComponent,
     MoneyChangeListComponent,
     AmountComponent,
-    NgIf,
     FloatingButtonComponent,
     MonthHeaderComponent,
-    NgForOf,
     ReactiveFormsModule,
     DefaultIncomeComponent,
   ],
@@ -56,7 +54,7 @@ import { DefaultIncomeComponent } from './default-income.component';
       />
       @for (period of periods$ | async; track period.id) {
       <div
-        (click)="period.id !== openPeriodId() && openPeriod(period.id)"
+        (click)="openPeriod(period.id)"
         class="block max-w-sm p-6 py-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-2"
       >
         <bombos-month-header
@@ -150,7 +148,7 @@ export class BillsViewComponent implements OnInit {
   }
 
   openPeriod(id: string) {
-    this.openPeriodId.set(id);
+    id !== this.openPeriodId() && this.openPeriodId.set(id);
   }
 
   onItemAdd(item: MoneyChangeItem) {

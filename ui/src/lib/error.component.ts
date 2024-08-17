@@ -1,19 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
-  standalone: true,
   selector: 'bombos-error',
-  template: ` {{ message }} `,
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: ` {{ message() }} `,
+  host: {
+    class: 'p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50',
+  },
 })
 export class ErrorComponent {
-  @HostBinding('class') _ =
-    'p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50';
-
-  @Input() message = '';
+  message = input('');
 }

@@ -1,10 +1,4 @@
-import { NgIf } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IconComponent } from '@bombos/ui';
 
@@ -27,10 +21,10 @@ import { IconComponent } from '@bombos/ui';
     </label>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, ReactiveFormsModule, IconComponent],
+  imports: [ReactiveFormsModule, IconComponent],
 })
 export class UploadFileComponent {
-  @Output() upload = new EventEmitter<File>();
+  upload = output<File>();
 
   onFileUpload(event: Event) {
     const target = event.target as HTMLInputElement;

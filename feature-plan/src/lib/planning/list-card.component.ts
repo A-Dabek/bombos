@@ -1,12 +1,12 @@
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { KeyValuePipe, NgIf } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostBinding,
   Input,
-  Output,
+  input,
+  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Id, ShoppingItem, ShoppingList } from '@bombos/data-access';
@@ -15,11 +15,11 @@ import {
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
+import { shoppingGroups } from 'data-access/src/lib/plan/model';
 import { ListCardButtonsComponent } from './list-card-buttons.component';
 import { ListItemFormComponent } from './list-item-form.component';
 import { ListItemComponent } from './list-item.component';
 import { ListItemsComponent } from './list-items.component';
-import { shoppingGroups } from 'data-access/src/lib/plan/model';
 
 @Component({
   standalone: true,
@@ -29,25 +29,23 @@ import { shoppingGroups } from 'data-access/src/lib/plan/model';
     expandOnEnterAnimation({ anchor: 'enterDetails' }),
     collapseOnLeaveAnimation({ anchor: 'leaveDetails' }),
   ],
+
   template: `
     <h5
       class="flex justify-between align-baseline mb-2 text-2xl font-bold tracking-tight text-gray-900 relative"
     >
-      {{ list.name }}
+      {{ list().name }}
+      @if (urgentCount) {
       <div
-        *ngIf="urgentCount"
         class="absolute right-1 top-1 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full"
       >
         {{ urgentCount }}
       </div>
+      }
       <ng-content></ng-content>
     </h5>
-    <div
-      *ngIf="open"
-      [@enterDetails]
-      [@leaveDetails]
-      (click)="$event.stopPropagation()"
-    >
+    @if (open()) {
+    <div [@enterDetails] [@leaveDetails] (click)="$event.stopPropagation()">
       @if (isFormVisible) {
       <bombos-list-item-form
         class="block"
@@ -57,7 +55,7 @@ import { shoppingGroups } from 'data-access/src/lib/plan/model';
         [value]="formEditItem"
         (save)="onItemSave($event)"
         (cancel)="isFormVisible = false"
-        [suggestedGroup]="suggestedGroup"
+        [suggestedGroup]="suggestedGroup()"
         (nameChange)="nameChange.emit($event)"
       />
       } @else { @for (keyValue of groupedItems | keyvalue; track keyValue.key) {
@@ -78,16 +76,16 @@ import { shoppingGroups } from 'data-access/src/lib/plan/model';
         [@enterDetails]
         [@leaveDetails]
         [boughtItemsPresent]="boughtItemsPresent"
-        [shoppingLink]="['shopping', list.id]"
+        [shoppingLink]="['shopping', list().id]"
         (newItem)="onNewItem()"
         (clearItems)="onClearItems()"
       />
       }
     </div>
+    }
   `,
   imports: [
     RouterLink,
-    NgIf,
     ConfirmButtonComponent,
     IconComponent,
     ListCardButtonsComponent,
@@ -103,8 +101,8 @@ export class ListCardComponent {
   @HostBinding('class') readonly clazz =
     'block max-w-sm p-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100';
 
-  @Input({ required: true }) list!: ShoppingList & Id;
-  @Input() open = false;
+  list = input.required<ShoppingList & Id>();
+  open = input(false);
   @Input() set items(value: (ShoppingItem & Id)[]) {
     this.boughtItemsPresent = value.some((item) => item.bought);
     this.urgentCount = value.filter((item) => item.urgent).length;
@@ -115,13 +113,13 @@ export class ListCardComponent {
         return { ...acc, [key]: [...(acc[key] || []), item] };
       }, {} as Record<string, (ShoppingItem & Id)[]>);
   }
-  @Output() newItem = new EventEmitter<ShoppingItem>();
-  @Output() editItem = new EventEmitter<ShoppingItem & Id>();
-  @Output() deleteItem = new EventEmitter<string>();
-  @Output() clearItems = new EventEmitter();
+  newItem = output<ShoppingItem>();
+  editItem = output<ShoppingItem & Id>();
+  deleteItem = output<string>();
+  clearItems = output();
 
-  @Input() suggestedGroup: string = '';
-  @Output() nameChange = new EventEmitter<string>();
+  suggestedGroup = input<string>('');
+  nameChange = output<string>();
 
   allShoppingGroups = shoppingGroups;
   boughtItemsPresent = false;

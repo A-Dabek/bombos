@@ -1,11 +1,9 @@
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   inject,
   OnInit,
-  Output,
+  output,
 } from '@angular/core';
 import {
   FormControl,
@@ -53,7 +51,7 @@ import { IconComponent } from '@bombos/ui';
     </form>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, ReactiveFormsModule, IconComponent],
+  imports: [ReactiveFormsModule, IconComponent],
 })
 export class AddFormComponent implements OnInit {
   private fb = inject(NonNullableFormBuilder);
@@ -62,7 +60,7 @@ export class AddFormComponent implements OnInit {
     name: FormControl<string>;
   }>;
 
-  @Output() add = new EventEmitter<ShoppingList>();
+  add = output<ShoppingList>();
 
   ngOnInit() {
     this.formGroup = this.fb.group({

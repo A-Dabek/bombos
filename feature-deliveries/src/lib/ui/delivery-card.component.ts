@@ -1,15 +1,12 @@
-import { NgClass, NgIf, NgStyle } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
-  ElementRef,
-  EventEmitter,
   HostBinding,
   inject,
-  Input,
-  Output,
-  ViewChild,
+  input,
+  OnInit,
+  output,
 } from '@angular/core';
 import {
   FormControl,
@@ -27,17 +24,29 @@ import {
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
-  standalone: true,
   selector: 'bombos-delivery-card',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    IconComponent,
+    LoadingComponent,
+    NgClass,
+    ConfirmButtonComponent,
+    NgStyle,
+    RouterLink,
+    ReactiveFormsModule,
+  ],
+
   template: `
-    <bombos-loading *ngIf="loading" />
+    @if (loading()) {
+    <bombos-loading />
+    }
     <img
-      #img
       class="inner object-cover border border-1 w-full rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
-      [src]="delivery.img"
-      [ngClass]="fullHeight ? 'h-full' : 'h-24'"
+      [src]="delivery().img"
+      [ngClass]="fullHeight() ? 'h-full' : 'h-24'"
       alt=""
-      [routerLink]="link"
+      [routerLink]="link()"
     />
     <div class="flex w-full justify-between p-2 leading-normal">
       <div class="w-full flex justify-between p-4 leading-normal">
@@ -60,7 +69,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
           >
         </form>
       </div>
-      <div [ngClass]="fullHeight ? 'fixed bottom-3 right-3' : ''">
+      <div [ngClass]="fullHeight() ? 'fixed bottom-3 right-3' : ''">
         <bombos-confirm-button (confirm)="complete.emit()">
           <button
             type="button"
@@ -72,34 +81,20 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
       </div>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    IconComponent,
-    LoadingComponent,
-    NgIf,
-    NgClass,
-    ConfirmButtonComponent,
-    NgStyle,
-    RouterLink,
-    ReactiveFormsModule,
-  ],
 })
-export class DeliveryCardComponent {
+export class DeliveryCardComponent implements OnInit {
   @HostBinding('class') _ =
     'block relative flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100';
 
-  @ViewChild('img', { read: ElementRef }) img!: ElementRef<HTMLImageElement>;
+  delivery = input.required<Delivery & Id>();
+  loading = input(false);
+  link = input<unknown[]>([]);
+  fullHeight = input(false);
 
-  @Input({ required: true }) delivery!: Delivery & Id;
-  @Input() loading = false;
-  @Input() link: unknown[] = [];
-  @HostBinding('class.flex-col-reverse') @Input() fullHeight = false;
-
-  @Output() complete = new EventEmitter();
-  @Output() update = new EventEmitter<string>();
+  complete = output();
+  update = output<string>();
 
   private fb = inject(NonNullableFormBuilder);
-  private destroyRef = inject(DestroyRef);
 
   formGroup!: FormGroup<{
     alias: FormControl<string>;
@@ -107,7 +102,7 @@ export class DeliveryCardComponent {
 
   ngOnInit() {
     this.formGroup = this.fb.group({
-      alias: this.fb.control(this.delivery.alias),
+      alias: this.fb.control(this.delivery().alias),
     });
     this.formGroup.controls.alias.valueChanges
       .pipe(distinctUntilChanged(), debounceTime(500))

@@ -1,15 +1,14 @@
-import { NgForOf, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   HostBinding,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
   inject,
+  Input,
+  input,
+  OnInit,
+  output,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -25,6 +24,7 @@ import { debounceTime, distinctUntilChanged, filter, skip, tap } from 'rxjs';
   standalone: true,
   selector: 'bombos-list-item-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
+
   template: `
     <form
       class="max-w-sm mx-auto"
@@ -38,10 +38,12 @@ import { debounceTime, distinctUntilChanged, filter, skip, tap } from 'rxjs';
         placeholder="Name"
         required
       />
-      <span class="text-xs italic" *ngIf="lastSavedItem">
+      @if (lastSavedItem) {
+      <span class="text-xs italic">
         Last saved: {{ lastSavedItem.name }} ({{ lastSavedItem.amount
         }}{{ lastSavedItem.unit }})
       </span>
+      }
       <div class="flex justify-between mt-1 items-center">
         <input
           formControlName="amount"
@@ -81,9 +83,11 @@ import { debounceTime, distinctUntilChanged, filter, skip, tap } from 'rxjs';
         formControlName="group"
         class="px-2 py-1 mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block"
       >
-        <option *ngFor="let group of groups" [value]="group">
+        @for (group of groups(); track group) {
+        <option [value]="group">
           {{ group }}
         </option>
+        }
       </select>
 
       <textarea
@@ -128,15 +132,14 @@ import { debounceTime, distinctUntilChanged, filter, skip, tap } from 'rxjs';
       </div>
     </form>
   `,
-  imports: [FormsModule, ReactiveFormsModule, NgForOf, IconComponent, NgIf],
+  imports: [FormsModule, ReactiveFormsModule, IconComponent],
 })
 export class ListItemFormComponent implements OnInit {
   @HostBinding('class') readonly clazz = '';
 
   private fb = inject(NonNullableFormBuilder);
 
-  @ViewChild('name', { static: true, read: ElementRef })
-  name!: ElementRef<HTMLInputElement>;
+  name = viewChild('name', { read: ElementRef });
 
   formGroup = this.fb.group({
     name: '',
@@ -159,20 +162,20 @@ export class ListItemFormComponent implements OnInit {
     )
     .subscribe();
 
-  @Input() groups: string[] = [];
-  @Input() value: Partial<ShoppingItem> | undefined;
-  @Output() save = new EventEmitter<ShoppingItem>();
-  @Output() cancel = new EventEmitter<void>();
+  groups = input<string[]>([]);
+  value = input<Partial<ShoppingItem>>();
+  save = output<ShoppingItem>();
+  cancel = output<void>();
 
   @Input() set suggestedGroup(value: string) {
     this.formGroup.controls.group.patchValue(value);
   }
-  @Output() nameChange = new EventEmitter<string>();
+  nameChange = output<string>();
 
   ngOnInit() {
-    this.name.nativeElement.focus();
-    if (this.value) {
-      this.formGroup.patchValue(this.value);
+    this.name()?.nativeElement.focus();
+    if (this.value()) {
+      this.formGroup.patchValue(this.value()!);
     }
   }
 
@@ -190,7 +193,7 @@ export class ListItemFormComponent implements OnInit {
       this.onCancel();
     } else {
       this.formGroup.reset();
-      this.name.nativeElement.focus();
+      this.name()?.nativeElement.focus();
       this.lastSavedItem = item;
     }
   }

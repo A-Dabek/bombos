@@ -1,10 +1,8 @@
-import { NgForOf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  input,
+  output,
 } from '@angular/core';
 import { Id, ShoppingItem } from '@bombos/data-access';
 import { IconComponent } from '@bombos/ui';
@@ -17,14 +15,15 @@ import { ListItemComponent } from './list-item.component';
   template: `
     <div class="shopping-group flex">
       <div class="absolute -top-3 left-3 font-bold text-xs">
-        {{ groupName }}
+        {{ groupName() }}
       </div>
       <ol class="flex-grow px-2">
-        <li *ngFor="let item of items">
+        @for (item of items(); track item) {
+        <li>
           <bombos-list-item
             class="block"
             [item]="item"
-            [open]="openItemId === item.id"
+            [open]="openItemId() === item.id"
             (click)="openEvent.emit(item.id)"
             (edit)="edit.emit(item)"
             (increase)="onIncrease(item)"
@@ -32,6 +31,7 @@ import { ListItemComponent } from './list-item.component';
             (delete)="delete.emit(item.id)"
           />
         </li>
+        }
       </ol>
       <button
         class="font-medium hover:underline px-3"
@@ -41,19 +41,19 @@ import { ListItemComponent } from './list-item.component';
       </button>
     </div>
   `,
-  imports: [ListItemComponent, NgForOf, IconComponent],
+  imports: [ListItemComponent, IconComponent],
 })
 export class ListItemsComponent {
-  @Input() items: (ShoppingItem & Id)[] = [];
-  @Input() groupName = '';
+  items = input<(ShoppingItem & Id)[]>([]);
+  groupName = input('');
 
-  @Output() edit = new EventEmitter<ShoppingItem & Id>();
-  @Output() delete = new EventEmitter<string>();
+  edit = output<ShoppingItem & Id>();
+  delete = output<string>();
 
-  @Input() openItemId = '';
-  @Output() openEvent = new EventEmitter<string>();
-  @Output() groupAdd = new EventEmitter();
-  @Output() amountChange = new EventEmitter<ShoppingItem & Id>();
+  openItemId = input('');
+  openEvent = output<string>();
+  groupAdd = output();
+  amountChange = output<ShoppingItem & Id>();
 
   onIncrease(item: ShoppingItem & Id) {
     this.amountChange.emit({ ...item, amount: item.amount + 1 });

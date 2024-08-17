@@ -1,14 +1,13 @@
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { KeyValuePipe, NgForOf, NgIf } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostBinding,
   inject,
-  Input,
+  input,
   OnChanges,
-  Output,
+  output,
 } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -31,8 +30,11 @@ import {
     expandOnEnterAnimation({ anchor: 'enterDetails' }),
     collapseOnLeaveAnimation({ anchor: 'leaveDetails' }),
   ],
+
   template: `
-    <bombos-loading *ngIf="loading" />
+    @if (loading()) {
+    <bombos-loading />
+    }
     <div class="flex justify-between items-center">
       <form
         [formGroup]="formGroup"
@@ -76,10 +78,8 @@ import {
   `,
   imports: [
     RouterLink,
-    NgIf,
     ConfirmButtonComponent,
     IconComponent,
-    NgForOf,
     KeyValuePipe,
     CdkDrag,
     CdkDragHandle,
@@ -97,15 +97,15 @@ export class AdminListCardComponent implements OnChanges {
     name: '',
   });
 
-  @Input({ required: true }) list!: ShoppingList & Id;
-  @Input() loading = false;
+  list = input.required<ShoppingList & Id>();
+  loading = input(false);
 
-  @Output() save = new EventEmitter<ShoppingList>();
-  @Output() delete = new EventEmitter();
+  save = output<ShoppingList>();
+  delete = output();
 
   ngOnChanges() {
     this.formGroup.patchValue({
-      name: this.list.name,
+      name: this.list().name,
     });
   }
 

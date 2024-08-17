@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
 import '@angular/common/locales/global/pl';
 import {
   ChangeDetectionStrategy,
@@ -31,7 +31,6 @@ import { TimestampPipe } from '../timestamp.pipe';
     MoneyChangeListComponent,
     NgClass,
     AmountComponent,
-    NgIf,
     FloatingButtonComponent,
     BalanceFormComponent,
     MonthHeaderComponent,
@@ -63,12 +62,12 @@ import { TimestampPipe } from '../timestamp.pipe';
           label="Wydatek"
           (save)="onExpenseAdd($event)"
         />
+        @if (!last && (isBalancePresent$ | async) === false) {
         <bombos-balance-form
-          *ngIf="!last && (isBalancePresent$ | async) === false"
           class="block mt-2 pb-3"
           (save)="onBalanceChange($event.amount)"
         />
-        }
+        } }
         <bombos-money-change-list
           sumLabel="Zostało na koncie"
           [sum]="period.balance"

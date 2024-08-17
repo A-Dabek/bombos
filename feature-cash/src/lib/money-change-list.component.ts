@@ -1,10 +1,10 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  computed,
+  input,
+  output,
 } from '@angular/core';
 import { Id, MoneyChangeItem } from '@bombos/data-access';
 import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
@@ -13,12 +13,12 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
   standalone: true,
   selector: 'bombos-money-change-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ConfirmButtonComponent, IconComponent, NgClass, NgIf],
+  imports: [ConfirmButtonComponent, IconComponent, NgClass],
   template: `
-    @for (item of items; track item.id) {
+    @for (item of items(); track item.id) {
     <div class="flex justify-between items-baseline mb-2">
+      @if (editable()) {
       <bombos-confirm-button
-        *ngIf="editable"
         class="block me-2"
         (confirm)="delete.emit(item.id)"
       >
@@ -28,6 +28,7 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
           <bombos-icon name="delete" />
         </button>
       </bombos-confirm-button>
+      }
       <span class="flex-grow">{{ item.name }}</span>
       <span
         [ngClass]="{
@@ -37,33 +38,34 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
         >{{ item.amount }}</span
       >
     </div>
+    } @if (items().length > 0) {
+    <hr class="my-3" />
     }
-    <hr *ngIf="items.length > 0" class="my-3" />
     <div class="flex justify-between font-semibold">
-      <label>{{ sumLabel }}</label>
+      <label>{{ sumLabel() }}</label>
       <div
         [ngClass]="{
-          'text-green-600 font-semibold': calculatedSum > 0,
-          'text-red-700 font-semibold': calculatedSum < 0
+          'text-green-600 font-semibold': calculatedSum() > 0,
+          'text-red-700 font-semibold': calculatedSum() < 0
         }"
       >
-        <span class="mr-2">=</span>{{ calculatedSum }}
+        <span class="mr-2">=</span>{{ calculatedSum() }}
       </div>
     </div>
   `,
 })
 export class MoneyChangeListComponent {
-  @Input() items: (MoneyChangeItem & Id)[] = [];
-  @Input() sum = 0;
-  @Input() editable = false;
-  @Input() autoSum = false;
-  @Input() sumLabel = '';
+  items = input<(MoneyChangeItem & Id)[]>([]);
+  sum = input(0);
+  editable = input(false);
+  autoSum = input(false);
+  sumLabel = input('');
 
-  @Output() delete = new EventEmitter();
+  delete = output<string>();
 
-  get calculatedSum() {
-    return this.autoSum
-      ? this.items.reduce((acc, curr) => curr.amount + acc, 0)
-      : this.sum;
-  }
+  calculatedSum = computed(() => {
+    return this.autoSum()
+      ? this.items().reduce((acc, curr) => curr.amount + acc, 0)
+      : this.sum();
+  });
 }

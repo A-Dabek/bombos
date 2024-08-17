@@ -12,7 +12,6 @@ import {
   IconComponent,
 } from '@bombos/ui';
 import { bounceInRightOnEnterAnimation } from 'angular-animations';
-import { map } from 'rxjs';
 import { AmountComponent } from '../amount-form.component';
 import { MoneyChangeListComponent } from '../money-change-list.component';
 

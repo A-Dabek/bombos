@@ -1,10 +1,5 @@
-import { NgClass, NgForOf, NgIf } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-} from '@angular/core';
+import { NgClass } from '@angular/common';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   bounceInOnEnterAnimation,
@@ -20,12 +15,21 @@ export interface MenuItem {
 }
 
 @Component({
-  standalone: true,
   selector: 'bombos-menu',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    bounceInOnEnterAnimation({ anchor: 'enterNotification' }),
+    zoomOutOnLeaveAnimation({ anchor: 'leaveNotification' }),
+  ],
+  imports: [RouterLink, IconComponent, NgClass],
+  host: {
+    class: 'block w-full h-16 bg-white border-t border-gray-200',
+  },
   template: `
     <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
+      @for (item of items(); track item.link) {
       <button
-        *ngFor="let item of items; trackBy: itemTrackBy"
         [routerLink]="item.link"
         (click)="activeItem = item.link"
         type="button"
@@ -33,33 +37,25 @@ export interface MenuItem {
         [ngClass]="activeItem === item.link ? 'text-white bg-gray-900' : ''"
       >
         <bombos-icon class="mb-2" [name]="item.icon" />
+        @if (item.notificationsCount) {
         <div
-          *ngIf="item.notificationsCount"
           [@enterNotification]
           [@leaveNotification]
           class="absolute right-1 top-0 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full"
         >
           {{ item.notificationsCount }}
         </div>
+        }
         <span class="text-sm">
           {{ item.label }}
         </span>
       </button>
+      }
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    bounceInOnEnterAnimation({ anchor: 'enterNotification' }),
-    zoomOutOnLeaveAnimation({ anchor: 'leaveNotification' }),
-  ],
-  imports: [NgForOf, RouterLink, IconComponent, NgIf, NgClass],
 })
 export class MenuComponent {
-  @HostBinding('class') _ =
-    'block w-full h-16 bg-white border-t border-gray-200';
-
-  @Input() items: MenuItem[] = [];
+  items = input<MenuItem[]>([]);
 
   activeItem = '';
-  itemTrackBy = (index: number, item: MenuItem) => item.link;
 }

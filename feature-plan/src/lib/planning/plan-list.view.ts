@@ -1,4 +1,4 @@
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,9 +32,7 @@ import { ListCardComponent } from './list-card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'bombos-plan-list-view',
   imports: [
-    NgForOf,
     AsyncPipe,
-    NgIf,
     ListCardComponent,
     IconComponent,
     FloatingButtonComponent,
@@ -46,14 +44,12 @@ import { ListCardComponent } from './list-card.component';
   ],
   template: `
     <div class="relative h-screen">
-      <ul *ngIf="orderedLists$ | async as lists">
-        <li
-          *ngFor="let list of lists; trackBy: listTrackBy"
-          [@enterItem]
-          [@leaveItem]
-        >
+      @if (orderedLists$ | async; as lists) {
+      <ul>
+        @for (list of lists; track listTrackBy($index, list)) {
+        <li [@enterItem] [@leaveItem]>
+          @if (itemsCache()[list.id] | async; as items) {
           <bombos-list-card
-            *ngIf="itemsCache()[list.id] | async as items"
             class="block mb-1"
             [list]="list"
             [open]="list.id === openListId"
@@ -66,8 +62,11 @@ import { ListCardComponent } from './list-card.component';
             [suggestedGroup]="suggestedGroup()"
             (nameChange)="onNameChange($event)"
           />
+          }
         </li>
+        }
       </ul>
+      }
     </div>
     <bombos-floating-button [link]="['admin']" />
   `,

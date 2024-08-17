@@ -11,6 +11,8 @@ import {
 @Component({
   standalone: true,
   selector: 'bombos-cash-view',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterOutlet, NavigationTabsComponent, JsonPipe],
   animations: [
     bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
     expandOnEnterAnimation({ anchor: 'enterItem' }),
@@ -25,8 +27,6 @@ import {
     />
     <router-outlet></router-outlet>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, NavigationTabsComponent, JsonPipe],
 })
 export class CashViewComponent {
   private readonly router = inject(Router);
@@ -37,7 +37,7 @@ export class CashViewComponent {
     { name: 'bills', icon: 'bills', display: 'Rachunki' },
     { name: 'balance', icon: 'balance', display: 'Wydatki' },
   ] as TabItem[];
-  activeTab: string = 'plan';
+  activeTab = 'plan';
 
   onTabChange(tab: string) {
     this.activeTab = tab;

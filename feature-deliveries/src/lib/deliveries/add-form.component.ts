@@ -1,13 +1,10 @@
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  EventEmitter,
   inject,
   Input,
   OnInit,
-  Output,
+  output,
 } from '@angular/core';
 import {
   FormControl,
@@ -60,17 +57,16 @@ import { IconComponent } from '@bombos/ui';
     </form>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, ReactiveFormsModule, IconComponent],
+  imports: [ReactiveFormsModule, IconComponent],
 })
 export class AddFormComponent implements OnInit {
-  private readonly cdr = inject(ChangeDetectorRef);
   private fb = inject(NonNullableFormBuilder);
 
   formGroup!: FormGroup<{
     alias: FormControl<string>;
     file: FormControl<File>;
   }>;
-  fileBase64: string = '';
+  fileBase64 = '';
 
   private _file: File | null = null;
 
@@ -84,13 +80,12 @@ export class AddFormComponent implements OnInit {
         alias: this.formGroup.controls.alias.value,
         img: this.fileBase64,
       });
-      // this.cdr.markForCheck();
     };
     this.formGroup?.controls.file.setValue(file);
   }
 
-  @Output() add = new EventEmitter<Delivery>();
-  @Output() initSave = new EventEmitter<Delivery>();
+  add = output<Delivery>();
+  initSave = output<Delivery>();
 
   ngOnInit() {
     this.formGroup = this.fb.group({

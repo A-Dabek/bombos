@@ -1,11 +1,10 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostBinding,
-  Input,
-  Output,
+  input,
+  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
@@ -14,6 +13,7 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
   standalone: true,
   selector: 'bombos-list-card-buttons',
   changeDetection: ChangeDetectionStrategy.OnPush,
+
   template: `
     <div class="flex flex-col justify-between">
       <button
@@ -24,7 +24,7 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
       </button>
       <div class="flex w-full justify-between">
         <button
-          [routerLink]="shoppingLink"
+          [routerLink]="shoppingLink()"
           class="flex-grow text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm p-2"
         >
           <bombos-icon name="shopping" />
@@ -37,12 +37,12 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
             class="w-full flex-grow focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm p-2"
             [ngClass]="{
               'bg-red-700 hover:bg-red-800 focus:ring-red-300':
-                !boughtItemsPresent,
+                !boughtItemsPresent(),
               'bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-800':
-                boughtItemsPresent
+                boughtItemsPresent()
             }"
           >
-            @if (boughtItemsPresent) {
+            @if (boughtItemsPresent()) {
             <bombos-icon name="planning-check" />
             } @else {
             <bombos-icon name="list" />
@@ -52,14 +52,14 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
       </div>
     </div>
   `,
-  imports: [RouterLink, NgIf, ConfirmButtonComponent, IconComponent, NgClass],
+  imports: [RouterLink, ConfirmButtonComponent, IconComponent, NgClass],
 })
 export class ListCardButtonsComponent {
   @HostBinding('class') readonly clazz = 'block "flex flex-col justify-between';
 
-  @Input() boughtItemsPresent = false;
-  @Input() shoppingLink = [] as unknown[];
+  boughtItemsPresent = input(false);
+  shoppingLink = input([] as unknown[]);
 
-  @Output() newItem = new EventEmitter();
-  @Output() clearItems = new EventEmitter();
+  newItem = output();
+  clearItems = output();
 }

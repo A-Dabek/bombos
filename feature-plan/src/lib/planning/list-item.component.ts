@@ -1,11 +1,10 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostBinding,
-  Input,
-  Output,
+  input,
+  output,
 } from '@angular/core';
 import { ShoppingItem } from '@bombos/data-access';
 import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
@@ -14,30 +13,32 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
   standalone: true,
   selector: 'bombos-list-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
+
   template: `
     <span
       class="block mb-1"
       [ngClass]="{
-        'text-red-800 font-medium underline': item.urgent && !item.bought,
-        'line-through text-sm': item.bought,
+        'text-red-800 font-medium underline': item().urgent && !item().bought,
+        'line-through text-sm': item().bought,
       }"
     >
-      {{ item.name }}
-      <span class="text-sm" *ngIf="item.amount !== 1 || item.unit !== 'x'">
-        ({{ item.amount }}{{ item.unit }})
-      </span>
+      {{ item().name }}
+      @if (item().amount !== 1 || item().unit !== 'x') {
+      <span class="text-sm"> ({{ item().amount }}{{ item().unit }}) </span>
+      }
     </span>
-    <span class="block text-xs">{{ item.description }}</span>
-    @if (open) {
+    <span class="block text-xs">{{ item().description }}</span>
+    @if (open()) {
     <div (click)="$event.stopPropagation()">
       <div class="flex">
+        @if (item().amount > 1) {
         <button
-          *ngIf="item.amount > 1"
           (click)="decrease.emit()"
           class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm p-2 text-center"
         >
           <bombos-icon name="minus" />
         </button>
+        }
         <button
           (click)="increase.emit()"
           class="ml-2 text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm p-2 text-center"
@@ -61,17 +62,17 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
     </div>
     }
   `,
-  imports: [ConfirmButtonComponent, IconComponent, NgIf, NgClass],
+  imports: [ConfirmButtonComponent, IconComponent, NgClass],
 })
 export class ListItemComponent {
   @HostBinding('class') readonly clazz = 'flex justify-between items-center';
 
-  @Input({ required: true }) item!: ShoppingItem;
-  @Input() open = false;
-  @Input() highlight = 0;
+  item = input.required<ShoppingItem>();
+  open = input(false);
+  highlight = input(0);
 
-  @Output() edit = new EventEmitter();
-  @Output() delete = new EventEmitter();
-  @Output() increase = new EventEmitter();
-  @Output() decrease = new EventEmitter();
+  edit = output();
+  delete = output();
+  increase = output();
+  decrease = output();
 }

@@ -1,4 +1,4 @@
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -37,11 +37,9 @@ import { MealFormComponent } from './meal-form.component';
     <div [@enterView]>
       <bombos-meal-form class="block mb-2" (save)="onMealAdd($event)" />
       <ul>
-        <li
-          [@enterItem]
-          [@leaveItem]
-          *ngFor="let meal of foodService.meals$ | async; trackBy: mealTrackBy"
-        >
+        @for (meal of foodService.meals$ | async; track mealTrackBy($index,
+        meal)) {
+        <li [@enterItem] [@leaveItem]>
           <bombos-admin-meal-card
             class="block mb-2"
             [meal]="meal"
@@ -51,6 +49,7 @@ import { MealFormComponent } from './meal-form.component';
           >
           </bombos-admin-meal-card>
         </li>
+        }
       </ul>
     </div>
     <bombos-floating-button [link]="['/food']" />
@@ -61,8 +60,6 @@ import { MealFormComponent } from './meal-form.component';
     MealAdminCardComponent,
     MealFormComponent,
     AsyncPipe,
-    NgForOf,
-    NgIf,
     LoadingComponent,
     FloatingButtonComponent,
   ],

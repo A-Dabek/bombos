@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
-  Input,
+  input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Dish } from '@bombos/data-access';
@@ -13,7 +13,7 @@ import { Dish } from '@bombos/data-access';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-      {{ dish.name }}
+      {{ dish().name }}
     </h5>
   `,
   imports: [RouterLink],
@@ -22,5 +22,5 @@ export class DishCardComponent {
   @HostBinding('class') readonly clazz =
     'block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100';
 
-  @Input({ required: true }) dish!: Dish;
+  dish = input.required<Dish>();
 }

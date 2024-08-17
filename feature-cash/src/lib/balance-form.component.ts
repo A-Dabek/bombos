@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   inject,
-  Output,
+  output,
 } from '@angular/core';
 import {
   FormsModule,
@@ -52,13 +51,13 @@ import { IconComponent } from '@bombos/ui';
   `,
 })
 export class BalanceFormComponent {
-  private fb = inject(NonNullableFormBuilder);
-
-  formGroup = this.fb.group({
+  formGroup = inject(NonNullableFormBuilder).group({
     amount: 0,
   });
 
-  @Output() save = new EventEmitter<{ amount: number }>();
+  save = output<{
+    amount: number;
+  }>();
 
   onSubmit() {
     this.save.emit({

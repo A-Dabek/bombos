@@ -1,5 +1,10 @@
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import {
   Auth,
   getRedirectResult,
@@ -20,7 +25,8 @@ import { combineLatest, filter, map, Observable, switchMap, take } from 'rxjs';
 @Component({
   standalone: true,
   selector: 'bombos-root',
-  imports: [RouterModule, ErrorComponent, NgIf, AsyncPipe, MenuComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterModule, ErrorComponent, AsyncPipe, MenuComponent],
   providers: [
     ErrorService,
     DeliveryService,
@@ -28,16 +34,19 @@ import { combineLatest, filter, map, Observable, switchMap, take } from 'rxjs';
     GoogleAuthProvider,
   ],
   template: `
-    <bombos-menu *ngIf="menuItems$ | async as menuItems" [items]="menuItems" />
+    @if (menuItems$ | async; as menuItems) {
+      <bombos-menu [items]="menuItems" />
+    }
     <div class="p-1">
       <router-outlet></router-outlet>
-      <bombos-error
-        *ngIf="error$ | async as error"
-        class="fixed bottom-0 left-0 z-50 w-full"
-        [message]="error"
-      />
+      @if (error$ | async; as error) {
+        <bombos-error
+          class="fixed bottom-0 left-0 z-50 w-full"
+          [message]="error"
+          />
+      }
     </div>
-  `,
+    `,
 })
 export class AppComponent implements OnInit {
   private readonly auth = inject(Auth);

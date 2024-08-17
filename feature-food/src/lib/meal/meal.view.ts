@@ -1,10 +1,10 @@
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
-  Input,
   inject,
+  Input,
 } from '@angular/core';
 import { Dish, FoodService } from '@bombos/data-access';
 import { IconComponent } from '@bombos/ui';
@@ -12,7 +12,7 @@ import {
   bounceInRightOnEnterAnimation,
   pulseAnimation,
 } from 'angular-animations';
-import { BehaviorSubject, Observable, Subject, map, switchMap } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject, switchMap } from 'rxjs';
 import { MealCardComponent } from '../meals/meal-card.component';
 import { ABSURD_DISHES } from './absurd-dishes';
 import { DishCardComponent } from './dish-card.component';
@@ -21,28 +21,21 @@ import { DishCardComponent } from './dish-card.component';
   standalone: true,
   selector: 'bombos-meal-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    AsyncPipe,
-    NgForOf,
-    MealCardComponent,
-    DishCardComponent,
-    NgIf,
-    IconComponent,
-  ],
+  imports: [AsyncPipe, MealCardComponent, DishCardComponent, IconComponent],
   providers: [FoodService],
   animations: [
     bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
     pulseAnimation({ anchor: 'reroll', direction: '=>', duration: 250 }),
   ],
   template: `
-    <!--  TODO add an easter egg  -->
+    @if (currentDish$ | async; as dish) {
     <bombos-dish-card
-      *ngIf="currentDish$ | async as dish"
       class="w-full mb-2"
       [@reroll]="animateRollItem"
       (@reroll.done)="animateRollItem = false"
       [dish]="dish"
     />
+    }
     <button
       class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm p-2 text-center   "
       (click)="

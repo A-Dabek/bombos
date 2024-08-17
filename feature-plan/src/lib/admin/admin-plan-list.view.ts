@@ -4,7 +4,7 @@ import {
   CdkDragHandle,
   CdkDropList,
 } from '@angular/cdk/drag-drop';
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,9 +33,7 @@ import { AdminListCardComponent } from './admin-list-card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'bombos-admin-plan-list-view',
   imports: [
-    NgForOf,
     AsyncPipe,
-    NgIf,
     CdkDrag,
     CdkDropList,
     IconComponent,
@@ -52,24 +50,21 @@ import { AdminListCardComponent } from './admin-list-card.component';
   ],
   template: `
     <div class="relative h-screen">
+      @if (isFormVisible) {
       <bombos-add-list-form
-        *ngIf="isFormVisible"
         [@enterItem]
         [@leaveItem]
         class="block mb-1"
         (add)="onSubmit($event)"
       />
+      } @if (orderedLists$ | async; as lists) {
       <ul
-        *ngIf="orderedLists$ | async as lists"
         cdkDropList
         [cdkDropListData]="lists"
         (cdkDropListDropped)="drop($event)"
       >
-        <li
-          *ngFor="let list of lists; trackBy: listTrackBy"
-          [@enterItem]
-          [@leaveItem]
-        >
+        @for (list of lists; track listTrackBy($index, list)) {
+        <li [@enterItem] [@leaveItem]>
           <bombos-admin-list-card
             cdkDrag
             class="block mb-1"
@@ -81,7 +76,9 @@ import { AdminListCardComponent } from './admin-list-card.component';
             <bombos-icon name="drag" class="block p-2" cdkDragHandle />
           </bombos-admin-list-card>
         </li>
+        }
       </ul>
+      }
     </div>
     <div class="fixed bottom-3 right-3">
       <button

@@ -1,4 +1,4 @@
-import { AsyncPipe, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,9 +31,7 @@ type TabName = 'collect' | 'send';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'bombos-deliveries-view',
   imports: [
-    NgForOf,
     AsyncPipe,
-    NgIf,
     NgOptimizedImage,
     ReactiveFormsModule,
     NavigationTabsComponent,
@@ -56,14 +54,9 @@ type TabName = 'collect' | 'send';
     />
     <div class="relative h-screen">
       <ul>
-        <li
-          [@enterItem]
-          [@leaveItem]
-          *ngFor="
-            let delivery of deliveryStore.deliveries$ | async;
-            trackBy: deliveryTrackBy
-          "
-        >
+        @for ( delivery of deliveryStore.deliveries$ | async; track
+        deliveryTrackBy($index, delivery)) {
+        <li [@enterItem] [@leaveItem]>
           <bombos-delivery-card
             class="block mb-2"
             [loading]="loadingDeliveryId() === delivery.id"
@@ -77,8 +70,11 @@ type TabName = 'collect' | 'send';
             (complete)="onComplete(delivery.id)"
           />
         </li>
+        }
       </ul>
-      <bombos-loading *ngIf="loadingTabs()" />
+      @if (loadingTabs()) {
+      <bombos-loading />
+      }
     </div>
     <bombos-upload-file
       class="fixed bottom-3 right-3"

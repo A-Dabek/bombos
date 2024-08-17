@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   inject,
-  Output,
+  output,
 } from '@angular/core';
 import {
   FormsModule,
@@ -60,7 +59,7 @@ export class DishFormComponent {
     name: '',
   });
 
-  @Output() save = new EventEmitter<Dish>();
+  save = output<Dish>();
 
   onSubmit() {
     this.save.emit({

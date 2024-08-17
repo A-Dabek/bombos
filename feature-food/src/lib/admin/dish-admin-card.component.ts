@@ -1,13 +1,11 @@
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostBinding,
   inject,
-  Input,
+  input,
   OnChanges,
-  Output,
+  output,
 } from '@angular/core';
 import {
   FormsModule,
@@ -63,7 +61,9 @@ import {
         </button>
       </bombos-confirm-button>
     </form>
-    <bombos-loading *ngIf="loading" />
+    @if (loading()) {
+    <bombos-loading />
+    }
   `,
   imports: [
     IconComponent,
@@ -71,7 +71,6 @@ import {
     FormsModule,
     ReactiveFormsModule,
     LoadingComponent,
-    NgIf,
   ],
 })
 export class DishAdminCardComponent implements OnChanges {
@@ -84,16 +83,16 @@ export class DishAdminCardComponent implements OnChanges {
     name: '',
   });
 
-  @Input({ required: true }) dish!: Dish & Id;
-  @Input() loading = false;
+  dish = input.required<Dish & Id>();
+  loading = input(false);
 
-  @Output() save = new EventEmitter<Dish>();
-  @Output() list = new EventEmitter();
-  @Output() delete = new EventEmitter();
+  save = output<Dish>();
+  list = output();
+  delete = output();
 
   ngOnChanges() {
     this.formGroup.patchValue({
-      name: this.dish.name,
+      name: this.dish().name,
     });
   }
 

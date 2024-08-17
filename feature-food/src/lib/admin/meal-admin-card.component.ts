@@ -1,13 +1,11 @@
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostBinding,
   inject,
-  Input,
+  input,
   OnChanges,
-  Output,
+  output,
 } from '@angular/core';
 import {
   FormsModule,
@@ -26,8 +24,11 @@ import {
   standalone: true,
   selector: 'bombos-admin-meal-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
+
   template: `
-    <bombos-loading *ngIf="loading" />
+    @if (loading()) {
+    <bombos-loading />
+    }
     <form
       [formGroup]="formGroup"
       (ngSubmit)="onSubmit()"
@@ -60,7 +61,7 @@ import {
       <div class="mr-2">
         <button
           class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm p-2 text-center   "
-          [routerLink]="meal.id"
+          [routerLink]="meal().id"
         >
           <bombos-icon name="list" />
         </button>
@@ -81,7 +82,6 @@ import {
     FormsModule,
     ReactiveFormsModule,
     LoadingComponent,
-    NgIf,
   ],
 })
 export class MealAdminCardComponent implements OnChanges {
@@ -94,16 +94,16 @@ export class MealAdminCardComponent implements OnChanges {
     name: '',
   });
 
-  @Input({ required: true }) meal!: Meal & Id;
-  @Input() loading = false;
+  meal = input.required<Meal & Id>();
+  loading = input(false);
 
-  @Output() save = new EventEmitter<Meal>();
-  @Output() list = new EventEmitter();
-  @Output() delete = new EventEmitter();
+  save = output<Meal>();
+  list = output();
+  delete = output();
 
   ngOnChanges() {
     this.formGroup.patchValue({
-      name: this.meal.name,
+      name: this.meal().name,
     });
   }
 
