@@ -1,0 +1,33 @@
+[NX Daemon Server] - 2024-08-17T15:24:24.888Z - Started listening on: \\.\pipe\nx\C:\Users\asan_\AppData\Local\Temp\712e034d05323700b1f1\d.sock
+[NX Daemon Server] - 2024-08-17T15:24:24.891Z - [WATCHER]: Subscribed to changes within: C:\Users\asan_\IdeaProjects\bombos (native)
+[NX Daemon Server] - 2024-08-17T15:24:24.894Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-08-17T15:24:24.895Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-08-17T15:24:24.895Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-08-17T15:24:24.897Z - [REQUEST]: Responding to the client. Shutdown initiated
+[NX Daemon Server] - 2024-08-17T15:24:24.898Z - Done responding to the client Shutdown initiated
+[NX Daemon Server] - 2024-08-17T15:24:24.898Z - Handled FORCE_SHUTDOWN. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-08-17T15:24:24.898Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-08-17T15:24:24.898Z - [WATCHER]: Stopping the watcher for C:\Users\asan_\IdeaProjects\bombos (sources)
+[NX Daemon Server] - 2024-08-17T15:24:24.898Z - [WATCHER]: Stopping the watcher for C:\Users\asan_\IdeaProjects\bombos (outputs)
+[NX Daemon Server] - 2024-08-17T15:25:41.486Z - Started listening on: \\.\pipe\nx\C:\Users\asan_\AppData\Local\Temp\712e034d05323700b1f1\d.sock
+[NX Daemon Server] - 2024-08-17T15:25:41.489Z - [WATCHER]: Subscribed to changes within: C:\Users\asan_\IdeaProjects\bombos (native)
+[NX Daemon Server] - 2024-08-17T15:25:41.495Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-08-17T15:25:41.497Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-08-17T15:25:41.497Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-08-17T15:25:41.499Z - [REQUEST]: Responding to the client. Shutdown initiated
+[NX Daemon Server] - 2024-08-17T15:25:41.499Z - Done responding to the client Shutdown initiated
+[NX Daemon Server] - 2024-08-17T15:25:41.500Z - Handled FORCE_SHUTDOWN. Handling time: 1. Response time: 1.
+[NX Daemon Server] - 2024-08-17T15:25:41.500Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-08-17T15:25:41.500Z - [WATCHER]: Stopping the watcher for C:\Users\asan_\IdeaProjects\bombos (sources)
+[NX Daemon Server] - 2024-08-17T15:25:41.500Z - [WATCHER]: Stopping the watcher for C:\Users\asan_\IdeaProjects\bombos (outputs)
+[NX Daemon Server] - 2024-08-17T15:25:48.114Z - Started listening on: \\.\pipe\nx\C:\Users\asan_\AppData\Local\Temp\712e034d05323700b1f1\d.sock
+[NX Daemon Server] - 2024-08-17T15:25:48.116Z - [WATCHER]: Subscribed to changes within: C:\Users\asan_\IdeaProjects\bombos (native)
+[NX Daemon Server] - 2024-08-17T15:25:48.120Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-08-17T15:25:48.122Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-08-17T15:25:48.122Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-08-17T15:25:48.124Z - [REQUEST]: Responding to the client. Shutdown initiated
+[NX Daemon Server] - 2024-08-17T15:25:48.125Z - Done responding to the client Shutdown initiated
+[NX Daemon Server] - 2024-08-17T15:25:48.125Z - Handled FORCE_SHUTDOWN. Handling time: 0. Response time: 1.
+[NX Daemon Server] - 2024-08-17T15:25:48.125Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-08-17T15:25:48.125Z - [WATCHER]: Stopping the watcher for C:\Users\asan_\IdeaProjects\bombos (sources)
+[NX Daemon Server] - 2024-08-17T15:25:48.125Z - [WATCHER]: Stopping the watcher for C:\Users\asan_\IdeaProjects\bombos (outputs)

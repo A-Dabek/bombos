@@ -16,10 +16,7 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/bombos/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": [
-          "apps/bombos/src/favicon.ico",
-          "apps/bombos/src/assets"
-        ],
+        "assets": ["apps/bombos/src/favicon.ico", "apps/bombos/src/assets"],
         "styles": ["apps/bombos/src/styles.scss"],
         "scripts": []
       },
@@ -66,8 +63,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
