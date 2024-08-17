@@ -81,164 +81,6 @@
   "nxJsonPlugins": [],
   "fileMap": {
     "projectFileMap": {
-      "feature-deliveries": [
-        {
-          "file": "feature-deliveries/.eslintrc.json",
-          "hash": "436277843558368168"
-        },
-        {
-          "file": "feature-deliveries/README.md",
-          "hash": "2630096562464299558"
-        },
-        {
-          "file": "feature-deliveries/jest.config.ts",
-          "hash": "402334028311219829"
-        },
-        {
-          "file": "feature-deliveries/project.json",
-          "hash": "11878800340799121994"
-        },
-        {
-          "file": "feature-deliveries/src/index.ts",
-          "hash": "17910909408663535924"
-        },
-        {
-          "file": "feature-deliveries/src/lib/deliveries/add-form.component.ts",
-          "hash": "6432304710709133281",
-          "deps": [
-            "data-access",
-            "ui"
-          ]
-        },
-        {
-          "file": "feature-deliveries/src/lib/deliveries/deliveries.view.ts",
-          "hash": "17374955520964391709",
-          "deps": [
-            "data-access",
-            "ui"
-          ]
-        },
-        {
-          "file": "feature-deliveries/src/lib/deliveries/upload-file.component.ts",
-          "hash": "15173996922837305711",
-          "deps": [
-            "ui"
-          ]
-        },
-        {
-          "file": "feature-deliveries/src/lib/delivery/delivery.view.ts",
-          "hash": "13357515920493791046",
-          "deps": [
-            "data-access",
-            "ui"
-          ]
-        },
-        {
-          "file": "feature-deliveries/src/lib/routes.ts",
-          "hash": "12761389312631099323"
-        },
-        {
-          "file": "feature-deliveries/src/lib/ui/delivery-card.component.ts",
-          "hash": "1391570850058045004",
-          "deps": [
-            "data-access",
-            "ui"
-          ]
-        },
-        {
-          "file": "feature-deliveries/src/test-setup.ts",
-          "hash": "12935735732682149507"
-        },
-        {
-          "file": "feature-deliveries/tsconfig.json",
-          "hash": "4881022640630122902"
-        },
-        {
-          "file": "feature-deliveries/tsconfig.lib.json",
-          "hash": "13982328160436521770"
-        },
-        {
-          "file": "feature-deliveries/tsconfig.spec.json",
-          "hash": "2129196202529263968"
-        }
-      ],
-      "ui": [
-        {
-          "file": "ui/.eslintrc.json",
-          "hash": "436277843558368168"
-        },
-        {
-          "file": "ui/README.md",
-          "hash": "3098996868279451883"
-        },
-        {
-          "file": "ui/jest.config.ts",
-          "hash": "16406803739677386541"
-        },
-        {
-          "file": "ui/project.json",
-          "hash": "18389879486427081784"
-        },
-        {
-          "file": "ui/src/index.ts",
-          "hash": "13297855346600014881"
-        },
-        {
-          "file": "ui/src/lib/confirm-button.component.ts",
-          "hash": "2075230512432630154"
-        },
-        {
-          "file": "ui/src/lib/error.component.ts",
-          "hash": "13843368042767424336"
-        },
-        {
-          "file": "ui/src/lib/error.service.ts",
-          "hash": "898814001155443120"
-        },
-        {
-          "file": "ui/src/lib/floating-button.component.ts",
-          "hash": "4062818571964232135"
-        },
-        {
-          "file": "ui/src/lib/icon.component.ts",
-          "hash": "17374985002620774133"
-        },
-        {
-          "file": "ui/src/lib/loading.component.ts",
-          "hash": "13809535523884660105"
-        },
-        {
-          "file": "ui/src/lib/menu.component.ts",
-          "hash": "10522404914284370322"
-        },
-        {
-          "file": "ui/src/lib/navigation-tabs.component.ts",
-          "hash": "7372550194814116548"
-        },
-        {
-          "file": "ui/src/lib/order-manager.ts",
-          "hash": "13118107478460863806",
-          "deps": [
-            "data-access"
-          ]
-        },
-        {
-          "file": "ui/src/test-setup.ts",
-          "hash": "12935735732682149507"
-        },
-        {
-          "file": "ui/tsconfig.json",
-          "hash": "4881022640630122902"
-        },
-        {
-          "file": "ui/tsconfig.lib.json",
-          "hash": "4766185256741444917"
-        },
-        {
-          "file": "ui/tsconfig.spec.json",
-          "hash": "2129196202529263968"
-        }
-      ],
       "data-access": [
         {
           "file": "data-access/.eslintrc.json",
@@ -433,122 +275,80 @@
           "hash": "2927375835638640771"
         }
       ],
-      "feature-cash": [
+      "ui": [
         {
-          "file": "feature-cash/.eslintrc.json",
-          "hash": "7179698473561582067"
+          "file": "ui/.eslintrc.json",
+          "hash": "436277843558368168"
         },
         {
-          "file": "feature-cash/README.md",
-          "hash": "16810678243246340273"
+          "file": "ui/README.md",
+          "hash": "3098996868279451883"
         },
         {
-          "file": "feature-cash/jest.config.ts",
-          "hash": "8565795647900075149"
+          "file": "ui/jest.config.ts",
+          "hash": "16406803739677386541"
         },
         {
-          "file": "feature-cash/package.json",
-          "hash": "2862066840917389348"
+          "file": "ui/project.json",
+          "hash": "18389879486427081784"
         },
         {
-          "file": "feature-cash/project.json",
-          "hash": "4979241251876291997"
+          "file": "ui/src/index.ts",
+          "hash": "13297855346600014881"
         },
         {
-          "file": "feature-cash/src/index.ts",
-          "hash": "13346715394059137854"
+          "file": "ui/src/lib/confirm-button.component.ts",
+          "hash": "2075230512432630154"
         },
         {
-          "file": "feature-cash/src/lib/amount-form.component.ts",
-          "hash": "11723820346954513429",
-          "deps": [
-            "data-access",
-            "ui"
-          ]
+          "file": "ui/src/lib/error.component.ts",
+          "hash": "13843368042767424336"
         },
         {
-          "file": "feature-cash/src/lib/balance-form.component.ts",
-          "hash": "11172981958589124125",
-          "deps": [
-            "ui"
-          ]
+          "file": "ui/src/lib/error.service.ts",
+          "hash": "898814001155443120"
         },
         {
-          "file": "feature-cash/src/lib/balance/balance.view.ts",
-          "hash": "14694809339284429048",
-          "deps": [
-            "data-access",
-            "ui"
-          ]
+          "file": "ui/src/lib/floating-button.component.ts",
+          "hash": "4062818571964232135"
         },
         {
-          "file": "feature-cash/src/lib/bills/bills.view.ts",
-          "hash": "16025137748739487486",
-          "deps": [
-            "data-access",
-            "ui"
-          ]
+          "file": "ui/src/lib/icon.component.ts",
+          "hash": "17374985002620774133"
         },
         {
-          "file": "feature-cash/src/lib/bills/default-income.component.ts",
-          "hash": "8155981223364901630",
+          "file": "ui/src/lib/loading.component.ts",
+          "hash": "13809535523884660105"
+        },
+        {
+          "file": "ui/src/lib/menu.component.ts",
+          "hash": "10522404914284370322"
+        },
+        {
+          "file": "ui/src/lib/navigation-tabs.component.ts",
+          "hash": "7372550194814116548"
+        },
+        {
+          "file": "ui/src/lib/order-manager.ts",
+          "hash": "13118107478460863806",
           "deps": [
             "data-access"
           ]
         },
         {
-          "file": "feature-cash/src/lib/cash.view.ts",
-          "hash": "12596828456679733966",
-          "deps": [
-            "ui"
-          ]
-        },
-        {
-          "file": "feature-cash/src/lib/money-change-list.component.ts",
-          "hash": "14948813922258331668",
-          "deps": [
-            "data-access",
-            "ui"
-          ]
-        },
-        {
-          "file": "feature-cash/src/lib/month-header.component.ts",
-          "hash": "14935738947968381731"
-        },
-        {
-          "file": "feature-cash/src/lib/plan/plan.view.ts",
-          "hash": "1453098955687524447",
-          "deps": [
-            "data-access",
-            "ui"
-          ]
-        },
-        {
-          "file": "feature-cash/src/lib/routes.ts",
-          "hash": "607792762891643212"
-        },
-        {
-          "file": "feature-cash/src/lib/timestamp.pipe.ts",
-          "hash": "7253081287633734612"
-        },
-        {
-          "file": "feature-cash/src/test-setup.ts",
+          "file": "ui/src/test-setup.ts",
           "hash": "12935735732682149507"
         },
         {
-          "file": "feature-cash/tsconfig.json",
+          "file": "ui/tsconfig.json",
           "hash": "4881022640630122902"
         },
         {
-          "file": "feature-cash/tsconfig.lib.json",
+          "file": "ui/tsconfig.lib.json",
           "hash": "4766185256741444917"
         },
         {
-          "file": "feature-cash/tsconfig.lib.prod.json",
-          "hash": "10809217796916261822"
-        },
-        {
-          "file": "feature-cash/tsconfig.spec.json",
+          "file": "ui/tsconfig.spec.json",
           "hash": "2129196202529263968"
         }
       ],
@@ -685,6 +485,87 @@
         },
         {
           "file": "feature-food/tsconfig.spec.json",
+          "hash": "2129196202529263968"
+        }
+      ],
+      "feature-deliveries": [
+        {
+          "file": "feature-deliveries/.eslintrc.json",
+          "hash": "436277843558368168"
+        },
+        {
+          "file": "feature-deliveries/README.md",
+          "hash": "2630096562464299558"
+        },
+        {
+          "file": "feature-deliveries/jest.config.ts",
+          "hash": "402334028311219829"
+        },
+        {
+          "file": "feature-deliveries/project.json",
+          "hash": "11878800340799121994"
+        },
+        {
+          "file": "feature-deliveries/src/index.ts",
+          "hash": "17910909408663535924"
+        },
+        {
+          "file": "feature-deliveries/src/lib/deliveries/add-form.component.ts",
+          "hash": "6432304710709133281",
+          "deps": [
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "feature-deliveries/src/lib/deliveries/deliveries.view.ts",
+          "hash": "17374955520964391709",
+          "deps": [
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "feature-deliveries/src/lib/deliveries/upload-file.component.ts",
+          "hash": "15173996922837305711",
+          "deps": [
+            "ui"
+          ]
+        },
+        {
+          "file": "feature-deliveries/src/lib/delivery/delivery.view.ts",
+          "hash": "13357515920493791046",
+          "deps": [
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "feature-deliveries/src/lib/routes.ts",
+          "hash": "12761389312631099323"
+        },
+        {
+          "file": "feature-deliveries/src/lib/ui/delivery-card.component.ts",
+          "hash": "1391570850058045004",
+          "deps": [
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "feature-deliveries/src/test-setup.ts",
+          "hash": "12935735732682149507"
+        },
+        {
+          "file": "feature-deliveries/tsconfig.json",
+          "hash": "4881022640630122902"
+        },
+        {
+          "file": "feature-deliveries/tsconfig.lib.json",
+          "hash": "13982328160436521770"
+        },
+        {
+          "file": "feature-deliveries/tsconfig.spec.json",
           "hash": "2129196202529263968"
         }
       ],
@@ -825,6 +706,125 @@
         },
         {
           "file": "feature-plan/tsconfig.spec.json",
+          "hash": "2129196202529263968"
+        }
+      ],
+      "feature-cash": [
+        {
+          "file": "feature-cash/.eslintrc.json",
+          "hash": "7179698473561582067"
+        },
+        {
+          "file": "feature-cash/README.md",
+          "hash": "16810678243246340273"
+        },
+        {
+          "file": "feature-cash/jest.config.ts",
+          "hash": "8565795647900075149"
+        },
+        {
+          "file": "feature-cash/package.json",
+          "hash": "2862066840917389348"
+        },
+        {
+          "file": "feature-cash/project.json",
+          "hash": "4979241251876291997"
+        },
+        {
+          "file": "feature-cash/src/index.ts",
+          "hash": "13346715394059137854"
+        },
+        {
+          "file": "feature-cash/src/lib/amount-form.component.ts",
+          "hash": "11723820346954513429",
+          "deps": [
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "feature-cash/src/lib/balance-form.component.ts",
+          "hash": "11172981958589124125",
+          "deps": [
+            "ui"
+          ]
+        },
+        {
+          "file": "feature-cash/src/lib/balance/balance.view.ts",
+          "hash": "14694809339284429048",
+          "deps": [
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "feature-cash/src/lib/bills/bills.view.ts",
+          "hash": "16025137748739487486",
+          "deps": [
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "feature-cash/src/lib/bills/default-income.component.ts",
+          "hash": "8155981223364901630",
+          "deps": [
+            "data-access"
+          ]
+        },
+        {
+          "file": "feature-cash/src/lib/cash.view.ts",
+          "hash": "12596828456679733966",
+          "deps": [
+            "ui"
+          ]
+        },
+        {
+          "file": "feature-cash/src/lib/money-change-list.component.ts",
+          "hash": "14948813922258331668",
+          "deps": [
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "feature-cash/src/lib/month-header.component.ts",
+          "hash": "14935738947968381731"
+        },
+        {
+          "file": "feature-cash/src/lib/plan/plan.view.ts",
+          "hash": "1453098955687524447",
+          "deps": [
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "feature-cash/src/lib/routes.ts",
+          "hash": "607792762891643212"
+        },
+        {
+          "file": "feature-cash/src/lib/timestamp.pipe.ts",
+          "hash": "7253081287633734612"
+        },
+        {
+          "file": "feature-cash/src/test-setup.ts",
+          "hash": "12935735732682149507"
+        },
+        {
+          "file": "feature-cash/tsconfig.json",
+          "hash": "4881022640630122902"
+        },
+        {
+          "file": "feature-cash/tsconfig.lib.json",
+          "hash": "4766185256741444917"
+        },
+        {
+          "file": "feature-cash/tsconfig.lib.prod.json",
+          "hash": "10809217796916261822"
+        },
+        {
+          "file": "feature-cash/tsconfig.spec.json",
           "hash": "2129196202529263968"
         }
       ]
