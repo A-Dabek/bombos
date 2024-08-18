@@ -103,7 +103,7 @@ export class BalanceViewComponent implements OnInit {
     const currentTimestamp =
       today.getFullYear() * 10 +
       today.getMonth() +
-      (today.getDate() < 20 ? -1 : 0);
+      (today.getDate() < 19 ? -1 : 0);
     this.balanceService
       .currentBalancePeriod(currentTimestamp)
       .pipe(
