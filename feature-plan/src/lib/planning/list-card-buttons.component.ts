@@ -29,10 +29,7 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
         >
           <bombos-icon name="shopping" />
         </button>
-        <bombos-confirm-button
-          class="ml-1 flex-grow"
-          (confirm)="clearItems.emit()"
-        >
+        <bombos-confirm-button class="ml-1" (confirm)="clearItems.emit()">
           <button
             class="w-full flex-grow focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm p-2"
             [ngClass]="{

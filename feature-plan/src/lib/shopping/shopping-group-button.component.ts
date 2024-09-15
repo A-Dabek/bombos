@@ -24,7 +24,8 @@ import { shakeAnimation } from 'angular-animations';
       class="border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm p-2"
       [ngClass]="{
         'bg-gray-900 text-white': active(),
-        'text-gray-900 bg-white ': !active()
+        'text-gray-900 bg-white': !active() && count() === 0,
+        'text-gray-900 bg-blue-300': !active() && count() > 0,
       }"
       (click)="itemClick.emit()"
     >
