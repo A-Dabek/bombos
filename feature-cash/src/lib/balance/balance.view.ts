@@ -41,7 +41,7 @@ import { TimestampPipe } from '../timestamp.pipe';
   ],
   template: `
     <div class="relative h-screen">
-      @for (period of periods$ | async; track period.id; let last = $last) {
+      @for (period of periods$ | async; track period.id; let first = $first) {
       <div
         (click)="openPeriod(period.id)"
         class="block max-w-sm p-6 py-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-2"
@@ -62,7 +62,7 @@ import { TimestampPipe } from '../timestamp.pipe';
           label="Wydatek"
           (save)="onExpenseAdd($event)"
         />
-        @if (!last && (isBalancePresent$ | async) === false) {
+        @if (!first && (isBalancePresent$ | async) === false) {
         <bombos-balance-form
           class="block mt-2 pb-3"
           (save)="onBalanceChange($event.amount)"
@@ -103,7 +103,7 @@ export class BalanceViewComponent implements OnInit {
     const currentTimestamp =
       today.getFullYear() * 10 +
       today.getMonth() +
-      (today.getDate() < 19 ? -1 : 0);
+      (today.getDate() < 15 ? -1 : 0);
     this.balanceService
       .currentBalancePeriod(currentTimestamp)
       .pipe(

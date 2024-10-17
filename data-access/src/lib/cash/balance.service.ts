@@ -21,7 +21,7 @@ export class BalanceService {
   private balancePeriodsCollection = collection(this.firestore, 'cash_balance');
 
   readonly balancePeriodItems$ = collectionData(
-    query(this.balancePeriodsCollection, orderBy('timestamp', 'asc')),
+    query(this.balancePeriodsCollection, orderBy('timestamp', 'desc')),
     {
       idField: 'id',
     }

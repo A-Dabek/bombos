@@ -21,13 +21,13 @@ export class BillsService {
   private billPeriodsCollection = collection(this.firestore, 'cash_bills');
 
   readonly billPeriodItems$ = collectionData(
-    query(this.billPeriodsCollection, orderBy('timestamp', 'asc')),
+    query(this.billPeriodsCollection, orderBy('timestamp', 'desc')),
     {
       idField: 'id',
     }
   ) as Observable<(BillsPeriodItem & Id)[]>;
 
-  async addBillPeriod(payload: BillsPeriodItem, income: number = 0) {
+  async addBillPeriod(payload: BillsPeriodItem, income = 0) {
     if (income) payload.balance = income;
     const docRef = await addDoc(this.billPeriodsCollection, payload);
     if (!income) return;
