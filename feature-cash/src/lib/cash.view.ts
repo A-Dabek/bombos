@@ -1,5 +1,11 @@
 import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { NavigationTabsComponent, TabItem } from '@bombos/ui';
 import {
@@ -7,6 +13,7 @@ import {
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
+import { debounceTime } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -22,7 +29,7 @@ import {
     <bombos-navigation-tabs
       class="block mb-2"
       [tabs]="tabs"
-      [selected]="activeTab"
+      [selected]="activeTab()"
       (select)="onTabChange($event)"
     />
     <router-outlet></router-outlet>
@@ -37,10 +44,18 @@ export class CashViewComponent {
     { name: 'bills', icon: 'bills', display: 'Rachunki' },
     { name: 'balance', icon: 'balance', display: 'Wydatki' },
   ] as TabItem[];
-  activeTab = 'plan';
+  readonly activeTab = signal('plan');
+
+  private readonly routeSub = this.router.events
+    .pipe(takeUntilDestroyed(), debounceTime(50))
+    .subscribe(() => {
+      const currentUrl = this.router.url.split('/').pop();
+      if (currentUrl && this.tabs.some((tab) => tab.name === currentUrl)) {
+        this.activeTab.set(currentUrl);
+      }
+    });
 
   onTabChange(tab: string) {
-    this.activeTab = tab;
     this.router.navigate([tab], { relativeTo: this.route });
   }
 }
