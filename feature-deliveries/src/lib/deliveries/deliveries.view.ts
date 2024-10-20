@@ -6,9 +6,11 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FirebaseError } from '@angular/fire/app/firebase';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Delivery, DeliveryService, Id } from '@bombos/data-access';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Delivery, DeliveryService, Id, TabName } from '@bombos/data-access';
 import {
   ErrorService,
   LoadingComponent,
@@ -20,11 +22,10 @@ import {
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
 } from 'angular-animations';
+import { map, tap } from 'rxjs';
 import { DeliveryCardComponent } from '../ui/delivery-card.component';
 import { AddFormComponent } from './add-form.component';
 import { UploadFileComponent } from './upload-file.component';
-
-type TabName = 'collect' | 'send';
 
 @Component({
   standalone: true,
@@ -49,23 +50,19 @@ type TabName = 'collect' | 'send';
     <bombos-navigation-tabs
       class="block mb-2"
       [tabs]="tabs"
-      [selected]="activeTab"
+      [selected]="activeTab()"
       (select)="onTabChange($event)"
     />
     <div class="relative h-screen">
       <ul>
-        @for ( delivery of deliveryStore.deliveries$ | async; track
+        @for (delivery of deliveryStore.deliveries$ | async; track
         deliveryTrackBy($index, delivery)) {
         <li [@enterItem] [@leaveItem]>
           <bombos-delivery-card
             class="block mb-2"
             [loading]="loadingDeliveryId() === delivery.id"
             [delivery]="delivery"
-            [link]="[
-              'delivery',
-              activeTab === 'collect' ? 'in' : 'out',
-              delivery.id
-            ]"
+            [link]="['/', 'deliveries', 'delivery', activeTab(), delivery.id]"
             (update)="onAliasUpdate(delivery.id, $event)"
             (complete)="onComplete(delivery.id)"
           />
@@ -88,27 +85,35 @@ export class DeliveriesViewComponent {
 
   private readonly errorService = inject(ErrorService);
   private readonly deliveryService = inject(DeliveryService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   readonly tabs = [
     { name: 'collect', icon: 'collect', display: 'odbierz' },
     { name: 'send', icon: 'send', display: 'nadaj' },
   ] as TabItem[];
-  activeTab: TabName = 'collect';
-  deliveryStore = this.deliveryService.getDeliveriesStore('in');
-  deliveryTrackBy = (_: number, delivery: Delivery & Id) => delivery.id;
+  readonly activeTab = signal<TabName>('collect');
+  readonly deliveryTrackBy = (_: number, delivery: Delivery & Id) =>
+    delivery.id;
+  readonly loadingTabs = signal(false);
+  readonly loadingDeliveryId = signal('');
+  readonly pickedDeliveryId = signal('');
+  deliveryStore = this.deliveryService.getDeliveriesStore('collect');
 
-  file: File | null = null;
-  loadingTabs = signal(false);
-  loadingDeliveryId = signal('');
-  pickedDeliveryId = signal('');
+  private sub = this.route.paramMap
+    .pipe(
+      takeUntilDestroyed(),
+      map((paramsMap) => paramsMap.get('tab') as TabName),
+      tap((tabFromRoute) => {
+        this.activeTab.set(tabFromRoute);
+        this.deliveryStore =
+          this.deliveryService.getDeliveriesStore(tabFromRoute);
+      })
+    )
+    .subscribe();
 
   onTabChange(tab: string) {
-    this.file = null;
-    this.activeTab = tab as TabName;
-    this.deliveryStore =
-      tab === 'collect'
-        ? this.deliveryService.getDeliveriesStore('in')
-        : this.deliveryService.getDeliveriesStore('out');
+    this.router.navigate(['/', 'deliveries', tab]);
   }
 
   onFileAdd(file: File) {

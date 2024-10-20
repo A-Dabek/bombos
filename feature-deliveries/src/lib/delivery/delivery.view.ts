@@ -16,6 +16,7 @@ import {
   DeliveryService,
   DeliveryStore,
   Id,
+  TabName,
 } from '@bombos/data-access';
 import {
   ErrorService,
@@ -63,8 +64,8 @@ export class DeliveryViewComponent implements OnInit {
   @HostBinding('@enterView') _ = true;
   @HostBinding('class') __ = 'block';
 
-  id = input('');
-  type = input<'in' | 'out'>('in');
+  readonly id = input('');
+  readonly type = input<TabName>('collect');
 
   delivery$!: Observable<Delivery & Id>;
 
@@ -90,7 +91,7 @@ export class DeliveryViewComponent implements OnInit {
       )
       .finally(() => {
         this.loading.set(false);
-        this.router.navigate(['/deliveries']);
+        this.router.navigate(['/', 'deliveries', this.type()]);
       });
   }
 }

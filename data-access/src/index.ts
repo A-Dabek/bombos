@@ -5,6 +5,7 @@ export { MoneyChangeItem } from './lib/cash/model';
 export {
   DeliveryService,
   DeliveryStore,
+  TabName,
 } from './lib/deliveries/delivery.service';
 export { Delivery } from './lib/deliveries/model';
 export { FoodManagementService } from './lib/food/food-management.service';

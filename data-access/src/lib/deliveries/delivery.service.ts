@@ -22,14 +22,17 @@ export interface DeliveryStore {
   getDelivery(id: string): Observable<Delivery & Id>;
 }
 
+export type TabName = 'collect' | 'send';
+
 @Injectable()
 export class DeliveryService {
   private firestore = inject(Firestore);
   private collectionIn = collection(this.firestore, 'delivery_in');
   private collectionOut = collection(this.firestore, 'delivery_out');
 
-  getDeliveriesStore(type: 'in' | 'out'): DeliveryStore {
-    const collection = type === 'in' ? this.collectionIn : this.collectionOut;
+  getDeliveriesStore(type: TabName): DeliveryStore {
+    const collection =
+      type === 'collect' ? this.collectionIn : this.collectionOut;
     return {
       deliveries$: collectionData(collection, {
         idField: 'id',

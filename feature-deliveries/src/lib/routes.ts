@@ -4,11 +4,16 @@ import { DeliveryViewComponent } from './delivery/delivery.view';
 
 export const ROUTES: Routes = [
   {
-    path: '',
+    path: ':tab',
     component: DeliveriesViewComponent,
   },
   {
     path: 'delivery/:type/:id',
     component: DeliveryViewComponent,
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    redirectTo: 'collect',
   },
 ];
