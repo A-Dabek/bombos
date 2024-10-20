@@ -1,10 +1,20 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router, RouterLink } from '@angular/router';
 import {
   bounceInOnEnterAnimation,
   zoomOutOnLeaveAnimation,
 } from 'angular-animations';
+import { debounceTime, startWith } from 'rxjs';
 import { IconComponent, IconType } from './icon.component';
 
 export interface MenuItem {
@@ -31,10 +41,9 @@ export interface MenuItem {
       @for (item of items(); track item.link) {
       <button
         [routerLink]="item.link"
-        (click)="activeItem = item.link"
         type="button"
         class="relative inline-flex flex-col items-center justify-center px-5 border-x group hover:bg-gray-900 hover:text-white"
-        [ngClass]="activeItem === item.link ? 'text-white bg-gray-900' : ''"
+        [ngClass]="activeItem() === item.link ? 'text-white bg-gray-900' : ''"
       >
         <bombos-icon class="mb-2" [name]="item.icon" />
         @if (item.notificationsCount) {
@@ -54,8 +63,26 @@ export interface MenuItem {
     </div>
   `,
 })
-export class MenuComponent {
-  items = input<MenuItem[]>([]);
+export class MenuComponent implements OnInit {
+  readonly items = input<MenuItem[]>([]);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
-  activeItem = '';
+  readonly activeItem = signal('');
+
+  ngOnInit() {
+    this.router.events
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        debounceTime(50),
+        startWith({})
+      )
+      .subscribe(() => {
+        const currentUrl = this.router.url.split('/')[1];
+        if (!currentUrl) return;
+        const item = this.items().find((tab) => tab.link.includes(currentUrl));
+        if (!item) return;
+        this.activeItem.set(item.link);
+      });
+  }
 }

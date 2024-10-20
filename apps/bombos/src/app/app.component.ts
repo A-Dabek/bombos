@@ -7,9 +7,8 @@ import {
 } from '@angular/core';
 import {
   Auth,
-  getRedirectResult,
   GoogleAuthProvider,
-  signInWithRedirect,
+  signInWithPopup,
   user,
 } from '@angular/fire/auth';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
@@ -35,18 +34,18 @@ import { combineLatest, filter, map, Observable, switchMap, take } from 'rxjs';
   ],
   template: `
     @if (menuItems$ | async; as menuItems) {
-      <bombos-menu [items]="menuItems" />
+    <bombos-menu [items]="menuItems" />
     }
     <div class="p-1">
       <router-outlet></router-outlet>
       @if (error$ | async; as error) {
-        <bombos-error
-          class="fixed bottom-0 left-0 z-50 w-full"
-          [message]="error"
-          />
+      <bombos-error
+        class="fixed bottom-0 left-0 z-50 w-full"
+        [message]="error"
+      />
       }
     </div>
-    `,
+  `,
 })
 export class AppComponent implements OnInit {
   private readonly auth = inject(Auth);
@@ -64,9 +63,7 @@ export class AppComponent implements OnInit {
       .pipe(take(1))
       .subscribe(async (user) => {
         if (user) return;
-        const result = await getRedirectResult(this.auth);
-        if (result) return;
-        await signInWithRedirect(this.auth, this.googleAuthProvider);
+        await signInWithPopup(this.auth, this.googleAuthProvider);
       });
   }
 
