@@ -35,22 +35,23 @@ import { shakeAnimation } from 'angular-animations';
       >
         {{ urgentCount() }}
       </span>
-      }
+      } @if(count() > 0) {
       <span
         class="bg-gray-100 text-gray-800 text-xs font-medium me-1 px-1.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300"
       >
         {{ count() }}
       </span>
+      }
       {{ groupKey() || 'Brak' }}
     </button>
   `,
   imports: [NgClass],
 })
 export class ShoppingGroupButton {
-  groupKey = input('');
-  count = input(0);
-  urgentCount = input(0);
-  active = input(false);
+  readonly groupKey = input('');
+  readonly count = input(0);
+  readonly urgentCount = input(0);
+  readonly active = input(false);
 
-  itemClick = output();
+  readonly itemClick = output();
 }
