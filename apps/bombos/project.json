@@ -16,7 +16,7 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/bombos/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/bombos/src/favicon.ico", "apps/bombos/src/assets"],
+        "assets": ["apps/bombos/src/manifest.json", "apps/bombos/src/icons", "apps/bombos/src/assets"],
         "styles": ["apps/bombos/src/styles.scss"],
         "scripts": []
       },
