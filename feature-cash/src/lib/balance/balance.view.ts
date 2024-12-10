@@ -101,7 +101,7 @@ export class BalanceViewComponent implements OnInit {
   ngOnInit(): void {
     const today = new Date();
     const currentTimestamp =
-      today.getFullYear() * 10 +
+      today.getFullYear() * 100 +
       today.getMonth() +
       (today.getDate() < 15 ? -1 : 0);
     this.balanceService

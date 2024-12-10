@@ -7,8 +7,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TimestampPipe implements PipeTransform {
   transform(timestamp: number, monthAdd = 0) {
     const date = new Date();
-    date.setFullYear(Math.floor(timestamp / 10));
-    date.setMonth((timestamp % 10) + monthAdd);
+    date.setFullYear(Math.floor(timestamp / 100));
+    date.setMonth((timestamp % 100) + monthAdd);
     return date;
   }
 }

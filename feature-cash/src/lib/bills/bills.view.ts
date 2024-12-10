@@ -115,7 +115,7 @@ export class BillsViewComponent implements OnInit {
   private createNewPeriodWithDefaultBalance() {
     const today = new Date();
     const currentTimestamp =
-      today.getFullYear() * 10 +
+      today.getFullYear() * 100 +
       today.getMonth() +
       (today.getDate() < 15 ? -1 : 0);
     zip(
