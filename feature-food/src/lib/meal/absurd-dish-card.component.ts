@@ -4,7 +4,6 @@ import {
   HostBinding,
   input,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -16,7 +15,7 @@ import { RouterLink } from '@angular/router';
       {{ name() }}
     </h5>
   `,
-  imports: [RouterLink],
+  imports: [],
 })
 export class DishCardComponent {
   @HostBinding('class') readonly clazz =

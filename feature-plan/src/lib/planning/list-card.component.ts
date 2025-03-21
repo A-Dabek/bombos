@@ -1,4 +1,3 @@
-import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { KeyValuePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -8,9 +7,7 @@ import {
   input,
   output,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { Id, ShoppingItem, ShoppingList } from '@bombos/data-access';
-import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
 import {
   collapseOnLeaveAnimation,
   expandOnEnterAnimation,
@@ -18,7 +15,6 @@ import {
 import { shoppingGroups } from 'data-access/src/lib/plan/model';
 import { ListCardButtonsComponent } from './list-card-buttons.component';
 import { ListItemFormComponent } from './list-item-form.component';
-import { ListItemComponent } from './list-item.component';
 import { ListItemsComponent } from './list-items.component';
 
 @Component({
@@ -85,16 +81,10 @@ import { ListItemsComponent } from './list-items.component';
     }
   `,
   imports: [
-    RouterLink,
-    ConfirmButtonComponent,
-    IconComponent,
     ListCardButtonsComponent,
     ListItemFormComponent,
     KeyValuePipe,
-    ListItemComponent,
     ListItemsComponent,
-    CdkDrag,
-    CdkDragHandle,
   ],
 })
 export class ListCardComponent {

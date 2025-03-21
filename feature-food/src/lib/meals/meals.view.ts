@@ -8,11 +8,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FoodService, Id, Meal } from '@bombos/data-access';
-import {
-  FloatingButtonComponent,
-  LoadingComponent,
-  OrderManager,
-} from '@bombos/ui';
+import { FloatingButtonComponent, OrderManager } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,
@@ -32,7 +28,6 @@ import { MealCardComponent } from './meal-card.component';
   providers: [FoodService],
   imports: [
     AsyncPipe,
-    LoadingComponent,
     MealCardComponent,
     CdkDropList,
     CdkDrag,

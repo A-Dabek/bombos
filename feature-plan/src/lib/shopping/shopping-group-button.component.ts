@@ -47,7 +47,7 @@ import { shakeAnimation } from 'angular-animations';
   `,
   imports: [NgClass],
 })
-export class ShoppingGroupButton {
+export class ShoppingGroupButtonComponent {
   readonly groupKey = input('');
   readonly count = input(0);
   readonly urgentCount = input(0);

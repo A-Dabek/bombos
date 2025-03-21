@@ -1,5 +1,3 @@
-import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { KeyValuePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,7 +8,6 @@ import {
   output,
 } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { Id, ShoppingList } from '@bombos/data-access';
 import {
   ConfirmButtonComponent,
@@ -77,12 +74,8 @@ import {
     </div>
   `,
   imports: [
-    RouterLink,
     ConfirmButtonComponent,
     IconComponent,
-    KeyValuePipe,
-    CdkDrag,
-    CdkDragHandle,
     LoadingComponent,
     ReactiveFormsModule,
   ],

@@ -1,4 +1,4 @@
-import { NgClass, NgStyle } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,11 +32,9 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
     LoadingComponent,
     NgClass,
     ConfirmButtonComponent,
-    NgStyle,
     RouterLink,
     ReactiveFormsModule,
   ],
-
   template: `
     @if (loading()) {
     <bombos-loading />

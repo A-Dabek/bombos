@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx run bombos:serve",
+    "clean": "nx format:write && nx run-many --all --target=lint -- --fix",
     "build": "nx run-many --targets=build",
     "deploy": "firebase deploy"
   },

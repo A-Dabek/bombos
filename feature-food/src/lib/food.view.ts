@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { FoodManagementService, FoodService } from '@bombos/data-access';
-import { IconComponent } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,
@@ -19,6 +18,6 @@ import {
   template: ` <router-outlet></router-outlet> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FoodService, FoodManagementService],
-  imports: [RouterOutlet, IconComponent, RouterLink],
+  imports: [RouterOutlet],
 })
 export class FoodViewComponent {}

@@ -3,18 +3,18 @@ export interface MoneyChangeItem {
   amount: number;
 }
 
-export interface CashPlanItem extends MoneyChangeItem {}
+export type CashPlanItem = MoneyChangeItem;
 
 export interface BillsPeriodItem {
   timestamp: number;
   balance: number;
 }
 
-export interface BillItem extends MoneyChangeItem {}
+export type BillItem = MoneyChangeItem;
 
 export interface BalancePeriodItem {
   timestamp: number;
   balance: number;
 }
 
-export interface BalanceItem extends MoneyChangeItem {}
+export type BalanceItem = MoneyChangeItem;

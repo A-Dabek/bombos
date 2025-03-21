@@ -5,5 +5,3 @@ export interface Meal {
 export interface Dish {
   name: string;
 }
-
-export interface Ingredient {}

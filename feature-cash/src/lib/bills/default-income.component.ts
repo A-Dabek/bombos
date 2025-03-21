@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,7 +11,7 @@ import { Id, MoneyChangeItem } from '@bombos/data-access';
 @Component({
   standalone: true,
   selector: 'bombos-default-income',
-  imports: [AsyncPipe, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <select

@@ -4,7 +4,6 @@ import {
   HostBinding,
   input,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { Dish } from '@bombos/data-access';
 
 @Component({
@@ -16,7 +15,7 @@ import { Dish } from '@bombos/data-access';
       {{ dish().name }}
     </h5>
   `,
-  imports: [RouterLink],
+  imports: [],
 })
 export class DishCardComponent {
   @HostBinding('class') readonly clazz =

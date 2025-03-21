@@ -1,4 +1,4 @@
-import { JsonPipe, KeyValuePipe, NgClass } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,11 +7,9 @@ import {
   signal,
 } from '@angular/core';
 import { Id, ShoppingItem } from '@bombos/data-access';
-import { IconComponent } from '@bombos/ui';
 import { shakeAnimation } from 'angular-animations';
 import { ListItemComponent } from '../planning/list-item.component';
-import { ListItemsComponent } from '../planning/list-items.component';
-import { ShoppingGroupButton } from './shopping-group-button.component';
+import { ShoppingGroupButtonComponent } from './shopping-group-button.component';
 
 @Component({
   standalone: true,
@@ -68,15 +66,7 @@ import { ShoppingGroupButton } from './shopping-group-button.component';
       }
     </ol>
   `,
-  imports: [
-    KeyValuePipe,
-    ListItemsComponent,
-    IconComponent,
-    ListItemComponent,
-    NgClass,
-    JsonPipe,
-    ShoppingGroupButton,
-  ],
+  imports: [KeyValuePipe, ListItemComponent, ShoppingGroupButtonComponent],
 })
 export class ShoppingListComponent {
   @Input() set items(value: (ShoppingItem & Id)[]) {

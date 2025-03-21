@@ -170,6 +170,7 @@ export class ListItemFormComponent implements OnInit {
   @Input() set suggestedGroup(value: string) {
     this.formGroup.controls.group.patchValue(value);
   }
+
   nameChange = output<string>();
 
   ngOnInit() {
