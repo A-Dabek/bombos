@@ -13,7 +13,6 @@
         "outputPath": "dist/apps/bombos",
         "index": "apps/bombos/src/index.html",
         "browser": "apps/bombos/src/main.ts",
-        "polyfills": ["zone.js"],
         "tsConfig": "apps/bombos/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [

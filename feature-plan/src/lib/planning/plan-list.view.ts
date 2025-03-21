@@ -132,7 +132,6 @@ export class PlanListViewComponent {
   }
 
   async onNameChange(inputName: string) {
-    console.log('call');
     if (!inputName) return;
     const group = await this.shoppingService.getSuggestedGroup(inputName);
     if (group) {
