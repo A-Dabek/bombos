@@ -22,17 +22,16 @@ import {
 import { combineLatest, filter, map, Observable, switchMap, take } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'bombos-root',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterModule, ErrorComponent, AsyncPipe, MenuComponent],
-  providers: [
-    ErrorService,
-    DeliveryService,
-    ShoppingService,
-    GoogleAuthProvider,
-  ],
-  template: `
+    selector: 'bombos-root',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [RouterModule, ErrorComponent, AsyncPipe, MenuComponent],
+    providers: [
+        ErrorService,
+        DeliveryService,
+        ShoppingService,
+        GoogleAuthProvider,
+    ],
+    template: `
     @if (menuItems$ | async; as menuItems) {
     <bombos-menu [items]="menuItems" />
     }
@@ -45,7 +44,7 @@ import { combineLatest, filter, map, Observable, switchMap, take } from 'rxjs';
       />
       }
     </div>
-  `,
+  `
 })
 export class AppComponent implements OnInit {
   private readonly auth = inject(Auth);

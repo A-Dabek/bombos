@@ -25,14 +25,13 @@ import { DishFormComponent } from './dish-form.component';
 import { MealAdminCardComponent } from './meal-admin-card.component';
 
 @Component({
-  standalone: true,
-  selector: 'bombos-admin-meal-view',
-  animations: [
-    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-    expandOnEnterAnimation({ anchor: 'enterItem' }),
-    collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
-  ],
-  template: `
+    selector: 'bombos-admin-meal-view',
+    animations: [
+        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+        expandOnEnterAnimation({ anchor: 'enterItem' }),
+        collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
+    ],
+    template: `
     <bombos-dish-form class="block mb-2" (save)="onDishAdd($event)" />
     <ul>
       @for (dish of dishes$ | async; track dishTrackBy($index, dish)) {
@@ -48,14 +47,14 @@ import { MealAdminCardComponent } from './meal-admin-card.component';
       }
     </ul>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [FoodService, FoodManagementService],
-  imports: [
-    MealAdminCardComponent,
-    AsyncPipe,
-    DishFormComponent,
-    DishAdminCardComponent,
-  ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [FoodService, FoodManagementService],
+    imports: [
+        MealAdminCardComponent,
+        AsyncPipe,
+        DishFormComponent,
+        DishAdminCardComponent,
+    ]
 })
 export class MealAdminViewComponent {
   @HostBinding('@enterView') _ = true;

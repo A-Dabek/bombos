@@ -30,23 +30,22 @@ import { UploadFileComponent } from '../deliveries/upload-file.component';
 import { DeliveryCardComponent } from '../ui/delivery-card.component';
 
 @Component({
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'bombos-deliveries-view',
-  imports: [
-    AsyncPipe,
-    NgOptimizedImage,
-    ReactiveFormsModule,
-    NavigationTabsComponent,
-    DeliveryCardComponent,
-    AddFormComponent,
-    UploadFileComponent,
-    LoadingComponent,
-  ],
-  animations: [
-    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-  ],
-  template: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'bombos-deliveries-view',
+    imports: [
+        AsyncPipe,
+        NgOptimizedImage,
+        ReactiveFormsModule,
+        NavigationTabsComponent,
+        DeliveryCardComponent,
+        AddFormComponent,
+        UploadFileComponent,
+        LoadingComponent,
+    ],
+    animations: [
+        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+    ],
+    template: `
     <div class="relative h-screen">
       @if (delivery$ | async; as delivery) {
       <bombos-delivery-card
@@ -58,7 +57,7 @@ import { DeliveryCardComponent } from '../ui/delivery-card.component';
       />
       }
     </div>
-  `,
+  `
 })
 export class DeliveryViewComponent implements OnInit {
   @HostBinding('@enterView') _ = true;

@@ -21,11 +21,9 @@ import { IconComponent } from '@bombos/ui';
 import { debounceTime, distinctUntilChanged, filter, skip, tap } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'bombos-list-item-form',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-
-  template: `
+    selector: 'bombos-list-item-form',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <form
       class="max-w-sm mx-auto"
       [formGroup]="formGroup"
@@ -132,7 +130,7 @@ import { debounceTime, distinctUntilChanged, filter, skip, tap } from 'rxjs';
       </div>
     </form>
   `,
-  imports: [FormsModule, ReactiveFormsModule, IconComponent],
+    imports: [FormsModule, ReactiveFormsModule, IconComponent]
 })
 export class ListItemFormComponent implements OnInit {
   @HostBinding('class') readonly clazz = '';

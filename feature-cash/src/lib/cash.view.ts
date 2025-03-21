@@ -16,16 +16,15 @@ import {
 import { debounceTime } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'bombos-cash-view',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, NavigationTabsComponent, JsonPipe],
-  animations: [
-    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-    expandOnEnterAnimation({ anchor: 'enterItem' }),
-    collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
-  ],
-  template: `
+    selector: 'bombos-cash-view',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [RouterOutlet, NavigationTabsComponent, JsonPipe],
+    animations: [
+        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+        expandOnEnterAnimation({ anchor: 'enterItem' }),
+        collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
+    ],
+    template: `
     <bombos-navigation-tabs
       class="block mb-2"
       [tabs]="tabs"
@@ -33,7 +32,7 @@ import { debounceTime } from 'rxjs';
       (select)="onTabChange($event)"
     />
     <router-outlet></router-outlet>
-  `,
+  `
 })
 export class CashViewComponent {
   private readonly router = inject(Router);

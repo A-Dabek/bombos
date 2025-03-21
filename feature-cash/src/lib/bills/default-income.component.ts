@@ -9,11 +9,10 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Id, MoneyChangeItem } from '@bombos/data-access';
 
 @Component({
-  standalone: true,
-  selector: 'bombos-default-income',
-  imports: [ReactiveFormsModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'bombos-default-income',
+    imports: [ReactiveFormsModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <select
       class="w-full p-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block"
       [formControl]="formControl"
@@ -25,7 +24,7 @@ import { Id, MoneyChangeItem } from '@bombos/data-access';
       </option>
       }
     </select>
-  `,
+  `
 })
 export class DefaultIncomeComponent {
   incomes = input<(MoneyChangeItem & Id)[]>([]);

@@ -25,26 +25,25 @@ import { TimestampPipe } from '../timestamp.pipe';
 import { DefaultIncomeComponent } from './default-income.component';
 
 @Component({
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'bombos-bills-view',
-  imports: [
-    AsyncPipe,
-    DatePipe,
-    TimestampPipe,
-    IconComponent,
-    MoneyChangeListComponent,
-    AmountComponent,
-    FloatingButtonComponent,
-    MonthHeaderComponent,
-    ReactiveFormsModule,
-    DefaultIncomeComponent,
-  ],
-  providers: [BillsService, CashPlanService],
-  animations: [
-    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-  ],
-  template: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'bombos-bills-view',
+    imports: [
+        AsyncPipe,
+        DatePipe,
+        TimestampPipe,
+        IconComponent,
+        MoneyChangeListComponent,
+        AmountComponent,
+        FloatingButtonComponent,
+        MonthHeaderComponent,
+        ReactiveFormsModule,
+        DefaultIncomeComponent,
+    ],
+    providers: [BillsService, CashPlanService],
+    animations: [
+        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+    ],
+    template: `
     <div class="relative h-screen">
       <bombos-default-income
         class="block mb-2"
@@ -79,7 +78,7 @@ import { DefaultIncomeComponent } from './default-income.component';
       }
     </div>
     <bombos-floating-button (clickEvent)="toggleAdmin()" />
-  `,
+  `
 })
 export class BillsViewComponent implements OnInit {
   @HostBinding('@enterView') _ = true;

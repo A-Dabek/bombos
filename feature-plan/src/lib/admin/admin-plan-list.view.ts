@@ -29,26 +29,25 @@ import { AddFormComponent } from '../planning/add-form.component';
 import { AdminListCardComponent } from './admin-list-card.component';
 
 @Component({
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'bombos-admin-plan-list-view',
-  imports: [
-    AsyncPipe,
-    CdkDrag,
-    CdkDropList,
-    IconComponent,
-    CdkDragHandle,
-    AddFormComponent,
-    AdminListCardComponent,
-    FloatingButtonComponent,
-  ],
-  providers: [ShoppingService],
-  animations: [
-    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-    expandOnEnterAnimation({ anchor: 'enterItem' }),
-    collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
-  ],
-  template: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'bombos-admin-plan-list-view',
+    imports: [
+        AsyncPipe,
+        CdkDrag,
+        CdkDropList,
+        IconComponent,
+        CdkDragHandle,
+        AddFormComponent,
+        AdminListCardComponent,
+        FloatingButtonComponent,
+    ],
+    providers: [ShoppingService],
+    animations: [
+        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+        expandOnEnterAnimation({ anchor: 'enterItem' }),
+        collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
+    ],
+    template: `
     <div class="relative h-screen">
       @if (isFormVisible) {
       <bombos-add-list-form
@@ -89,7 +88,7 @@ import { AdminListCardComponent } from './admin-list-card.component';
       </button>
     </div>
     <bombos-floating-button [link]="['/plan']" />
-  `,
+  `
 })
 export class AdminPlanListViewComponent {
   @HostBinding('@enterView') _ = true;

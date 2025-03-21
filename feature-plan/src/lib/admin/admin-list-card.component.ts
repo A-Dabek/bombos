@@ -20,15 +20,13 @@ import {
 } from 'angular-animations';
 
 @Component({
-  standalone: true,
-  selector: 'bombos-admin-list-card',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    expandOnEnterAnimation({ anchor: 'enterDetails' }),
-    collapseOnLeaveAnimation({ anchor: 'leaveDetails' }),
-  ],
-
-  template: `
+    selector: 'bombos-admin-list-card',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [
+        expandOnEnterAnimation({ anchor: 'enterDetails' }),
+        collapseOnLeaveAnimation({ anchor: 'leaveDetails' }),
+    ],
+    template: `
     @if (loading()) {
     <bombos-loading />
     }
@@ -73,12 +71,12 @@ import {
       <ng-content></ng-content>
     </div>
   `,
-  imports: [
-    ConfirmButtonComponent,
-    IconComponent,
-    LoadingComponent,
-    ReactiveFormsModule,
-  ],
+    imports: [
+        ConfirmButtonComponent,
+        IconComponent,
+        LoadingComponent,
+        ReactiveFormsModule,
+    ]
 })
 export class AdminListCardComponent implements OnChanges {
   @HostBinding('class') readonly clazz =

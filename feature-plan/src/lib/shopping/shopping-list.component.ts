@@ -12,16 +12,15 @@ import { ListItemComponent } from '../planning/list-item.component';
 import { ShoppingGroupButtonComponent } from './shopping-group-button.component';
 
 @Component({
-  standalone: true,
-  selector: 'bombos-shopping-list',
-  animations: [
-    shakeAnimation({
-      anchor: 'enterItem',
-      duration: 500,
-    }),
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'bombos-shopping-list',
+    animations: [
+        shakeAnimation({
+            anchor: 'enterItem',
+            duration: 500,
+        }),
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <div class="flex flex-wrap gap-1 mb-3">
       @for (keyValue of groupedNormalItems | keyvalue; track keyValue.key) {
       <bombos-shopping-group-button
@@ -66,7 +65,7 @@ import { ShoppingGroupButtonComponent } from './shopping-group-button.component'
       }
     </ol>
   `,
-  imports: [KeyValuePipe, ListItemComponent, ShoppingGroupButtonComponent],
+    imports: [KeyValuePipe, ListItemComponent, ShoppingGroupButtonComponent]
 })
 export class ShoppingListComponent {
   @Input() set items(value: (ShoppingItem & Id)[]) {

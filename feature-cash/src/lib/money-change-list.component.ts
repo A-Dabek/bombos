@@ -10,11 +10,10 @@ import { Id, MoneyChangeItem } from '@bombos/data-access';
 import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
 
 @Component({
-  standalone: true,
-  selector: 'bombos-money-change-list',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ConfirmButtonComponent, IconComponent, NgClass],
-  template: `
+    selector: 'bombos-money-change-list',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ConfirmButtonComponent, IconComponent, NgClass],
+    template: `
     @for (item of items(); track item.id) {
     <div class="flex justify-between items-baseline mb-2">
       @if (editable()) {
@@ -52,7 +51,7 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
         <span class="mr-2">=</span>{{ calculatedSum() }}
       </div>
     </div>
-  `,
+  `
 })
 export class MoneyChangeListComponent {
   items = input<(MoneyChangeItem & Id)[]>([]);

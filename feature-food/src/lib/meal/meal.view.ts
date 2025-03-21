@@ -18,16 +18,15 @@ import { ABSURD_DISHES } from './absurd-dishes';
 import { DishCardComponent } from './dish-card.component';
 
 @Component({
-  standalone: true,
-  selector: 'bombos-meal-view',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AsyncPipe, MealCardComponent, DishCardComponent, IconComponent],
-  providers: [FoodService],
-  animations: [
-    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-    pulseAnimation({ anchor: 'reroll', direction: '=>', duration: 250 }),
-  ],
-  template: `
+    selector: 'bombos-meal-view',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [AsyncPipe, MealCardComponent, DishCardComponent, IconComponent],
+    providers: [FoodService],
+    animations: [
+        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+        pulseAnimation({ anchor: 'reroll', direction: '=>', duration: 250 }),
+    ],
+    template: `
     @if (currentDish$ | async; as dish) {
     <bombos-dish-card
       class="w-full mb-2"
@@ -44,7 +43,7 @@ import { DishCardComponent } from './dish-card.component';
     >
       <bombos-icon name="roll" />
     </button>
-  `,
+  `
 })
 export class MealViewComponent {
   @HostBinding('@enterView') readonly enterView = true;

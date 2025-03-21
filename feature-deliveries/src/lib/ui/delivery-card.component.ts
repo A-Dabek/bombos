@@ -24,18 +24,17 @@ import {
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
-  selector: 'bombos-delivery-card',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    IconComponent,
-    LoadingComponent,
-    NgClass,
-    ConfirmButtonComponent,
-    RouterLink,
-    ReactiveFormsModule,
-  ],
-  template: `
+    selector: 'bombos-delivery-card',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        IconComponent,
+        LoadingComponent,
+        NgClass,
+        ConfirmButtonComponent,
+        RouterLink,
+        ReactiveFormsModule,
+    ],
+    template: `
     @if (loading()) {
     <bombos-loading />
     }
@@ -78,7 +77,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
         </bombos-confirm-button>
       </div>
     </div>
-  `,
+  `
 })
 export class DeliveryCardComponent implements OnInit {
   @HostBinding('class') _ =

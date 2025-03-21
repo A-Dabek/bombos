@@ -18,15 +18,13 @@ import { ListItemFormComponent } from './list-item-form.component';
 import { ListItemsComponent } from './list-items.component';
 
 @Component({
-  standalone: true,
-  selector: 'bombos-list-card',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    expandOnEnterAnimation({ anchor: 'enterDetails' }),
-    collapseOnLeaveAnimation({ anchor: 'leaveDetails' }),
-  ],
-
-  template: `
+    selector: 'bombos-list-card',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [
+        expandOnEnterAnimation({ anchor: 'enterDetails' }),
+        collapseOnLeaveAnimation({ anchor: 'leaveDetails' }),
+    ],
+    template: `
     <h5
       class="flex justify-between align-baseline mb-2 text-2xl font-bold tracking-tight text-gray-900 relative"
     >
@@ -80,12 +78,12 @@ import { ListItemsComponent } from './list-items.component';
     </div>
     }
   `,
-  imports: [
-    ListCardButtonsComponent,
-    ListItemFormComponent,
-    KeyValuePipe,
-    ListItemsComponent,
-  ],
+    imports: [
+        ListCardButtonsComponent,
+        ListItemFormComponent,
+        KeyValuePipe,
+        ListItemsComponent,
+    ]
 })
 export class ListCardComponent {
   @HostBinding('class') readonly clazz =

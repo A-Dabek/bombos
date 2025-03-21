@@ -10,11 +10,9 @@ import { RouterLink } from '@angular/router';
 import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
 
 @Component({
-  standalone: true,
-  selector: 'bombos-list-card-buttons',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-
-  template: `
+    selector: 'bombos-list-card-buttons',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <div class="flex flex-col justify-between">
       <button
         (click)="newItem.emit()"
@@ -49,7 +47,7 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
       </div>
     </div>
   `,
-  imports: [RouterLink, ConfirmButtonComponent, IconComponent, NgClass],
+    imports: [RouterLink, ConfirmButtonComponent, IconComponent, NgClass]
 })
 export class ListCardButtonsComponent {
   @HostBinding('class') readonly clazz = 'block "flex flex-col justify-between';

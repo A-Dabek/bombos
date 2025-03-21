@@ -28,25 +28,24 @@ import { AddFormComponent } from './add-form.component';
 import { UploadFileComponent } from './upload-file.component';
 
 @Component({
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'bombos-deliveries-view',
-  imports: [
-    AsyncPipe,
-    NgOptimizedImage,
-    ReactiveFormsModule,
-    NavigationTabsComponent,
-    DeliveryCardComponent,
-    AddFormComponent,
-    UploadFileComponent,
-    LoadingComponent,
-  ],
-  animations: [
-    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-    expandOnEnterAnimation({ anchor: 'enterItem' }),
-    collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
-  ],
-  template: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'bombos-deliveries-view',
+    imports: [
+        AsyncPipe,
+        NgOptimizedImage,
+        ReactiveFormsModule,
+        NavigationTabsComponent,
+        DeliveryCardComponent,
+        AddFormComponent,
+        UploadFileComponent,
+        LoadingComponent,
+    ],
+    animations: [
+        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+        expandOnEnterAnimation({ anchor: 'enterItem' }),
+        collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
+    ],
+    template: `
     <bombos-navigation-tabs
       class="block mb-2"
       [tabs]="tabs"
@@ -77,7 +76,7 @@ import { UploadFileComponent } from './upload-file.component';
       class="fixed bottom-3 right-3"
       (upload)="onFileAdd($event)"
     />
-  `,
+  `
 })
 export class DeliveriesViewComponent {
   @HostBinding('@enterView') _ = true;

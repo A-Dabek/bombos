@@ -17,24 +17,23 @@ import {
 import { MealCardComponent } from './meal-card.component';
 
 @Component({
-  standalone: true,
-  selector: 'bombos-meals-view',
-  animations: [
-    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-    expandOnEnterAnimation({ anchor: 'enterItem' }),
-    collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [FoodService],
-  imports: [
-    AsyncPipe,
-    MealCardComponent,
-    CdkDropList,
-    CdkDrag,
-    RouterLink,
-    FloatingButtonComponent,
-  ],
-  template: `
+    selector: 'bombos-meals-view',
+    animations: [
+        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+        expandOnEnterAnimation({ anchor: 'enterItem' }),
+        collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [FoodService],
+    imports: [
+        AsyncPipe,
+        MealCardComponent,
+        CdkDropList,
+        CdkDrag,
+        RouterLink,
+        FloatingButtonComponent,
+    ],
+    template: `
     <div [@enterView]>
       @if (orderedMeals$ | async; as meals) {
       <ul
@@ -55,7 +54,7 @@ import { MealCardComponent } from './meal-card.component';
       }
     </div>
     <bombos-floating-button [link]="['admin']" />
-  `,
+  `
 })
 export class MealsViewComponent {
   @HostBinding('class') readonly clazz = 'block';

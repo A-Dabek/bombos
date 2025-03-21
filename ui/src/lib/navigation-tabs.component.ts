@@ -15,11 +15,10 @@ export interface TabItem {
 }
 
 @Component({
-  standalone: true,
-  selector: 'bombos-navigation-tabs',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, IconComponent],
-  template: `
+    selector: 'bombos-navigation-tabs',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgClass, IconComponent],
+    template: `
     @for (tab of tabs(); track tab; let i = $index) {
     <button
       type="button"
@@ -36,7 +35,7 @@ export interface TabItem {
       {{ tab.display }}
     </button>
     }
-  `,
+  `
 })
 export class NavigationTabsComponent {
   @HostBinding('class') _ = 'inline-flex rounded-md shadow-sm w-full';
