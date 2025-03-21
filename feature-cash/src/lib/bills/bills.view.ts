@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import '@angular/common/locales/global/pl';
 import {
   ChangeDetectionStrategy,
@@ -15,35 +15,31 @@ import {
   CashPlanService,
   MoneyChangeItem,
 } from '@bombos/data-access';
-import { FloatingButtonComponent, IconComponent } from '@bombos/ui';
+import { FloatingButtonComponent } from '@bombos/ui';
 import { bounceInRightOnEnterAnimation } from 'angular-animations';
 import { filter, of, switchMap, take, tap, zip } from 'rxjs';
 import { AmountComponent } from '../amount-form.component';
 import { MoneyChangeListComponent } from '../money-change-list.component';
 import { MonthHeaderComponent } from '../month-header.component';
-import { TimestampPipe } from '../timestamp.pipe';
 import { DefaultIncomeComponent } from './default-income.component';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'bombos-bills-view',
-    imports: [
-        AsyncPipe,
-        DatePipe,
-        TimestampPipe,
-        IconComponent,
-        MoneyChangeListComponent,
-        AmountComponent,
-        FloatingButtonComponent,
-        MonthHeaderComponent,
-        ReactiveFormsModule,
-        DefaultIncomeComponent,
-    ],
-    providers: [BillsService, CashPlanService],
-    animations: [
-        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-    ],
-    template: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'bombos-bills-view',
+  imports: [
+    AsyncPipe,
+    MoneyChangeListComponent,
+    AmountComponent,
+    FloatingButtonComponent,
+    MonthHeaderComponent,
+    ReactiveFormsModule,
+    DefaultIncomeComponent,
+  ],
+  providers: [BillsService, CashPlanService],
+  animations: [
+    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+  ],
+  template: `
     <div class="relative h-screen">
       <bombos-default-income
         class="block mb-2"
@@ -78,7 +74,7 @@ import { DefaultIncomeComponent } from './default-income.component';
       }
     </div>
     <bombos-floating-button (clickEvent)="toggleAdmin()" />
-  `
+  `,
 })
 export class BillsViewComponent implements OnInit {
   @HostBinding('@enterView') _ = true;

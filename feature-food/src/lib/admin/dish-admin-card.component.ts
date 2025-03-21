@@ -20,9 +20,9 @@ import {
 } from '@bombos/ui';
 
 @Component({
-    selector: 'bombos-admin-dish-card',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
+  selector: 'bombos-admin-dish-card',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
     <form
       [formGroup]="formGroup"
       (ngSubmit)="onSubmit()"
@@ -64,13 +64,13 @@ import {
     <bombos-loading />
     }
   `,
-    imports: [
-        IconComponent,
-        ConfirmButtonComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        LoadingComponent,
-    ]
+  imports: [
+    IconComponent,
+    ConfirmButtonComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    LoadingComponent,
+  ],
 })
 export class DishAdminCardComponent implements OnChanges {
   @HostBinding('class') class =

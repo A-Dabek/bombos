@@ -12,11 +12,7 @@ import {
   Id,
   Meal,
 } from '@bombos/data-access';
-import {
-  ErrorService,
-  FloatingButtonComponent,
-  LoadingComponent,
-} from '@bombos/ui';
+import { ErrorService, FloatingButtonComponent } from '@bombos/ui';
 import {
   bounceInRightOnEnterAnimation,
   collapseOnLeaveAnimation,
@@ -26,13 +22,13 @@ import { MealAdminCardComponent } from './meal-admin-card.component';
 import { MealFormComponent } from './meal-form.component';
 
 @Component({
-    selector: 'bombos-admin-meals-view',
-    animations: [
-        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-        expandOnEnterAnimation({ anchor: 'enterItem' }),
-        collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
-    ],
-    template: `
+  selector: 'bombos-admin-meals-view',
+  animations: [
+    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+    expandOnEnterAnimation({ anchor: 'enterItem' }),
+    collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
+  ],
+  template: `
     <div [@enterView]>
       <bombos-meal-form class="block mb-2" (save)="onMealAdd($event)" />
       <ul>
@@ -53,15 +49,14 @@ import { MealFormComponent } from './meal-form.component';
     </div>
     <bombos-floating-button [link]="['/food']" />
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [FoodService, FoodManagementService],
-    imports: [
-        MealAdminCardComponent,
-        MealFormComponent,
-        AsyncPipe,
-        LoadingComponent,
-        FloatingButtonComponent,
-    ]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [FoodService, FoodManagementService],
+  imports: [
+    MealAdminCardComponent,
+    MealFormComponent,
+    AsyncPipe,
+    FloatingButtonComponent,
+  ],
 })
 export class MealsAdminViewComponent {
   @HostBinding('class') class = 'block';

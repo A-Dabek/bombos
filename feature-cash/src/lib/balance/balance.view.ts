@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import '@angular/common/locales/global/pl';
 import {
   ChangeDetectionStrategy,
@@ -10,35 +10,30 @@ import {
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { BalanceService, MoneyChangeItem } from '@bombos/data-access';
-import { FloatingButtonComponent, IconComponent } from '@bombos/ui';
+import { FloatingButtonComponent } from '@bombos/ui';
 import { bounceInRightOnEnterAnimation } from 'angular-animations';
 import { filter, map, of, switchMap, take } from 'rxjs';
 import { AmountComponent } from '../amount-form.component';
 import { BalanceFormComponent } from '../balance-form.component';
 import { MoneyChangeListComponent } from '../money-change-list.component';
 import { MonthHeaderComponent } from '../month-header.component';
-import { TimestampPipe } from '../timestamp.pipe';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'bombos-balance-view',
-    imports: [
-        AsyncPipe,
-        DatePipe,
-        TimestampPipe,
-        IconComponent,
-        MoneyChangeListComponent,
-        NgClass,
-        AmountComponent,
-        FloatingButtonComponent,
-        BalanceFormComponent,
-        MonthHeaderComponent,
-    ],
-    providers: [BalanceService],
-    animations: [
-        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-    ],
-    template: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'bombos-balance-view',
+  imports: [
+    AsyncPipe,
+    MoneyChangeListComponent,
+    AmountComponent,
+    FloatingButtonComponent,
+    BalanceFormComponent,
+    MonthHeaderComponent,
+  ],
+  providers: [BalanceService],
+  animations: [
+    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+  ],
+  template: `
     <div class="relative h-screen">
       @for (period of periods$ | async; track period.id; let first = $first) {
       <div
@@ -75,7 +70,7 @@ import { TimestampPipe } from '../timestamp.pipe';
       }
     </div>
     <bombos-floating-button (clickEvent)="toggleAdmin()" />
-  `
+  `,
 })
 export class BalanceViewComponent implements OnInit {
   @HostBinding('@enterView') _ = true;

@@ -7,14 +7,14 @@ import {
 import { Dish } from '@bombos/data-access';
 
 @Component({
-    selector: 'bombos-dish-card',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
+  selector: 'bombos-dish-card',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
       {{ dish().name }}
     </h5>
   `,
-    imports: []
+  imports: [],
 })
 export class DishCardComponent {
   @HostBinding('class') readonly clazz =

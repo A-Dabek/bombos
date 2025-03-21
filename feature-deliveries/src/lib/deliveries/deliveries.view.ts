@@ -1,4 +1,4 @@
-import { AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,33 +24,30 @@ import {
 } from 'angular-animations';
 import { map, tap } from 'rxjs';
 import { DeliveryCardComponent } from '../ui/delivery-card.component';
-import { AddFormComponent } from './add-form.component';
 import { UploadFileComponent } from './upload-file.component';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'bombos-deliveries-view',
-    imports: [
-        AsyncPipe,
-        NgOptimizedImage,
-        ReactiveFormsModule,
-        NavigationTabsComponent,
-        DeliveryCardComponent,
-        AddFormComponent,
-        UploadFileComponent,
-        LoadingComponent,
-    ],
-    animations: [
-        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-        expandOnEnterAnimation({ anchor: 'enterItem' }),
-        collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
-    ],
-    template: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'bombos-deliveries-view',
+  imports: [
+    AsyncPipe,
+    ReactiveFormsModule,
+    NavigationTabsComponent,
+    DeliveryCardComponent,
+    UploadFileComponent,
+    LoadingComponent,
+  ],
+  animations: [
+    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+    expandOnEnterAnimation({ anchor: 'enterItem' }),
+    collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
+  ],
+  template: `
     <bombos-navigation-tabs
       class="block mb-2"
       [tabs]="tabs"
       [selected]="activeTab()"
-      (select)="onTabChange($event)"
+      (selectEvent)="onTabChange($event)"
     />
     <div class="relative h-screen">
       <ul>
@@ -76,7 +73,7 @@ import { UploadFileComponent } from './upload-file.component';
       class="fixed bottom-3 right-3"
       (upload)="onFileAdd($event)"
     />
-  `
+  `,
 })
 export class DeliveriesViewComponent {
   @HostBinding('@enterView') _ = true;

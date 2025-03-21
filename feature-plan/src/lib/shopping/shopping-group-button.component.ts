@@ -8,15 +8,15 @@ import {
 import { shakeAnimation } from 'angular-animations';
 
 @Component({
-    selector: 'bombos-shopping-group-button',
-    animations: [
-        shakeAnimation({
-            anchor: 'enterItem',
-            duration: 500,
-        }),
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
+  selector: 'bombos-shopping-group-button',
+  animations: [
+    shakeAnimation({
+      anchor: 'enterItem',
+      duration: 500,
+    }),
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
     <button
       type="button"
       class="border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm p-2"
@@ -43,7 +43,7 @@ import { shakeAnimation } from 'angular-animations';
       {{ groupKey() || 'Brak' }}
     </button>
   `,
-    imports: [NgClass]
+  imports: [NgClass],
 })
 export class ShoppingGroupButtonComponent {
   readonly groupKey = input('');

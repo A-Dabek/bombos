@@ -12,10 +12,10 @@ import {
 import { IconComponent } from '@bombos/ui';
 
 @Component({
-    selector: 'bombos-balance-form',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [IconComponent, ReactiveFormsModule, FormsModule],
-    template: `
+  selector: 'bombos-balance-form',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent, ReactiveFormsModule, FormsModule],
+  template: `
     <form
       [formGroup]="formGroup"
       (ngSubmit)="onSubmit()"
@@ -47,7 +47,7 @@ import { IconComponent } from '@bombos/ui';
         </button>
       </div>
     </form>
-  `
+  `,
 })
 export class BalanceFormComponent {
   formGroup = inject(NonNullableFormBuilder).group({

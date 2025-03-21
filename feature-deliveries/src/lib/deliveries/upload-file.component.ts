@@ -3,8 +3,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IconComponent } from '@bombos/ui';
 
 @Component({
-    selector: 'bombos-upload-file',
-    template: `
+  selector: 'bombos-upload-file',
+  template: `
     <label
       for="uploadFile1"
       class="bg-gray-800 hover:bg-gray-700 text-white p-3 outline-none rounded w-max cursor-pointer mx-auto block font-[sans-serif]"
@@ -19,8 +19,8 @@ import { IconComponent } from '@bombos/ui';
       />
     </label>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ReactiveFormsModule, IconComponent]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, IconComponent],
 })
 export class UploadFileComponent {
   upload = output<File>();

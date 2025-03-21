@@ -10,9 +10,9 @@ import { ShoppingItem } from '@bombos/data-access';
 import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
 
 @Component({
-    selector: 'bombos-list-item',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
+  selector: 'bombos-list-item',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
     <span
       class="block mb-1"
       [ngClass]="{
@@ -60,7 +60,7 @@ import { ConfirmButtonComponent, IconComponent } from '@bombos/ui';
     </div>
     }
   `,
-    imports: [ConfirmButtonComponent, IconComponent, NgClass]
+  imports: [ConfirmButtonComponent, IconComponent, NgClass],
 })
 export class ListItemComponent {
   @HostBinding('class') readonly clazz = 'flex justify-between items-center';

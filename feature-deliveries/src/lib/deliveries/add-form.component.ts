@@ -16,8 +16,8 @@ import { Delivery } from '@bombos/data-access';
 import { IconComponent } from '@bombos/ui';
 
 @Component({
-    selector: 'bombos-add-form',
-    template: `
+  selector: 'bombos-add-form',
+  template: `
     <form
       class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100"
       [formGroup]="formGroup"
@@ -55,8 +55,8 @@ import { IconComponent } from '@bombos/ui';
       </div>
     </form>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ReactiveFormsModule, IconComponent]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, IconComponent],
 })
 export class AddFormComponent implements OnInit {
   private fb = inject(NonNullableFormBuilder);

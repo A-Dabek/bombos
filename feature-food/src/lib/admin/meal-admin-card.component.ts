@@ -21,9 +21,9 @@ import {
 } from '@bombos/ui';
 
 @Component({
-    selector: 'bombos-admin-meal-card',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
+  selector: 'bombos-admin-meal-card',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
     @if (loading()) {
     <bombos-loading />
     }
@@ -73,14 +73,14 @@ import {
       </bombos-confirm-button>
     </form>
   `,
-    imports: [
-        RouterLink,
-        IconComponent,
-        ConfirmButtonComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        LoadingComponent,
-    ]
+  imports: [
+    RouterLink,
+    IconComponent,
+    ConfirmButtonComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    LoadingComponent,
+  ],
 })
 export class MealAdminCardComponent implements OnChanges {
   @HostBinding('class') class =

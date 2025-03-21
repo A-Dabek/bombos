@@ -9,9 +9,9 @@ import { IconComponent } from '@bombos/ui';
 import { ListItemComponent } from './list-item.component';
 
 @Component({
-    selector: 'bombos-list-items',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
+  selector: 'bombos-list-items',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
     <div class="shopping-group flex">
       <div class="absolute -top-3 left-3 font-bold text-xs">
         {{ groupName() }}
@@ -40,7 +40,7 @@ import { ListItemComponent } from './list-item.component';
       </button>
     </div>
   `,
-    imports: [ListItemComponent, IconComponent]
+  imports: [ListItemComponent, IconComponent],
 })
 export class ListItemsComponent {
   items = input<(ShoppingItem & Id)[]>([]);

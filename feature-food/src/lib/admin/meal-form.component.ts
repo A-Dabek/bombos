@@ -13,9 +13,9 @@ import { Meal } from '@bombos/data-access';
 import { IconComponent } from '@bombos/ui';
 
 @Component({
-    selector: 'bombos-meal-form',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
+  selector: 'bombos-meal-form',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
     <form
       [formGroup]="formGroup"
       (ngSubmit)="onSubmit()"
@@ -49,7 +49,7 @@ import { IconComponent } from '@bombos/ui';
       </div>
     </form>
   `,
-    imports: [IconComponent, ReactiveFormsModule, FormsModule]
+  imports: [IconComponent, ReactiveFormsModule, FormsModule],
 })
 export class MealFormComponent {
   private fb = inject(NonNullableFormBuilder);

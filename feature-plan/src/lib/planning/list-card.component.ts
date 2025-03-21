@@ -18,13 +18,13 @@ import { ListItemFormComponent } from './list-item-form.component';
 import { ListItemsComponent } from './list-items.component';
 
 @Component({
-    selector: 'bombos-list-card',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [
-        expandOnEnterAnimation({ anchor: 'enterDetails' }),
-        collapseOnLeaveAnimation({ anchor: 'leaveDetails' }),
-    ],
-    template: `
+  selector: 'bombos-list-card',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    expandOnEnterAnimation({ anchor: 'enterDetails' }),
+    collapseOnLeaveAnimation({ anchor: 'leaveDetails' }),
+  ],
+  template: `
     <h5
       class="flex justify-between align-baseline mb-2 text-2xl font-bold tracking-tight text-gray-900 relative"
     >
@@ -48,7 +48,7 @@ import { ListItemsComponent } from './list-items.component';
         [groups]="allShoppingGroups"
         [value]="formEditItem"
         (save)="onItemSave($event)"
-        (cancel)="isFormVisible = false"
+        (cancelEvent)="isFormVisible = false"
         [suggestedGroup]="suggestedGroup()"
         (nameChange)="nameChange.emit($event)"
       />
@@ -78,12 +78,12 @@ import { ListItemsComponent } from './list-items.component';
     </div>
     }
   `,
-    imports: [
-        ListCardButtonsComponent,
-        ListItemFormComponent,
-        KeyValuePipe,
-        ListItemsComponent,
-    ]
+  imports: [
+    ListCardButtonsComponent,
+    ListItemFormComponent,
+    KeyValuePipe,
+    ListItemsComponent,
+  ],
 })
 export class ListCardComponent {
   @HostBinding('class') readonly clazz =

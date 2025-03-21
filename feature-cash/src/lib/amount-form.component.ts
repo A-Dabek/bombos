@@ -14,9 +14,9 @@ import { MoneyChangeItem } from '@bombos/data-access';
 import { IconComponent } from '@bombos/ui';
 
 @Component({
-    selector: 'bombos-amount-form',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
+  selector: 'bombos-amount-form',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
     <form
       [formGroup]="formGroup"
       (ngSubmit)="onSubmit()"
@@ -64,7 +64,7 @@ import { IconComponent } from '@bombos/ui';
       </div>
     </form>
   `,
-    imports: [IconComponent, ReactiveFormsModule, FormsModule]
+  imports: [IconComponent, ReactiveFormsModule, FormsModule],
 })
 export class AmountComponent {
   readonly formGroup = inject(NonNullableFormBuilder).group({

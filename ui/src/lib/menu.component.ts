@@ -25,17 +25,17 @@ export interface MenuItem {
 }
 
 @Component({
-    selector: 'bombos-menu',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [
-        bounceInOnEnterAnimation({ anchor: 'enterNotification' }),
-        zoomOutOnLeaveAnimation({ anchor: 'leaveNotification' }),
-    ],
-    imports: [RouterLink, IconComponent, NgClass],
-    host: {
-        class: 'block w-full h-16 bg-white border-t border-gray-200',
-    },
-    template: `
+  selector: 'bombos-menu',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    bounceInOnEnterAnimation({ anchor: 'enterNotification' }),
+    zoomOutOnLeaveAnimation({ anchor: 'leaveNotification' }),
+  ],
+  imports: [RouterLink, IconComponent, NgClass],
+  host: {
+    class: 'block w-full h-16 bg-white border-t border-gray-200',
+  },
+  template: `
     <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
       @for (item of items(); track item.link) {
       <button
@@ -60,7 +60,7 @@ export interface MenuItem {
       </button>
       }
     </div>
-  `
+  `,
 })
 export class MenuComponent implements OnInit {
   readonly items = input<MenuItem[]>([]);

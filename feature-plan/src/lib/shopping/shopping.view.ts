@@ -14,14 +14,14 @@ import { Observable } from 'rxjs';
 import { ShoppingListComponent } from './shopping-list.component';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'bombos-shopping-view',
-    imports: [ShoppingListComponent, AsyncPipe],
-    providers: [ShoppingService],
-    animations: [
-        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-    ],
-    template: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'bombos-shopping-view',
+  imports: [ShoppingListComponent, AsyncPipe],
+  providers: [ShoppingService],
+  animations: [
+    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+  ],
+  template: `
     <div
       class="block max-w-sm p-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100"
     >
@@ -31,7 +31,7 @@ import { ShoppingListComponent } from './shopping-list.component';
         (itemClick)="onItemBuy($event)"
       />
     </div>
-  `
+  `,
 })
 export class ShoppingViewComponent {
   @HostBinding('@enterView') _ = true;

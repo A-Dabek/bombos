@@ -16,7 +16,6 @@ import {
 import {
   ErrorService,
   FloatingButtonComponent,
-  IconComponent,
   OrderManager,
 } from '@bombos/ui';
 import {
@@ -28,20 +27,15 @@ import { Observable, tap } from 'rxjs';
 import { ListCardComponent } from './list-card.component';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'bombos-plan-list-view',
-    imports: [
-        AsyncPipe,
-        ListCardComponent,
-        IconComponent,
-        FloatingButtonComponent,
-    ],
-    animations: [
-        bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
-        expandOnEnterAnimation({ anchor: 'enterItem' }),
-        collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
-    ],
-    template: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'bombos-plan-list-view',
+  imports: [AsyncPipe, ListCardComponent, FloatingButtonComponent],
+  animations: [
+    bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
+    expandOnEnterAnimation({ anchor: 'enterItem' }),
+    collapseOnLeaveAnimation({ anchor: 'leaveItem' }),
+  ],
+  template: `
     <div class="relative h-screen">
       @if (orderedLists$ | async; as lists) {
       <ul>
@@ -68,7 +62,7 @@ import { ListCardComponent } from './list-card.component';
       }
     </div>
     <bombos-floating-button [link]="['admin']" />
-  `
+  `,
 })
 export class PlanListViewComponent {
   @HostBinding('@enterView') _ = true;

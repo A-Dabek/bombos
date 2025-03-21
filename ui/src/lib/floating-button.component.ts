@@ -9,10 +9,10 @@ import { RouterLink } from '@angular/router';
 import { IconComponent } from './icon.component';
 
 @Component({
-    selector: 'bombos-floating-button',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [IconComponent, RouterLink],
-    template: `
+  selector: 'bombos-floating-button',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent, RouterLink],
+  template: `
     @if(link().length > 0) {
     <button
       [routerLink]="link()"
@@ -28,7 +28,7 @@ import { IconComponent } from './icon.component';
       <bombos-icon name="admin" />
     </button>
     }
-  `
+  `,
 })
 export class FloatingButtonComponent {
   @HostBinding('class') _ = 'block fixed bottom-3 left-3';

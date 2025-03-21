@@ -7,10 +7,10 @@ import {
 import { IconComponent } from './icon.component';
 
 @Component({
-    selector: 'bombos-confirm-button',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [IconComponent],
-    template: `
+  selector: 'bombos-confirm-button',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent],
+  template: `
     @if (isConfirmationVisible()) {
     <button
       type="button"
@@ -24,7 +24,7 @@ import { IconComponent } from './icon.component';
       <ng-content></ng-content>
     </span>
     }
-  `
+  `,
 })
 export class ConfirmButtonComponent {
   isConfirmationVisible = signal(false);
