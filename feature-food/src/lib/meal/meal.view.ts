@@ -33,9 +33,8 @@ import { DishCardComponent } from './dish-card.component';
       (@reroll.done)="animateRollItem = false"
       [dish]="dish"
     />
-    }
-    <button
-      class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm p-2 text-center   "
+    }<button
+      class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-xl p-4 text-center w-24 h-24"
       (click)="
         currentIndex$.next(currentIndex$.value + 1); animateRollItem = true
       "

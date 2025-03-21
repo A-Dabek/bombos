@@ -109,8 +109,8 @@ export type IconType =
     } @case ('roll') {
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      height="16"
-      width="20"
+      height="100%"
+      width="100%"
       viewBox="0 0 640 512"
     >
       <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
