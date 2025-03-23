@@ -1,7 +1,7 @@
-import { KeyValuePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   input,
   Input,
   output,
@@ -9,10 +9,11 @@ import {
 import { Id, ShoppingItem } from '@bombos/data-access';
 import { shakeAnimation } from 'angular-animations';
 import { ListItemComponent } from '../planning/list-item.component';
-import { ShoppingGroupButtonComponent } from './shopping-group-button.component';
 
 @Component({
   selector: 'bombos-shopping-list',
+  standalone: true,
+  imports: [ListItemComponent],
   animations: [
     shakeAnimation({
       anchor: 'enterItem',
@@ -21,32 +22,12 @@ import { ShoppingGroupButtonComponent } from './shopping-group-button.component'
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="flex flex-wrap gap-1 mb-3">
-      @for (keyValue of groupedNormalItems | keyvalue; track keyValue.key) {
-      <bombos-shopping-group-button
-        [active]="selectedGroup() === keyValue.key"
-        [finished]="isFinished(keyValue.key)"
-        [count]="numberOfItemsLeft(keyValue.key)"
-        [urgentCount]="numberOfUrgentItems(keyValue.key)"
-        [groupKey]="keyValue.key"
-        (itemClick)="onSelectGroup(keyValue.key)"
-      />
-      } @for (keyValue of groupedBoughtItems | keyvalue; track keyValue.key) {
-      <bombos-shopping-group-button
-        [active]="selectedGroup() === keyValue.key"
-        [count]="numberOfItemsLeft(keyValue.key)"
-        [urgentCount]="numberOfUrgentItems(keyValue.key)"
-        [groupKey]="keyValue.key"
-        (itemClick)="onSelectGroup(keyValue.key)"
-      />
-      }
-    </div>
     <div class="shopping-group mb-2">
       <div class="absolute -top-3 left-3 font-bold text-xs">
         {{ selectedGroup() || 'Brak' }}
       </div>
       <ol class="px-2">
-        @for ( item of groupedItems[selectedGroup()]; track item.id) {
+        @for (item of currentItems(); track item.id) {
         <li [@enterItem]="!item.bought">
           <bombos-list-item
             class="block"
@@ -66,9 +47,10 @@ import { ShoppingGroupButtonComponent } from './shopping-group-button.component'
       }
     </ol>
   `,
-  imports: [KeyValuePipe, ListItemComponent, ShoppingGroupButtonComponent],
 })
 export class ShoppingListComponent {
+  readonly selectedGroup = input<string>('');
+
   @Input() set items(value: (ShoppingItem & Id)[]) {
     this.allItems = [...value].sort((prev, curr) => {
       if (!!prev.bought === !!curr.bought) {
@@ -76,58 +58,36 @@ export class ShoppingListComponent {
       }
       return prev.bought ? 1 : -1;
     });
-
-    const groups = this.allItems.reduce((acc, item) => {
-      const key = item.group;
-      return { ...acc, [key]: [...(acc[key] || []), item] };
-    }, {} as Record<string, (ShoppingItem & Id)[]>);
-    const entries = Object.entries(groups);
-    this.groupedItems = Object.fromEntries(entries);
-    this.groupedItems['Wszystkie'] = this.allItems;
-
-    const itemEntries = Object.entries(this.groupedItems);
-
-    this.groupedNormalItems = Object.fromEntries(
-      itemEntries.filter((entry) => entry[1].some((item) => !item.bought))
-    );
-    this.groupedBoughtItems = Object.fromEntries(
-      itemEntries.filter((entry) => entry[1].every((item) => item.bought))
-    );
   }
-  readonly selectedGroup = input<string>('');
-  @Input({ required: true }) isFinished!: (group: string) => boolean;
+
+  protected currentItems = computed(() => {
+    if (!this.selectedGroup()) {
+      return this.allItems;
+    }
+    return this.allItems.filter(
+      (item) =>
+        this.selectedGroup() === 'Wszystkie' ||
+        item.group === this.selectedGroup()
+    );
+  });
 
   allItems: (ShoppingItem & Id)[] = [];
-  groupedItems: Record<string, (ShoppingItem & Id)[]> = {};
-  groupedBoughtItems: Record<string, (ShoppingItem & Id)[]> = {};
-  groupedNormalItems: Record<string, (ShoppingItem & Id)[]> = {};
   recentlyInteracted = [] as string[];
   namesOfRecentlyInteracted = new Array(3).fill('') as string[];
 
   itemClick = output<ShoppingItem & Id>();
-  selectedGroupChange = output<string>();
-
-  numberOfUrgentItems(group: string) {
-    return this.groupedItems[group].filter(
-      (item) => item.urgent && !item.bought
-    ).length;
-  }
-
-  numberOfItemsLeft(group: string) {
-    return this.groupedItems[group].filter((item) => !item.bought).length;
-  }
 
   onItemClick(item: ShoppingItem & Id) {
-    this.itemClick.emit(item);
-    this.recentlyInteracted = [item.id, ...this.recentlyInteracted].slice(0, 3);
-    this.namesOfRecentlyInteracted = this.namesOfRecentlyInteracted
-      .map((_, index) => this.recentlyInteracted[index] || '')
-      .map((id) =>
-        id ? this.allItems.find((item) => item.id === id)?.name || '' : ''
+    const index = this.recentlyInteracted.indexOf(item.id);
+    if (index !== -1) {
+      this.recentlyInteracted = this.recentlyInteracted.filter(
+        (id) => id !== item.id
       );
-  }
-
-  onSelectGroup(group: string) {
-    this.selectedGroupChange.emit(group); // emit when group changes
+    }
+    this.recentlyInteracted = [item.id, ...this.recentlyInteracted].slice(0, 3);
+    this.namesOfRecentlyInteracted = this.recentlyInteracted.map(
+      (id) => this.allItems.find((item) => item.id === id)?.name ?? ''
+    );
+    this.itemClick.emit(item);
   }
 }

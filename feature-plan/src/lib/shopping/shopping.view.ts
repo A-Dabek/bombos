@@ -13,12 +13,18 @@ import { ErrorService } from '@bombos/ui';
 import { bounceInRightOnEnterAnimation } from 'angular-animations';
 import { Observable } from 'rxjs';
 import { ShoppingButtonsComponent } from './shopping-buttons.component';
+import { ShoppingGroupsComponent } from './shopping-groups.component';
 import { ShoppingListComponent } from './shopping-list.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'bombos-shopping-view',
-  imports: [ShoppingListComponent, AsyncPipe, ShoppingButtonsComponent],
+  imports: [
+    ShoppingListComponent,
+    AsyncPipe,
+    ShoppingButtonsComponent,
+    ShoppingGroupsComponent,
+  ],
   providers: [ShoppingService],
   animations: [
     bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
@@ -28,13 +34,17 @@ import { ShoppingListComponent } from './shopping-list.component';
       class="block max-w-sm p-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100"
     >
       @let items = (items$ | async) || [];
-      <bombos-shopping-list
-        class="block mb-1"
+      <bombos-shopping-groups
         [items]="items"
         [isFinished]="isGroupFinished"
         [selectedGroup]="currentGroup()"
-        (itemClick)="onItemBuy($event)"
         (selectedGroupChange)="onSelectedGroupChange($event)"
+      />
+      <bombos-shopping-list
+        class="block mb-1"
+        [items]="items"
+        [selectedGroup]="currentGroup()"
+        (itemClick)="onItemBuy($event)"
       />
       <bombos-shopping-buttons
         [currentGroup]="currentGroup()"
