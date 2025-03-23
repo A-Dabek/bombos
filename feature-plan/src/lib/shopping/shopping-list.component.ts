@@ -2,9 +2,9 @@ import { KeyValuePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  input,
   Input,
   output,
-  signal,
 } from '@angular/core';
 import { Id, ShoppingItem } from '@bombos/data-access';
 import { shakeAnimation } from 'angular-animations';
@@ -25,6 +25,7 @@ import { ShoppingGroupButtonComponent } from './shopping-group-button.component'
       @for (keyValue of groupedNormalItems | keyvalue; track keyValue.key) {
       <bombos-shopping-group-button
         [active]="selectedGroup() === keyValue.key"
+        [finished]="isFinished(keyValue.key)"
         [count]="numberOfItemsLeft(keyValue.key)"
         [urgentCount]="numberOfUrgentItems(keyValue.key)"
         [groupKey]="keyValue.key"
@@ -93,8 +94,9 @@ export class ShoppingListComponent {
       itemEntries.filter((entry) => entry[1].every((item) => item.bought))
     );
   }
+  readonly selectedGroup = input<string>('');
+  @Input({ required: true }) isFinished!: (group: string) => boolean;
 
-  selectedGroup = signal('');
   allItems: (ShoppingItem & Id)[] = [];
   groupedItems: Record<string, (ShoppingItem & Id)[]> = {};
   groupedBoughtItems: Record<string, (ShoppingItem & Id)[]> = {};
@@ -103,6 +105,7 @@ export class ShoppingListComponent {
   namesOfRecentlyInteracted = new Array(3).fill('') as string[];
 
   itemClick = output<ShoppingItem & Id>();
+  selectedGroupChange = output<string>();
 
   numberOfUrgentItems(group: string) {
     return this.groupedItems[group].filter(
@@ -125,6 +128,6 @@ export class ShoppingListComponent {
   }
 
   onSelectGroup(group: string) {
-    this.selectedGroup.set(group);
+    this.selectedGroupChange.emit(group); // emit when group changes
   }
 }

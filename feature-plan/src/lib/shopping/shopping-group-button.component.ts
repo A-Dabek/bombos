@@ -2,6 +2,7 @@ import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   input,
   output,
 } from '@angular/core';
@@ -21,9 +22,11 @@ import { shakeAnimation } from 'angular-animations';
       type="button"
       class="border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm p-2"
       [ngClass]="{
-        'bg-gray-900 text-white': active(),
-        'text-gray-900 bg-white': !active() && count() === 0,
-        'text-gray-900 bg-blue-300': !active() && count() > 0,
+        'bg-gray-900 text-white': isActiveUnfinished(),
+        'text-gray-900 bg-white': isInactiveEmptyUnfinished(),
+        'text-gray-900 bg-blue-300': isInactiveWithItemsUnfinished(),
+        'bg-green-600 text-white': isActiveFinished(),
+        'bg-green-100 text-green-800': isInactiveFinished()
       }"
       (click)="itemClick.emit()"
     >
@@ -50,6 +53,24 @@ export class ShoppingGroupButtonComponent {
   readonly count = input(0);
   readonly urgentCount = input(0);
   readonly active = input(false);
+  readonly finished = input(false);
 
   readonly itemClick = output();
+  readonly isActiveUnfinished = computed(
+    () => this.active() && !this.finished()
+  );
+
+  readonly isInactiveEmptyUnfinished = computed(
+    () => !this.active() && this.count() === 0 && !this.finished()
+  );
+
+  readonly isInactiveWithItemsUnfinished = computed(
+    () => !this.active() && this.count() > 0 && !this.finished()
+  );
+
+  readonly isActiveFinished = computed(() => this.active() && this.finished());
+
+  readonly isInactiveFinished = computed(
+    () => !this.active() && this.finished()
+  );
 }
