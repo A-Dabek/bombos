@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,26 +9,16 @@ import {
 } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app/firebase';
 import { Id, ShoppingItem, ShoppingService } from '@bombos/data-access';
-import {
-  ConfirmButtonComponent,
-  ErrorService,
-  IconComponent,
-} from '@bombos/ui';
+import { ErrorService } from '@bombos/ui';
 import { bounceInRightOnEnterAnimation } from 'angular-animations';
 import { Observable } from 'rxjs';
+import { ShoppingButtonsComponent } from './shopping-buttons.component';
 import { ShoppingListComponent } from './shopping-list.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'bombos-shopping-view',
-  imports: [
-    ShoppingListComponent,
-    AsyncPipe,
-    ConfirmButtonComponent,
-    IconComponent,
-    NgClass,
-    NgIf,
-  ],
+  imports: [ShoppingListComponent, AsyncPipe, ShoppingButtonsComponent],
   providers: [ShoppingService],
   animations: [
     bounceInRightOnEnterAnimation({ anchor: 'enterView', duration: 500 }),
@@ -46,31 +36,13 @@ import { ShoppingListComponent } from './shopping-list.component';
         (itemClick)="onItemBuy($event)"
         (selectedGroupChange)="onSelectedGroupChange($event)"
       />
-      <div class="flex justify-end gap-2 mb-2">
-        <button
-          *ngIf="currentGroup()"
-          class="flex-grow focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm p-2"
-          [ngClass]="{
-            'bg-blue-500 hover:bg-blue-600 focus:ring-blue-800':
-              !isGroupFinished(currentGroup()),
-            'bg-green-500 hover:bg-green-600 focus:ring-green-800':
-              isGroupFinished(currentGroup())
-          }"
-          (click)="onToggleGroupFinished(currentGroup())"
-        >
-          <bombos-icon [name]="'check'" />
-        </button>
-        <bombos-confirm-button (confirm)="onClearItems(items)">
-          <button
-            class="w-full flex-grow focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm p-2"
-            [ngClass]="{
-              'bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-800': true
-            }"
-          >
-            <bombos-icon name="planning-check" />
-          </button>
-        </bombos-confirm-button>
-      </div>
+      <bombos-shopping-buttons
+        [currentGroup]="currentGroup()"
+        [isGroupFinished]="isGroupFinished(currentGroup())"
+        [items]="items"
+        (toggleFinished)="onToggleGroupFinished($event)"
+        (clearItems)="onClearItems($event)"
+      />
     </div>
   `,
 })
