@@ -4,6 +4,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
 } from '@angular/core';
 import { Id, ShoppingItem } from '@bombos/data-access';
@@ -16,21 +17,18 @@ import { ShoppingGroupButtonComponent } from './shopping-group-button.component'
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex flex-wrap gap-1 mb-3">
-      @for (keyValue of groupedNormalItems | keyvalue; track keyValue.key) {
+      @for (keyValue of activeGroups | keyvalue; track keyValue.key) {
       <bombos-shopping-group-button
         [active]="selectedGroup === keyValue.key"
-        [finished]="isFinished(keyValue.key)"
         [count]="numberOfItemsLeft(keyValue.key)"
         [urgentCount]="numberOfUrgentItems(keyValue.key)"
         [groupKey]="keyValue.key"
         (itemClick)="onSelectGroup(keyValue.key)"
       />
-      } @for (keyValue of groupedBoughtItems | keyvalue; track keyValue.key) {
+      } @for (keyValue of finishedGroupsIndex | keyvalue; track keyValue.key) {
       <bombos-shopping-group-button
         [active]="selectedGroup === keyValue.key"
-        [finished]="isFinished(keyValue.key)"
-        [count]="numberOfItemsLeft(keyValue.key)"
-        [urgentCount]="numberOfUrgentItems(keyValue.key)"
+        [finished]="onlyFinishedGroupsIndex[keyValue.key]"
         [groupKey]="keyValue.key"
         (itemClick)="onSelectGroup(keyValue.key)"
       />
@@ -38,17 +36,20 @@ import { ShoppingGroupButtonComponent } from './shopping-group-button.component'
     </div>
   `,
 })
-export class ShoppingGroupsComponent {
+export class ShoppingGroupsComponent implements OnChanges {
   @Input() selectedGroup = '';
-  @Input({ required: true }) isFinished!: (group: string) => boolean;
+  @Input({ required: true }) finishedGroups: string[] = [];
+  @Input() items: (ShoppingItem & Id)[] = [];
+
   @Output() selectedGroupChange = new EventEmitter<string>();
 
   private groupedItems: Record<string, (ShoppingItem & Id)[]> = {};
-  protected groupedBoughtItems: Record<string, (ShoppingItem & Id)[]> = {};
-  protected groupedNormalItems: Record<string, (ShoppingItem & Id)[]> = {};
+  protected activeGroups: Record<string, (ShoppingItem & Id)[]> = {};
+  protected finishedGroupsIndex: Record<string, (ShoppingItem & Id)[]> = {};
+  protected onlyFinishedGroupsIndex: Record<string, boolean> = {};
 
-  @Input() set items(value: (ShoppingItem & Id)[]) {
-    const sortedItems = [...value].sort((prev, curr) => {
+  ngOnChanges() {
+    const sortedItems = [...this.items].sort((prev, curr) => {
       if (!!prev.bought === !!curr.bought) {
         return prev.name.localeCompare(curr.name);
       }
@@ -67,12 +68,29 @@ export class ShoppingGroupsComponent {
 
     const itemEntries = Object.entries(this.groupedItems);
 
-    this.groupedNormalItems = Object.fromEntries(
-      itemEntries.filter((entry) => entry[1].some((item) => !item.bought))
+    // Split groups based on finished state
+    this.activeGroups = Object.fromEntries(
+      itemEntries.filter((entry) => !this.finishedGroups.includes(entry[0]))
     );
-    this.groupedBoughtItems = Object.fromEntries(
-      itemEntries.filter((entry) => entry[1].every((item) => item.bought))
+
+    this.finishedGroupsIndex = Object.fromEntries(
+      itemEntries.filter((entry) => this.finishedGroups.includes(entry[0]))
     );
+
+    this.onlyFinishedGroupsIndex = Object.fromEntries(
+      this.finishedGroups.map((group) => [group, true])
+    );
+
+    // Move bought groups to finished
+    const boughtGroups = itemEntries.filter(
+      ([key, items]) =>
+        key !== 'Wszystkie' && items.every((item) => item.bought)
+    );
+
+    boughtGroups.forEach(([key, items]) => {
+      delete this.activeGroups[key];
+      this.finishedGroupsIndex[key] = items;
+    });
   }
 
   onSelectGroup(group: string) {

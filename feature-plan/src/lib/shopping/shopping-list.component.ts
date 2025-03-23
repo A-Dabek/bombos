@@ -3,7 +3,6 @@ import {
   Component,
   computed,
   input,
-  Input,
   output,
 } from '@angular/core';
 import { Id, ShoppingItem } from '@bombos/data-access';
@@ -50,32 +49,32 @@ import { ListItemComponent } from '../planning/list-item.component';
 })
 export class ShoppingListComponent {
   readonly selectedGroup = input<string>('');
+  readonly items = input<(ShoppingItem & Id)[]>([]);
 
-  @Input() set items(value: (ShoppingItem & Id)[]) {
-    this.allItems = [...value].sort((prev, curr) => {
+  private readonly sortedItems = computed(() =>
+    [...this.items()].sort((prev, curr) => {
       if (!!prev.bought === !!curr.bought) {
         return prev.name.localeCompare(curr.name);
       }
       return prev.bought ? 1 : -1;
-    });
-  }
+    })
+  );
 
   protected currentItems = computed(() => {
     if (!this.selectedGroup()) {
-      return this.allItems;
+      return this.sortedItems();
     }
-    return this.allItems.filter(
+    return this.sortedItems().filter(
       (item) =>
         this.selectedGroup() === 'Wszystkie' ||
         item.group === this.selectedGroup()
     );
   });
 
-  allItems: (ShoppingItem & Id)[] = [];
   recentlyInteracted = [] as string[];
   namesOfRecentlyInteracted = new Array(3).fill('') as string[];
 
-  itemClick = output<ShoppingItem & Id>();
+  readonly itemClick = output<ShoppingItem & Id>();
 
   onItemClick(item: ShoppingItem & Id) {
     const index = this.recentlyInteracted.indexOf(item.id);
@@ -86,7 +85,7 @@ export class ShoppingListComponent {
     }
     this.recentlyInteracted = [item.id, ...this.recentlyInteracted].slice(0, 3);
     this.namesOfRecentlyInteracted = this.recentlyInteracted.map(
-      (id) => this.allItems.find((item) => item.id === id)?.name ?? ''
+      (id) => this.sortedItems().find((item) => item.id === id)?.name ?? ''
     );
     this.itemClick.emit(item);
   }

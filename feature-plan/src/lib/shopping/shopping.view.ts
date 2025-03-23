@@ -36,7 +36,7 @@ import { ShoppingListComponent } from './shopping-list.component';
       @let items = (items$ | async) || [];
       <bombos-shopping-groups
         [items]="items"
-        [isFinished]="isGroupFinished"
+        [finishedGroups]="finishedGroups()"
         [selectedGroup]="currentGroup()"
         (selectedGroupChange)="onSelectedGroupChange($event)"
       />
@@ -70,7 +70,7 @@ export class ShoppingViewComponent {
 
   private readonly errorService = inject(ErrorService);
   private readonly shoppingService = inject(ShoppingService);
-  private readonly finishedGroups = signal<string[]>([]);
+  readonly finishedGroups = signal<string[]>([]);
   readonly currentGroup = signal<string>('');
 
   onItemBuy(item: ShoppingItem & Id) {
