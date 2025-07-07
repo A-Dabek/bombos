@@ -61,13 +61,14 @@ export class ShoppingListComponent {
   );
 
   protected currentItems = computed(() => {
-    if (!this.selectedGroup()) {
+    if (this.selectedGroup() === 'Wszystkie') {
       return this.sortedItems();
     }
+    if (this.selectedGroup() === '') {
+      return this.sortedItems().filter((item) => !item.group);
+    }
     return this.sortedItems().filter(
-      (item) =>
-        this.selectedGroup() === 'Wszystkie' ||
-        item.group === this.selectedGroup()
+      (item) => item.group === this.selectedGroup()
     );
   });
 

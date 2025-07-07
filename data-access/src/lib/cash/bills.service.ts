@@ -5,6 +5,7 @@ import {
   collectionData,
   doc,
   Firestore,
+  limit,
   orderBy,
   query,
   updateDoc,
@@ -21,7 +22,7 @@ export class BillsService {
   private billPeriodsCollection = collection(this.firestore, 'cash_bills');
 
   readonly billPeriodItems$ = collectionData(
-    query(this.billPeriodsCollection, orderBy('timestamp', 'desc')),
+    query(this.billPeriodsCollection, orderBy('timestamp', 'desc'), limit(6)),
     {
       idField: 'id',
     }

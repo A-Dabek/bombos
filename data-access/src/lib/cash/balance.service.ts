@@ -6,6 +6,7 @@ import {
   deleteDoc,
   doc,
   Firestore,
+  limit,
   orderBy,
   query,
   updateDoc,
@@ -21,7 +22,11 @@ export class BalanceService {
   private balancePeriodsCollection = collection(this.firestore, 'cash_balance');
 
   readonly balancePeriodItems$ = collectionData(
-    query(this.balancePeriodsCollection, orderBy('timestamp', 'desc')),
+    query(
+      this.balancePeriodsCollection,
+      orderBy('timestamp', 'desc'),
+      limit(6)
+    ),
     {
       idField: 'id',
     }

@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
@@ -136,6 +137,7 @@ export class ListItemFormComponent implements OnInit {
   @HostBinding('class') readonly clazz = '';
 
   private fb = inject(NonNullableFormBuilder);
+  private cdr = inject(ChangeDetectorRef);
 
   name = viewChild('name', { read: ElementRef });
 
@@ -167,6 +169,7 @@ export class ListItemFormComponent implements OnInit {
 
   @Input() set suggestedGroup(value: string) {
     this.formGroup.controls.group.patchValue(value);
+    this.cdr.markForCheck();
   }
 
   nameChange = output<string>();
