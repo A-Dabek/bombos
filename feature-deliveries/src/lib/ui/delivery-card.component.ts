@@ -45,8 +45,10 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
       alt=""
       [routerLink]="link()"
     />
-    <div class="flex w-full justify-between p-2 leading-normal">
-      <div class="w-full flex justify-between p-4 leading-normal">
+    <div
+      class="flex w-full justify-between px-2 py-1 leading-normal items-center"
+    >
+      <div class="w-full flex justify-between leading-normal">
         <form
           class="relative z-0 w-full mb-5 group mr-2"
           [formGroup]="formGroup"

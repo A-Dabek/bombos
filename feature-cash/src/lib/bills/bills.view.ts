@@ -141,7 +141,6 @@ export class BillsViewComponent implements OnInit {
   }
 
   onIncomeChange(id: string) {
-    console.log('set');
     this.cashPlanService.setPlanItemForBills(id);
   }
 

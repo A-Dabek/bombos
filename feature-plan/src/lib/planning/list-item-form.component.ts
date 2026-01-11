@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -23,7 +22,6 @@ import { debounceTime, distinctUntilChanged, filter, skip, tap } from 'rxjs';
 
 @Component({
   selector: 'bombos-list-item-form',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <form
       class="max-w-sm mx-auto"

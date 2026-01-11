@@ -77,7 +77,6 @@ export class AmountComponent {
   save = output<MoneyChangeItem>();
 
   onSubmit() {
-    console.log('submit');
     this.save.emit({
       name: this.formGroup.value.name || '',
       amount: this.formGroup.value.amount || 0,
