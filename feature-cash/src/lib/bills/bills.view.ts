@@ -109,10 +109,13 @@ export class BillsViewComponent implements OnInit {
 
   private createNewPeriodWithDefaultBalance() {
     const today = new Date();
+    const targetDate = new Date(
+      today.getFullYear(),
+      today.getMonth() + (today.getDate() < 15 ? -1 : 0),
+      1
+    );
     const currentTimestamp =
-      today.getFullYear() * 100 +
-      today.getMonth() +
-      (today.getDate() < 15 ? -1 : 0);
+      targetDate.getFullYear() * 100 + targetDate.getMonth();
     zip(
       this.billsService.currentBillPeriod(currentTimestamp),
       this.defaultIncome$,
