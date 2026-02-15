@@ -111,7 +111,7 @@ export class BillsViewComponent implements OnInit {
     const today = new Date();
     const targetDate = new Date(
       today.getFullYear(),
-      today.getMonth() + (today.getDate() < 15 ? -1 : 0),
+      today.getMonth() + (today.getDate() < 10 ? -1 : 0),
       1
     );
     const currentTimestamp =
